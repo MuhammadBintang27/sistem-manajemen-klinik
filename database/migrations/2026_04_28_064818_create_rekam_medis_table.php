@@ -18,8 +18,12 @@ return new class extends Migration
             $table->foreignId('id_reservasi')->constrained('reservasi', 'id_reservasi');
             $table->date('tanggal');
             $table->text('keluhan')->nullable();
-            $table->text('diagnosa')->nullable();
+            $table->text('subjective')->nullable();
+            $table->text('objective')->nullable();
+            $table->text('assessment')->nullable();
+            $table->text('plan')->nullable();
             $table->text('terapi')->nullable();
+            $table->decimal('tarif', 10, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -60,10 +60,14 @@
                                 <td class="px-8 py-4 text-sm text-slate-700">{{ $reservasi->keluhan ?? '-' }}</td>
                                 <td class="px-8 py-4 text-sm">
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
-                                        @if($reservasi->status === 'pending') bg-orange-100 text-orange-800
-                                        @elseif($reservasi->status === 'selesai') bg-blue-100 text-blue-800
-                                        @else bg-slate-100 text-slate-800 @endif">
-                                        {{ ucfirst($reservasi->status) }}
+                                        @if($reservasi->status === 'pending') bg-yellow-100 text-yellow-800
+                                        @elseif($reservasi->status === 'confirmed') bg-blue-100 text-blue-800
+                                        @elseif($reservasi->status === 'selesai') bg-green-100 text-green-800
+                                        @else bg-red-100 text-red-800 @endif">
+                                        @if($reservasi->status === 'pending') Pending
+                                        @elseif($reservasi->status === 'confirmed') Confirmed
+                                        @elseif($reservasi->status === 'selesai') Selesai
+                                        @else Batal @endif
                                     </span>
                                 </td>
                                 <td class="px-8 py-4 text-sm">

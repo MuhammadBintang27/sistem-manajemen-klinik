@@ -59,7 +59,13 @@ Route::prefix('dokter')->name('dokter.')->middleware(['auth', 'role:dokter'])->g
     Route::get('reservasi', [DokterController::class, 'reservasi'])->name('reservasi.index');
     Route::get('reservasi/{reservasi}', [DokterController::class, 'reservasiShow'])->name('reservasi.show');
 
-    // Rekam Medis routes
+    // Rekam Medis - List pasien dengan search & pagination
+    Route::get('rekam-medis', [RekamMedisController::class, 'listPasien'])->name('rekam-medis.list-pasien');
+    Route::get('rekam-medis/pasien/{pasien}', [RekamMedisController::class, 'showPasien'])->name('rekam-medis.pasien.show');
+    Route::get('rekam-medis/{rekamMedis}/edit', [RekamMedisController::class, 'editRekamMedis'])->name('rekam-medis.edit');
+    Route::patch('rekam-medis/{rekamMedis}', [RekamMedisController::class, 'updateRekamMedis'])->name('rekam-medis.update');
+
+    // Rekam Medis - Routes lama (dari reservasi)
     Route::get('rekam-medis/reservasi/{reservasi}', [RekamMedisController::class, 'index'])->name('rekam-medis.index');
     Route::get('rekam-medis/reservasi/{reservasi}/create', [RekamMedisController::class, 'create'])->name('rekam-medis.create');
     Route::post('rekam-medis/reservasi/{reservasi}', [RekamMedisController::class, 'store'])->name('rekam-medis.store');

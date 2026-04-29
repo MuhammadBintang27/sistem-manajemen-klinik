@@ -56,7 +56,7 @@ class DokterController extends Controller
                     'tanggal' => $jadwal->tanggal,
                     'kuota' => $jadwal->kuota,
                     'status' => $jadwal->status,
-                    'reservasi_count' => $jadwal->reservasi()->count(),
+                    'reservasi_count' => $jadwal->reservasi->count(),
                     'reservasi' => $jadwal->reservasi->map(function ($r) {
                         return [
                             'id' => $r->id_reservasi,

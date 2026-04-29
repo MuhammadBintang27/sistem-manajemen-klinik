@@ -91,11 +91,20 @@
                 </a>
 
                 <a href="{{ route('dokter.reservasi.index') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 {{ request()->routeIs('dokter.reservasi.*', 'dokter.rekam-medis.*') ? 'bg-white text-green-700 shadow-md' : 'text-green-100 hover:bg-white hover:text-green-700' }}">
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 {{ request()->routeIs('dokter.reservasi.*') ? 'bg-white text-green-700 shadow-md' : 'text-green-100 hover:bg-white hover:text-green-700' }}">
                     <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
                     </svg>
                     <span>Reservasi</span>
+                </a>
+
+                <a href="{{ route('dokter.rekam-medis.list-pasien') }}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 {{ request()->routeIs('dokter.rekam-medis.*') ? 'bg-white text-green-700 shadow-md' : 'text-green-100 hover:bg-white hover:text-green-700' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                        <path d="M16 18H8v-2h8v2zm0-4H8v-2h8v2z"/>
+                    </svg>
+                    <span>Rekam Medis</span>
                 </a>
             @endif
         </nav>
