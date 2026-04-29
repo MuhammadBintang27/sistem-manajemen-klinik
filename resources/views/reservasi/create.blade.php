@@ -208,11 +208,11 @@
                                 @foreach($jadwals as $jadwal)
                                     @php
                                         $tanggalFormat = \Carbon\Carbon::createFromFormat('Y-m-d', $jadwal->tanggal)->format('d M Y');
-                                        $terisiKuota = $jadwal->reservasi->whereIn('status', ['pending', 'confirmed'])->count();
+                                        $terisiKuota = $jadwal->reservasi->count();
                                         $sisaKuota = $jadwal->kuota - $terisiKuota;
                                     @endphp
                                     <option value="{{ $jadwal->id_jadwal }}" @selected(old('id_jadwal') == $jadwal->id_jadwal)>
-                                        {{ $jadwal->dokter->name }} - {{ $tanggalFormat }} ({{ $sisaKuota }}/{{ $jadwal->kuota }} tersedia)
+                                        {{ $jadwal->dokter->name }} - {{ $tanggalFormat }} ({{ $sisaKuota }} antrian tersisa)
                                     </option>
                                 @endforeach
                             </select>

@@ -76,9 +76,12 @@ class JadwalController extends Controller
             return response()->json(['jadwal' => null, 'reservasi' => []]);
         }
 
+        // Count SEMUA reservasi untuk hitung kuota tersedia (including selesai)
+        $totalReservasi = $jadwal->reservasi()->count();
+
         // Get reservasi ordered by created_at (earliest = urutan 1)
+        // Tampilkan semua status termasuk yang sudah selesai
         $reservasi = $jadwal->reservasi
-            ->whereIn('status', ['pending', 'confirmed'])
             ->sortBy('created_at')
             ->values();
 
@@ -87,8 +90,8 @@ class JadwalController extends Controller
             'tanggal' => $jadwal->tanggal,
             'status' => $jadwal->effective_status,
             'kuota' => $jadwal->kuota,
-            'tersedia' => $jadwal->kuota - $reservasi->count(),
-            'reservasi_count' => $reservasi->count(),
+            'tersedia' => $jadwal->kuota - $totalReservasi,
+            'reservasi_count' => $totalReservasi,
             'reservasi' => $reservasi->map(function ($r, $index) {
                 return [
                     'urutan' => $index + 1,

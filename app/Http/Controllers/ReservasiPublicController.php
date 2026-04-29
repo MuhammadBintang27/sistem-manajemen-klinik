@@ -88,9 +88,9 @@ class ReservasiPublicController extends Controller
 
             $jadwal = Jadwal::with('dokter')->findOrFail($validated['id_jadwal']);
 
+            // Hitung SEMUA reservasi di jadwal ini (pending, confirmed, selesai)
             $usedQuota = Reservasi::query()
                 ->where('id_jadwal', $jadwal->id_jadwal)
-                ->whereIn('status', ['pending', 'confirmed'])
                 ->count();
 
             if ($jadwal->kuota < 1 || $usedQuota >= $jadwal->kuota) {

@@ -1,101 +1,134 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Riwayat Rekam Medis - ') }} {{ $reservasi->pasien?->nama ?? 'Pasien' }}
-            </h2>
-            <a href="{{ route('dokter.reservasi.index') }}" class="text-sm text-indigo-600 hover:text-indigo-900">← Kembali ke Reservasi</a>
+            <div>
+                <h2 class="font-bold text-2xl text-slate-900">Riwayat Rekam Medis</h2>
+                <p class="mt-1 text-sm text-slate-600">Pasien: {{ $reservasi->pasien?->nama ?? 'Pasien' }}</p>
+            </div>
+            <a href="{{ route('dokter.reservasi.show', $reservasi) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Kembali
+            </a>
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <!-- Informasi Pasien dan Jadwal -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                <div class="p-6 text-gray-900 dark:text-gray-100 space-y-4">
+    <div class="space-y-6">
+        {{-- Info Pasien --}}
+        <div class="grid grid-cols-3 gap-6">
+            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+                    <h3 class="text-sm font-bold text-slate-900">Data Pasien</h3>
+                </div>
+                <div class="px-6 py-4 space-y-3">
                     <div>
-                        <h3 class="text-lg font-semibold">Data Pasien</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">{{ $reservasi->pasien?->nama ?? '-' }} • NIK: {{ $reservasi->pasien?->nik ?? '-' }}</p>
+                        <p class="text-xs text-slate-600 uppercase font-semibold">Nama</p>
+                        <p class="text-sm font-semibold text-slate-900">{{ $reservasi->pasien?->nama ?? '-' }}</p>
                     </div>
                     <div>
-                        <h3 class="text-lg font-semibold">Jadwal Pemeriksaan</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">{{ $reservasi->jadwal?->tanggal ?? '-' }}</p>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold">Status Reservasi</h3>
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold
-                            @if($reservasi->status === 'selesai')
-                                bg-green-100 text-green-800
-                            @elseif($reservasi->status === 'confirmed')
-                                bg-blue-100 text-blue-800
-                            @else
-                                bg-yellow-100 text-yellow-800
-                            @endif
-                        ">{{ ucfirst($reservasi->status) }}</span>
+                        <p class="text-xs text-slate-600 uppercase font-semibold">NIK</p>
+                        <p class="text-sm font-semibold text-slate-900">{{ $reservasi->pasien?->nik ?? '-' }}</p>
                     </div>
                 </div>
             </div>
 
-            <!-- List Rekam Medis -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    @if (session('success'))
-                        <div class="mb-4 p-4 text-sm font-medium text-green-700 bg-green-100 rounded-lg">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+                    <h3 class="text-sm font-bold text-slate-900">Jadwal</h3>
+                </div>
+                <div class="px-6 py-4">
+                    <p class="text-sm font-semibold text-slate-900">{{ $reservasi->jadwal?->tanggal ?? '-' }}</p>
+                </div>
+            </div>
 
-                    @if ($rekamMedisList->isEmpty())
-                        <div class="text-center py-12">
-                            <p class="text-gray-500 dark:text-gray-400 mb-4">Belum ada rekam medis untuk reservasi ini</p>
-                            <a href="{{ route('dokter.rekam-medis.create', $reservasi) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-                                + Buat Rekam Medis
-                            </a>
-                        </div>
-                    @else
-                        <div class="space-y-4">
-                            @foreach ($rekamMedisList as $item)
-                                <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
-                                     onclick="window.location.href='{{ route('dokter.rekam-medis.show', $item) }}'">
-                                    <div class="flex items-start justify-between">
-                                        <div class="flex-1">
-                                            <div class="flex items-center gap-2 mb-2">
-                                                <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Tanggal: {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</span>
-                                                @if ($loop->first && $reservasi->status !== 'selesai')
-                                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">Terbaru</span>
-                                                @endif
-                                            </div>
-                                            <div class="mt-3 space-y-2">
-                                                <div>
-                                                    <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Diagnosa</p>
-                                                    <p class="text-sm text-gray-900 dark:text-gray-100">{{ $item->diagnosa }}</p>
-                                                </div>
-                                                <div>
-                                                    <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Terapi</p>
-                                                    <p class="text-sm text-gray-900 dark:text-gray-100">{{ $item->terapi }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex-shrink-0 ml-4">
-                                            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M9 5l7 7-7 7"/>
-                                            </svg>
-                                        </div>
+            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+                    <h3 class="text-sm font-bold text-slate-900">Status</h3>
+                </div>
+                <div class="px-6 py-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+                        @if($reservasi->status === 'selesai') bg-green-100 text-green-800
+                        @elseif($reservasi->status === 'pending') bg-yellow-100 text-yellow-800
+                        @else bg-slate-100 text-slate-800 @endif
+                    ">{{ ucfirst($reservasi->status) }}</span>
+                </div>
+            </div>
+        </div>
+
+        {{-- Success Message --}}
+        @if (session('success'))
+            <div class="rounded-xl bg-green-50 border border-green-200 p-4">
+                <p class="text-sm font-semibold text-green-800">✓ {{ session('success') }}</p>
+            </div>
+        @endif
+
+        {{-- List Rekam Medis --}}
+        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+                <h3 class="text-lg font-bold text-slate-900">Daftar Rekam Medis</h3>
+            </div>
+
+            @if ($rekamMedisList->isEmpty())
+                <div class="px-6 py-12 text-center">
+                    <svg class="w-12 h-12 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <p class="text-slate-600 font-medium">Belum ada rekam medis</p>
+                    <a href="{{ route('dokter.rekam-medis.create', $reservasi) }}" class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Buat Rekam Medis
+                    </a>
+                </div>
+            @else
+                <div class="divide-y divide-slate-200">
+                    @foreach ($rekamMedisList as $item)
+                        <div class="px-6 py-4 hover:bg-slate-50 transition-colors">
+                            <div class="flex items-center justify-between mb-3">
+                                <div>
+                                    <p class="font-semibold text-slate-900">📅 {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</p>
+                                </div>
+                                <a href="{{ route('dokter.rekam-medis.show', $item) }}" class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium rounded-lg text-xs transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                    </svg>
+                                    Lihat
+                                </a>
+                            </div>
+
+                            <div class="space-y-2 text-sm">
+                                <div>
+                                    <p class="text-xs text-slate-600 uppercase font-semibold mb-1">Diagnosa (SOAP)</p>
+                                    <div class="space-y-1 ml-2">
+                                        <div class="text-xs"><span class="font-semibold text-blue-700">S:</span> {{ substr($item->subjective ?? '-', 0, 60) }}...</div>
+                                        <div class="text-xs"><span class="font-semibold text-green-700">O:</span> {{ substr($item->objective ?? '-', 0, 60) }}...</div>
+                                        <div class="text-xs"><span class="font-semibold text-yellow-700">A:</span> {{ substr($item->assessment ?? '-', 0, 60) }}...</div>
+                                        <div class="text-xs"><span class="font-semibold text-purple-700">P:</span> {{ substr($item->plan ?? '-', 0, 60) }}...</div>
                                     </div>
                                 </div>
-                            @endforeach
 
-                            @if ($rekamMedisList->first()?->id_rekam_medis && $reservasi->status !== 'selesai')
-                                <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                                    <a href="{{ route('dokter.rekam-medis.create', $reservasi) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-                                        + Tambah Rekam Medis Baru
-                                    </a>
+                                <div class="border-t border-slate-200 pt-2">
+                                    <p class="text-xs text-slate-600 uppercase font-semibold">Tarif Penanganan</p>
+                                    <p class="text-sm font-semibold text-green-700">Rp {{ number_format($item->tarif ?? 0, 0, ',', '.') }}</p>
                                 </div>
-                            @endif
+                            </div>
                         </div>
-                    @endif
+                    @endforeach
                 </div>
-            </div>
+
+                @if ($reservasi->status !== 'selesai')
+                    <div class="px-6 py-4 bg-slate-50 border-t border-slate-200">
+                        <a href="{{ route('dokter.rekam-medis.create', $reservasi) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            Tambah Rekam Medis
+                        </a>
+                    </div>
+                @endif
+            @endif
         </div>
     </div>
 </x-app-layout>

@@ -15,8 +15,12 @@ class RekamMedis extends Model
         'id_reservasi',
         'tanggal',
         'keluhan',
-        'diagnosa',
+        'subjective',
+        'objective',
+        'assessment',
+        'plan',
         'terapi',
+        'tarif',
     ];
 
     public function pasien()

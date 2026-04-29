@@ -178,7 +178,7 @@
                                     <div class="flex items-center gap-1 flex-wrap justify-center">
                                         <span class="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-full 
                                             {{ $jadwal->status === 'aktif' ? 'bg-emerald-500' : 'bg-slate-400' }} 
-                                            text-white text-[10px] font-bold px-1">{{ $jadwal->reservasi->whereIn('status', ['pending', 'confirmed'])->count() }}</span>
+                                            text-white text-[10px] font-bold px-1">{{ $jadwal->reservasi->count() }}</span>
                                         <span class="text-[10px] text-slate-500">/{{ $jadwal->kuota }}</span>
                                     </div>
                                 @else
@@ -209,9 +209,9 @@
 
     {{-- Jadwal Detail Modal --}}
     <div id="jadwal-modal" class="fixed inset-0 z-50 hidden items-center justify-center" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 overflow-hidden transform transition-all">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 overflow-hidden transform transition-all max-h-[90vh] flex flex-col">
             {{-- Header --}}
-            <div class="bg-gradient-to-r from-green-600 to-green-700 px-6 py-5">
+            <div class="bg-gradient-to-r from-green-600 to-green-700 px-6 py-5 flex-shrink-0">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <svg class="w-6 h-6 text-green-100" fill="currentColor" viewBox="0 0 24 24">
@@ -231,7 +231,7 @@
             </div>
 
             {{-- Content --}}
-            <div class="p-6 space-y-6">
+            <div class="p-6 space-y-6 overflow-y-auto flex-1">
                 {{-- Status & Kuota Section --}}
                 <div id="jadwal-loading" class="hidden text-center py-8">
                     <div class="inline-flex items-center gap-3 text-green-600">
@@ -474,8 +474,8 @@
                                 ${r.keluhan ? `<p class="text-sm text-slate-600 mt-2">Keluhan: ${r.keluhan}</p>` : ''}
                             </div>
                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold 
-                                ${r.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
-                                ${r.status === 'pending' ? 'Pending' : 'Confirmed'}
+                                ${r.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : r.status === 'confirmed' ? 'bg-blue-100 text-blue-800' : r.status === 'selesai' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                ${r.status === 'pending' ? 'Pending' : r.status === 'confirmed' ? 'Confirmed' : r.status === 'selesai' ? 'Selesai' : 'Batal'}
                             </span>
                         </div>
                     `;

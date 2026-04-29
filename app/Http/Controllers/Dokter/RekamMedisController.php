@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dokter;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pasien;
 use App\Models\RekamMedis;
 use App\Models\Reservasi;
 use Illuminate\Http\RedirectResponse;
@@ -11,6 +12,97 @@ use Illuminate\View\View;
 
 class RekamMedisController extends Controller
 {
+    /**
+     * Daftar pasien dengan riwayat rekam medis (untuk sidebar menu)
+     */
+    public function listPasien(Request $request): View
+    {
+        $search = $request->get('search', '');
+        $page = $request->get('page', 1);
+        $perPage = 10;
+
+        // Query pasien yang memiliki rekam medis dari dokter saat ini
+        $query = Pasien::whereHas('rekamMedis', function ($q) {
+            $q->where('id_user', auth()->id());
+        });
+
+        // Search by nama atau NIK
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('nik', 'like', "%{$search}%");
+            });
+        }
+
+        $pasiens = $query->withCount('rekamMedis')
+                        ->orderByDesc('updated_at')
+                        ->paginate($perPage);
+
+        return view('dokter.rekam-medis.pasien-list', compact('pasiens', 'search'));
+    }
+
+    /**
+     * Detail pasien dengan riwayat rekam medis lengkap
+     */
+    public function showPasien(Pasien $pasien): View
+    {
+        // Ambil rekam medis milik dokter saat ini dengan eager loading
+        $rekamMedis = $pasien->rekamMedis()
+            ->where('id_user', auth()->id())
+            ->with('dokter', 'reservasi')
+            ->orderByDesc('tanggal')
+            ->get();
+
+        if ($rekamMedis->isEmpty()) {
+            abort(403, 'Anda tidak memiliki akses ke rekam medis pasien ini.');
+        }
+
+        return view('dokter.rekam-medis.pasien-detail', compact('pasien', 'rekamMedis'));
+    }
+
+    /**
+     * Edit form untuk rekam medis
+     */
+    public function editRekamMedis(RekamMedis $rekamMedis): View
+    {
+        // Cek bahwa dokter saat ini adalah yang membuat rekam medis ini
+        if ($rekamMedis->id_user !== auth()->id()) {
+            abort(403);
+        }
+
+        $pasien = $rekamMedis->pasien;
+
+        return view('dokter.rekam-medis.edit', compact('rekamMedis', 'pasien'));
+    }
+
+    /**
+     * Update rekam medis
+     */
+    public function updateRekamMedis(Request $request, RekamMedis $rekamMedis): RedirectResponse
+    {
+        // Cek bahwa dokter saat ini adalah yang membuat rekam medis ini
+        if ($rekamMedis->id_user !== auth()->id()) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'keluhan' => ['nullable', 'string', 'max:1000'],
+            'subjective' => ['required', 'string', 'max:1000'],
+            'objective' => ['required', 'string', 'max:1000'],
+            'assessment' => ['required', 'string', 'max:1000'],
+            'plan' => ['required', 'string', 'max:1000'],
+            'terapi' => ['required', 'string', 'max:1000'],
+            'tarif' => ['required', 'numeric', 'min:0'],
+        ]);
+
+        $rekamMedis->update($validated);
+
+        return redirect()->route('dokter.rekam-medis.pasien.show', $rekamMedis->pasien)
+            ->with('success', 'Rekam medis berhasil diperbarui');
+    }
+
+    // ============ OLD METHODS (untuk reservasi) ============
+
     public function index(Reservasi $reservasi): View
     {
         $this->authorizeReservasi($reservasi);
@@ -35,9 +127,13 @@ class RekamMedisController extends Controller
         $this->authorizeReservasi($reservasi);
 
         $validated = $request->validate([
-            'keluhan' => ['nullable', 'string', 'max:255'],
-            'diagnosa' => ['required', 'string', 'max:255'],
-            'terapi' => ['required', 'string', 'max:255'],
+            'keluhan' => ['nullable', 'string', 'max:1000'],
+            'subjective' => ['required', 'string', 'max:1000'],
+            'objective' => ['required', 'string', 'max:1000'],
+            'assessment' => ['required', 'string', 'max:1000'],
+            'plan' => ['required', 'string', 'max:1000'],
+            'terapi' => ['required', 'string', 'max:1000'],
+            'tarif' => ['required', 'numeric', 'min:0'],
         ]);
 
         RekamMedis::create([
@@ -46,8 +142,12 @@ class RekamMedisController extends Controller
             'id_reservasi' => $reservasi->id_reservasi,
             'tanggal' => now()->toDateString(),
             'keluhan' => $validated['keluhan'] ?? null,
-            'diagnosa' => $validated['diagnosa'],
+            'subjective' => $validated['subjective'],
+            'objective' => $validated['objective'],
+            'assessment' => $validated['assessment'],
+            'plan' => $validated['plan'],
             'terapi' => $validated['terapi'],
+            'tarif' => $validated['tarif'],
         ]);
 
         // Tandai reservasi selesai
@@ -61,7 +161,7 @@ class RekamMedisController extends Controller
             ]);
         }
 
-        return redirect()->route('dokter.rekam-medis.index', $reservasi)
+        return redirect()->route('dokter.reservasi.index')
             ->with('success', 'Rekam medis berhasil disimpan dan reservasi ditandai selesai');
     }
 
@@ -82,7 +182,7 @@ class RekamMedisController extends Controller
 
         $reservasi->update(['status' => 'selesai']);
 
-        return redirect()->route('dokter.rekam-medis.index', $reservasi)
+        return redirect()->route('dokter.reservasi.index')
             ->with('success', 'Penanganan ditandai selesai.');
     }
 

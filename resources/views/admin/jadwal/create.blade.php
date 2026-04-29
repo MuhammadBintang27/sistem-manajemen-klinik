@@ -1,20 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Tambah Jadwal') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
                     <form method="POST" action="{{ route('admin.jadwal.store') }}" class="space-y-4">
                         @csrf
 
                         <div>
                             <x-input-label for="id_user" value="Dokter" />
-                            <select id="id_user" name="id_user" class="block mt-1 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+                            <select id="id_user" name="id_user" class="block mt-1 w-full rounded-md border-gray-300">
                                 <option value="">-- pilih dokter --</option>
                                 @foreach ($dokters as $dokter)
                                     <option value="{{ $dokter->id_user }}" @selected(old('id_user') == $dokter->id_user)>
@@ -39,7 +39,7 @@
                         </div>
 
                         <div class="flex items-center justify-end gap-3">
-                            <a href="{{ route('admin.jadwal.index') }}" class="underline text-sm text-gray-600 dark:text-gray-400">Kembali</a>
+                            <a href="{{ route('admin.jadwal.index') }}" class="underline text-sm text-gray-600">Kembali</a>
                             <x-primary-button>
                                 Simpan
                             </x-primary-button>
