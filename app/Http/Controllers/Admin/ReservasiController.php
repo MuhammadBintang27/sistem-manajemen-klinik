@@ -26,10 +26,45 @@ class ReservasiController extends Controller
     {
         $reservasi->load(['pasien', 'jadwal.dokter']);
         
+        // Generate virtual jadwal untuk 3 bulan ke depan
+        $today = now()->startOfDay();
+        $endDate = $today->copy()->addMonths(3);
+        
+        $jadwals = collect();
+        $dokters = \App\Models\User::where('role', 'dokter')->get();
+        
+        foreach ($dokters as $dokter) {
+            for ($date = $today->copy(); $date <= $endDate; $date->addDay()) {
+                $dateStr = $date->format('Y-m-d');
+                
+                // Cek apakah jadwal sudah ada di database
+                $jadwalDb = Jadwal::where('id_user', $dokter->id_user)
+                    ->where('tanggal', $dateStr)
+                    ->first();
+                
+                if ($jadwalDb) {
+                    $jadwalDb->load('dokter', 'reservasi');
+                    $jadwals->push($jadwalDb);
+                } else {
+                    // Buat virtual jadwal dengan default: status aktif, kuota 5
+                    $jadwalVirtual = new Jadwal([
+                        'id_jadwal' => null,
+                        'id_user' => $dokter->id_user,
+                        'tanggal' => $dateStr,
+                        'kuota' => 5,
+                        'status' => 'aktif',
+                    ]);
+                    $jadwalVirtual->setRelation('dokter', $dokter);
+                    $jadwalVirtual->setRelation('reservasi', collect());
+                    $jadwals->push($jadwalVirtual);
+                }
+            }
+        }
+        
         // Tentukan status options berdasarkan status saat ini
         $statusOptions = $this->getAvailableStatusTransitions($reservasi->status);
 
-        return view('admin.reservasi.show', compact('reservasi', 'statusOptions'));
+        return view('admin.reservasi.show', compact('reservasi', 'statusOptions', 'jadwals'));
     }
 
     public function update(Request $request, Reservasi $reservasi): RedirectResponse

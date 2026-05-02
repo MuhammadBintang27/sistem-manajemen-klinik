@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Jadwal;
 use App\Models\Pasien;
 use App\Models\Reservasi;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -26,11 +27,52 @@ class ReservasiPublicController extends Controller
      */
     public function create(): View
     {
-        $jadwals = Jadwal::with(['dokter', 'reservasi'])
-            ->where('status', 'aktif')
-            ->whereDate('tanggal', '>=', Carbon::today()->toDateString())
-            ->orderBy('tanggal')
-            ->get();
+        // Get semua dokter yang aktif
+        $dokters = User::where('role', 'dokter')->get();
+        
+        // Generate jadwal default untuk 3 bulan ke depan
+        $today = Carbon::today();
+        $endDate = $today->copy()->addMonths(3);
+        
+        $jadwals = collect();
+        
+        // Loop setiap dokter
+        foreach ($dokters as $dokter) {
+            // Loop setiap tanggal dari hari ini hingga 3 bulan ke depan
+            for ($date = $today->copy(); $date <= $endDate; $date->addDay()) {
+                $dateStr = $date->toDateString();
+                
+                // Cek apakah jadwal sudah ada di database
+                $jadwalDb = Jadwal::where('id_user', $dokter->id_user)
+                    ->where('tanggal', $dateStr)
+                    ->first();
+                
+                if ($jadwalDb) {
+                    // Jika ada di database, ambil dari sana (sudah di-adjust admin)
+                    if ($jadwalDb->status === 'aktif') {
+                        $jadwalDb->load('dokter', 'reservasi');
+                        $jadwals->push($jadwalDb);
+                    }
+                } else {
+                    // Jika tidak ada, buat instance jadwal virtual dengan default
+                    $jadwalVirtual = new Jadwal([
+                        'id_user' => $dokter->id_user,
+                        'tanggal' => $dateStr,
+                        'kuota' => 5,
+                        'status' => 'aktif',
+                    ]);
+                    $jadwalVirtual->setRelation('dokter', $dokter);
+                    $jadwalVirtual->setRelation('reservasi', collect()); // Tidak ada reservasi untuk jadwal baru
+                    
+                    $jadwals->push($jadwalVirtual);
+                }
+            }
+        }
+        
+        // Sort by tanggal
+        $jadwals = $jadwals->sortBy(function ($jadwal) {
+            return $jadwal->tanggal;
+        })->values();
 
         return view('reservasi.create', compact('jadwals'));
     }
@@ -69,8 +111,40 @@ class ReservasiPublicController extends Controller
     public function store(Request $request): RedirectResponse
     {
         try {
+            // Parse id_jadwal yang bisa dari format "user_tanggal" atau integer
+            $idJadwalInput = $request->input('id_jadwal');
+            $jadwal = null;
+            $idUser = null;
+            $tanggal = null;
+            
+            // Cek format jadwal yang di-submit
+            if (strpos($idJadwalInput, '_') !== false) {
+                // Format "user_tanggal" untuk jadwal virtual
+                [$idUser, $tanggal] = explode('_', $idJadwalInput);
+                
+                // Coba cari di database, jika tidak ada buat baru
+                $jadwal = Jadwal::where('id_user', $idUser)
+                    ->where('tanggal', $tanggal)
+                    ->first();
+                
+                if (!$jadwal) {
+                    // Buat jadwal baru dengan default
+                    $jadwal = Jadwal::create([
+                        'id_user' => $idUser,
+                        'tanggal' => $tanggal,
+                        'kuota' => 5,
+                        'status' => 'aktif',
+                    ]);
+                }
+            } else {
+                // Format integer - jadwal dari database
+                $jadwal = Jadwal::findOrFail($idJadwalInput);
+            }
+            
+            $jadwal->load('dokter');
+            
             $validated = $request->validate([
-                'id_jadwal' => ['required', 'integer', 'exists:jadwal,id_jadwal'],
+                'id_jadwal' => ['required'],
                 'nik' => ['required', 'digits:16'],
                 'keluhan' => ['nullable', 'string', 'max:255'],
 
@@ -81,12 +155,9 @@ class ReservasiPublicController extends Controller
                 'no_hp' => ['nullable', 'string', 'max:20'],
             ], [
                 'id_jadwal.required' => 'Jadwal harus dipilih',
-                'id_jadwal.exists' => 'Jadwal tidak ditemukan',
                 'nik.required' => 'NIK harus diisi',
                 'nik.digits' => 'NIK harus 16 digit',
             ]);
-
-            $jadwal = Jadwal::with('dokter')->findOrFail($validated['id_jadwal']);
 
             // Hitung SEMUA reservasi di jadwal ini (pending, confirmed, selesai)
             $usedQuota = Reservasi::query()

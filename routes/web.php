@@ -5,6 +5,7 @@ use App\Http\Controllers\Dokter\RekamMedisController;
 use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\PasienController;
 use App\Http\Controllers\Admin\ReservasiController as AdminReservasiController;
+use App\Http\Controllers\Admin\RekamMedisController as AdminRekamMedisController;
 use App\Http\Controllers\ReservasiPublicController;
 use App\Models\Jadwal;
 use App\Models\Pasien;
@@ -50,6 +51,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('reservasi/{reservasi}', [AdminReservasiController::class, 'show'])->name('reservasi.show');
     Route::patch('reservasi/{reservasi}', [AdminReservasiController::class, 'update'])->name('reservasi.update');
     Route::patch('reservasi/{reservasi}/status', [AdminReservasiController::class, 'updateStatus'])->name('reservasi.status');
+    
+    // Rekam Medis
+    Route::post('rekam-medis/reservasi/{reservasi}', [AdminRekamMedisController::class, 'store'])->name('rekam-medis.store');
 });
 
 Route::prefix('dokter')->name('dokter.')->middleware(['auth', 'role:dokter'])->group(function () {
