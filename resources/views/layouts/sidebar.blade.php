@@ -75,6 +75,15 @@
                     </svg>
                     <span>Reservasi</span>
                 </a>
+
+                <a href="{{ route('admin.rekam-medis.list-pasien') }}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 {{ request()->routeIs('admin.rekam-medis.*') ? 'bg-white text-primary-700 shadow-md' : 'text-primary-100 hover:bg-white hover:text-primary-700' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                        <path d="M16 18H8v-2h8v2zm0-4H8v-2h8v2z"/>
+                    </svg>
+                    <span>Rekam Medis</span>
+                </a>
             @endif
 
             @if (Auth::user()->role === 'dokter')

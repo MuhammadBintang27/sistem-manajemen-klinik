@@ -159,6 +159,27 @@
                                 <p class="text-xs text-slate-600 uppercase font-semibold">Tarif Penanganan</p>
                                 <p class="text-sm font-semibold text-primary-700">Rp {{ number_format($rm->tarif ?? 0, 0, ',', '.') }}</p>
                             </div>
+
+                            {{-- Foto Pemeriksaan --}}
+                            @if($rm->fotoRekamMedis->count() > 0)
+                                <div class="border-t border-slate-200 pt-3">
+                                    <p class="text-xs text-slate-600 uppercase font-semibold mb-2">Foto Pemeriksaan ({{ $rm->fotoRekamMedis->count() }}/5)</p>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                                        @foreach($rm->fotoRekamMedis as $foto)
+                                            <button type="button" onclick="openPhotoModal('{{ route('storage.private', ['path' => $foto->foto_path]) }}', '{{ basename($foto->foto_path) }}')" class="relative group">
+                                                <img src="{{ route('storage.private', ['path' => $foto->foto_path]) }}" 
+                                                     alt="Foto Pemeriksaan" 
+                                                     class="w-full h-20 object-cover rounded border border-slate-300 hover:border-primary-500 transition-colors cursor-pointer">
+                                                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 rounded transition-all flex items-center justify-center">
+                                                    <svg class="w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                                    </svg>
+                                                </div>
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @empty
@@ -173,7 +194,7 @@
                 <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Isi Rekam Medis Baru & Selesaikan Penanganan</h3>
                 </div>
-                <form method="POST" action="{{ route('dokter.rekam-medis.store', $reservasi) }}" class="p-6 space-y-6">
+                <form method="POST" action="{{ route('dokter.rekam-medis.store', $reservasi) }}" enctype="multipart/form-data" class="p-6 space-y-6">
                     @csrf
 
                     <div class="grid grid-cols-2 gap-6">
@@ -294,6 +315,42 @@
                                 required>
                             <x-input-error :messages="$errors->get('tarif')" class="mt-2" />
                         </div>
+
+                        {{-- Foto Rekam Medis --}}
+                        <div class="col-span-2 border-t-2 pt-6">
+                            <label class="block text-lg font-semibold text-slate-900 mb-4">
+                                Foto Pemeriksaan (Opsional)
+                                <span class="text-sm font-normal text-slate-600">— Maksimal 5 foto, format JPG/PNG, ukuran max 5MB per foto</span>
+                            </label>
+
+                            {{-- Upload Area --}}
+                            <div class="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-primary-500 hover:bg-primary-50 transition-colors cursor-pointer" id="dropZone">
+                                <input 
+                                    type="file" 
+                                    id="fotoInput" 
+                                    name="fotos[]" 
+                                    multiple 
+                                    accept="image/*"
+                                    class="hidden"
+                                    data-max-files="5"
+                                    data-max-size="5242880">
+                                
+                                <svg class="w-12 h-12 mx-auto text-slate-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                
+                                <p class="text-slate-600 font-medium">Drag foto ke sini atau klik untuk memilih</p>
+                                <p class="text-xs text-slate-500 mt-1">Bisa upload beberapa foto sekaligus (maks 5 foto)</p>
+                                <p id="fileCount" class="text-xs text-primary-600 font-semibold mt-2 hidden"></p>
+                            </div>
+
+                            {{-- Preview Area --}}
+                            <div id="previewContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mt-4">
+                                {{-- Previews akan ditambah dengan JS --}}
+                            </div>
+
+                            <div id="uploadMessage" class="text-sm text-slate-600 mt-3 text-center hidden"></div>
+                        </div>
                     </div>
 
                     <div class="flex gap-3 pt-4 justify-end border-t border-slate-200">
@@ -332,5 +389,169 @@
             detail.classList.toggle('hidden');
             arrow.style.transform = detail.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
         }
+
+        // Photo upload preview
+        const dropZone = document.getElementById('dropZone');
+        const fotoInput = document.getElementById('fotoInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const uploadMessage = document.getElementById('uploadMessage');
+        const fileCount = document.getElementById('fileCount');
+
+        if (dropZone && fotoInput) {
+            const maxFiles = parseInt(fotoInput.dataset.maxFiles);
+            const maxSize = parseInt(fotoInput.dataset.maxSize);
+
+            // Drag & drop events
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-primary-500', 'bg-primary-50');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('border-primary-500', 'bg-primary-50');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-primary-500', 'bg-primary-50');
+                
+                // Handle dropped files
+                const droppedFiles = Array.from(e.dataTransfer.files);
+                addFilesToInput(droppedFiles);
+            });
+
+            dropZone.addEventListener('click', () => {
+                fotoInput.click();
+            });
+
+            fotoInput.addEventListener('change', () => {
+                updatePreview();
+            });
+
+            function addFilesToInput(newFiles) {
+                // Create DataTransfer to manage FileList
+                const dataTransfer = new DataTransfer();
+                
+                // Add existing files
+                for (const file of fotoInput.files) {
+                    dataTransfer.items.add(file);
+                }
+                
+                // Add new files
+                for (const file of newFiles) {
+                    if (dataTransfer.items.length < maxFiles) {
+                        dataTransfer.items.add(file);
+                    }
+                }
+                
+                // Update file input
+                fotoInput.files = dataTransfer.files;
+                updatePreview();
+            }
+
+            function updatePreview() {
+                previewContainer.innerHTML = '';
+                uploadMessage.classList.add('hidden');
+                
+                const files = Array.from(fotoInput.files);
+                const totalFiles = files.length;
+
+                if (totalFiles === 0) {
+                    fileCount.classList.add('hidden');
+                    return;
+                }
+
+                // Show file count
+                fileCount.textContent = `✓ ${totalFiles} file${totalFiles > 1 ? 's' : ''} dipilih${totalFiles >= maxFiles ? ' (maksimal tercapai)' : ''}`;
+                fileCount.classList.remove('hidden');
+
+                // Validate total files
+                if (totalFiles > maxFiles) {
+                    uploadMessage.textContent = `⚠️ Maksimal ${maxFiles} foto. ${totalFiles - maxFiles} file akan diabaikan.`;
+                    uploadMessage.classList.remove('hidden');
+                }
+
+                // Process each file
+                files.forEach((file, index) => {
+                    if (index >= maxFiles) return; // Skip files beyond max
+
+                    // Validate file size
+                    if (file.size > maxSize) {
+                        uploadMessage.textContent = `❌ File "${file.name}" terlalu besar (max 5MB)`;
+                        uploadMessage.className = 'text-sm text-red-600 mt-3 text-center';
+                        uploadMessage.classList.remove('hidden');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const preview = document.createElement('div');
+                        preview.className = 'relative group';
+                        preview.innerHTML = `
+                            <img src="${e.target.result}" alt="Preview" class="w-full h-32 object-cover rounded-lg border border-slate-200">
+                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 rounded-lg transition-all flex items-center justify-center">
+                                <p class="text-xs bg-slate-900 text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">${file.name}</p>
+                            </div>
+                        `;
+                        previewContainer.appendChild(preview);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+
+        // Photo Modal Preview
+        function openPhotoModal(imageUrl, fileName) {
+            const modal = document.getElementById('photoModal');
+            const image = document.getElementById('photoModalImage');
+            const title = document.getElementById('photoModalTitle');
+            const downloadBtn = document.getElementById('photoDownloadBtn');
+            
+            image.src = imageUrl;
+            title.textContent = 'Pratinjau: ' + fileName;
+            downloadBtn.href = imageUrl;
+            downloadBtn.download = fileName;
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhotoModal() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePhotoModal();
+            }
+        });
     </script>
+
+    {{-- Photo Modal Preview --}}
+    <div id="photoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" onclick="if(event.target === this) closePhotoModal()">
+        <div class="bg-white rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-auto">
+            <div class="flex items-center justify-between p-4 border-b border-slate-200 sticky top-0 bg-white">
+                <h3 id="photoModalTitle" class="text-lg font-semibold text-slate-900">Pratinjau Foto</h3>
+                <button onclick="closePhotoModal()" class="text-slate-500 hover:text-slate-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4 flex items-center justify-center bg-slate-50">
+                <img id="photoModalImage" src="" alt="Foto Pemeriksaan" class="max-w-full max-h-[70vh] object-contain">
+            </div>
+            <div class="p-4 border-t border-slate-200 bg-white flex justify-end">
+                <a id="photoDownloadBtn" href="" download class="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    Download
+                </a>
+            </div>
+        </div>
+    </div>
 </x-app-layout>

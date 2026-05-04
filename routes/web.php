@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PasienController;
 use App\Http\Controllers\Admin\ReservasiController as AdminReservasiController;
 use App\Http\Controllers\Admin\RekamMedisController as AdminRekamMedisController;
 use App\Http\Controllers\ReservasiPublicController;
+use App\Http\Controllers\StorageController;
 use App\Models\Jadwal;
 use App\Models\Pasien;
 use App\Models\Reservasi;
@@ -52,7 +53,18 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::patch('reservasi/{reservasi}', [AdminReservasiController::class, 'update'])->name('reservasi.update');
     Route::patch('reservasi/{reservasi}/status', [AdminReservasiController::class, 'updateStatus'])->name('reservasi.status');
     
-    // Rekam Medis
+    // Rekam Medis - List pasien dengan search & pagination
+    Route::get('rekam-medis', [AdminRekamMedisController::class, 'listPasien'])->name('rekam-medis.list-pasien');
+    Route::get('rekam-medis/pasien/{pasien}', [AdminRekamMedisController::class, 'showPasien'])->name('rekam-medis.pasien.show');
+    Route::get('rekam-medis/{rekamMedis}/edit', [AdminRekamMedisController::class, 'editRekamMedis'])->name('rekam-medis.edit');
+    Route::patch('rekam-medis/{rekamMedis}', [AdminRekamMedisController::class, 'updateRekamMedis'])->name('rekam-medis.update');
+
+    // Rekam Medis - Foto (AJAX)
+    Route::post('rekam-medis/{rekamMedis}/foto', [AdminRekamMedisController::class, 'uploadFoto'])->name('rekam-medis.foto.upload');
+    Route::delete('rekam-medis/{rekamMedis}/foto/{foto}', [AdminRekamMedisController::class, 'deleteFoto'])->name('rekam-medis.foto.delete');
+    Route::get('rekam-medis/{rekamMedis}/foto', [AdminRekamMedisController::class, 'getFoto'])->name('rekam-medis.foto.get');
+
+    // Rekam Medis - Create dari reservasi
     Route::post('rekam-medis/reservasi/{reservasi}', [AdminRekamMedisController::class, 'store'])->name('rekam-medis.store');
 });
 
@@ -69,12 +81,18 @@ Route::prefix('dokter')->name('dokter.')->middleware(['auth', 'role:dokter'])->g
     Route::get('rekam-medis/{rekamMedis}/edit', [RekamMedisController::class, 'editRekamMedis'])->name('rekam-medis.edit');
     Route::patch('rekam-medis/{rekamMedis}', [RekamMedisController::class, 'updateRekamMedis'])->name('rekam-medis.update');
 
-    // Rekam Medis - Routes lama (dari reservasi)
-    Route::get('rekam-medis/reservasi/{reservasi}', [RekamMedisController::class, 'index'])->name('rekam-medis.index');
-    Route::get('rekam-medis/reservasi/{reservasi}/create', [RekamMedisController::class, 'create'])->name('rekam-medis.create');
+    // Rekam Medis - Foto (AJAX)
+    Route::post('rekam-medis/{rekamMedis}/foto', [RekamMedisController::class, 'uploadFoto'])->name('rekam-medis.foto.upload');
+    Route::delete('rekam-medis/{rekamMedis}/foto/{foto}', [RekamMedisController::class, 'deleteFoto'])->name('rekam-medis.foto.delete');
+    Route::get('rekam-medis/{rekamMedis}/foto', [RekamMedisController::class, 'getFoto'])->name('rekam-medis.foto.get');
+
+    // Rekam Medis - Create dari reservasi
     Route::post('rekam-medis/reservasi/{reservasi}', [RekamMedisController::class, 'store'])->name('rekam-medis.store');
-    Route::get('rekam-medis/{rekamMedis}', [RekamMedisController::class, 'show'])->name('rekam-medis.show');
-    Route::patch('rekam-medis/{rekamMedis}/selesai', [RekamMedisController::class, 'markComplete'])->name('rekam-medis.mark-complete');
+});
+
+// Private storage access (authenticated only)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/storage/private', [StorageController::class, 'privateFile'])->name('storage.private');
 });
 
 require __DIR__.'/auth.php';

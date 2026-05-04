@@ -5,7 +5,7 @@
                 <h2 class="font-bold text-2xl text-slate-900">Edit Rekam Medis</h2>
                 <p class="mt-1 text-sm text-slate-600">Pasien: {{ $pasien->nama }}</p>
             </div>
-            <a href="{{ route('dokter.rekam-medis.pasien.show', $pasien) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors">
+            <a href="{{ route('admin.rekam-medis.pasien.show', $pasien) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
@@ -40,7 +40,7 @@
                 <h3 class="text-lg font-bold text-slate-900">Data Rekam Medis - {{ \Carbon\Carbon::parse($rekamMedis->tanggal)->format('d M Y') }}</h3>
             </div>
 
-            <form method="POST" action="{{ route('dokter.rekam-medis.update', $rekamMedis) }}" enctype="multipart/form-data" class="p-6 space-y-6">
+            <form method="POST" action="{{ route('admin.rekam-medis.update', $rekamMedis) }}" enctype="multipart/form-data" class="p-6 space-y-6">
                 @csrf
                 @method('PATCH')
 
@@ -246,7 +246,7 @@
 
                 {{-- Buttons --}}
                 <div class="flex items-center justify-end gap-3 border-t border-slate-200 pt-6">
-                    <a href="{{ route('dokter.rekam-medis.pasien.show', $pasien) }}" class="px-6 py-2 bg-slate-300 hover:bg-slate-400 text-slate-900 font-medium rounded-lg transition-colors">
+                    <a href="{{ route('admin.rekam-medis.pasien.show', $pasien) }}" class="px-6 py-2 bg-slate-300 hover:bg-slate-400 text-slate-900 font-medium rounded-lg transition-colors">
                         Batal
                     </a>
                     <button type="submit" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors flex items-center gap-2">
@@ -352,7 +352,7 @@
                 formData.append('fotos[]', file);
             });
 
-            fetch(`/dokter/rekam-medis/${rekamMedisId}/foto`, {
+            fetch(`/admin/rekam-medis/${rekamMedisId}/foto`, {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '{{ csrf_token() }}',
@@ -400,7 +400,7 @@
                 const fotoId = this.dataset.fotoId;
                 const fotoItem = this.closest('.foto-item');
 
-                fetch(`/dokter/rekam-medis/{{ $rekamMedis->id_rekam_medis }}/foto/${fotoId}`, {
+                fetch(`/admin/rekam-medis/{{ $rekamMedis->id_rekam_medis }}/foto/${fotoId}`, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '{{ csrf_token() }}',

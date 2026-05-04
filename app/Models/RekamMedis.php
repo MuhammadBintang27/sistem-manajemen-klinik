@@ -37,4 +37,9 @@ class RekamMedis extends Model
     {
         return $this->belongsTo(Reservasi::class, 'id_reservasi');
     }
+
+    public function fotoRekamMedis()
+    {
+        return $this->hasMany(FotoRekamMedis::class, 'id_rekam_medis')->orderBy('created_at', 'asc');
+    }
 }

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Dokter;
 
 use App\Http\Controllers\Controller;
+use App\Models\FotoRekamMedis;
 use App\Models\Pasien;
 use App\Models\RekamMedis;
 use App\Models\Reservasi;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class RekamMedisController extends Controller
@@ -58,11 +61,7 @@ class RekamMedisController extends Controller
      */
     public function editRekamMedis(RekamMedis $rekamMedis): View
     {
-        // Cek bahwa dokter saat ini adalah yang membuat rekam medis ini
-        if ($rekamMedis->id_user !== auth()->id()) {
-            abort(403);
-        }
-
+        // Admin dan dokter bisa edit rekam medis manapun
         $pasien = $rekamMedis->pasien;
 
         return view('dokter.rekam-medis.edit', compact('rekamMedis', 'pasien'));
@@ -73,10 +72,7 @@ class RekamMedisController extends Controller
      */
     public function updateRekamMedis(Request $request, RekamMedis $rekamMedis): RedirectResponse
     {
-        // Cek bahwa dokter saat ini adalah yang membuat rekam medis ini
-        if ($rekamMedis->id_user !== auth()->id()) {
-            abort(403);
-        }
+        // Admin dan dokter bisa update rekam medis manapun
 
         $validated = $request->validate([
             'keluhan' => ['nullable', 'string', 'max:1000'],
@@ -94,27 +90,9 @@ class RekamMedisController extends Controller
             ->with('success', 'Rekam medis berhasil diperbarui');
     }
 
-    // ============ OLD METHODS (untuk reservasi) ============
-
-    public function index(Reservasi $reservasi): View
-    {
-        $this->authorizeReservasi($reservasi);
-
-        $reservasi->load('pasien', 'jadwal');
-        $rekamMedisList = $reservasi->rekamMedis()->orderByDesc('tanggal')->get();
-
-        return view('dokter.rekam-medis.index', compact('reservasi', 'rekamMedisList'));
-    }
-
-    public function create(Reservasi $reservasi): View
-    {
-        $this->authorizeReservasi($reservasi);
-
-        $reservasi->load('pasien', 'jadwal');
-
-        return view('dokter.rekam-medis.create', compact('reservasi'));
-    }
-
+    /**
+     * Create rekam medis dari reservasi (form integrated)
+     */
     public function store(Request $request, Reservasi $reservasi)
     {
         $this->authorizeReservasi($reservasi);
@@ -127,9 +105,11 @@ class RekamMedisController extends Controller
             'plan' => ['required', 'string', 'max:1000'],
             'terapi' => ['required', 'string', 'max:1000'],
             'tarif' => ['required', 'numeric', 'min:0'],
+            'fotos' => ['nullable', 'array', 'max:5'],
+            'fotos.*' => ['image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
         ]);
 
-        RekamMedis::create([
+        $rekamMedis = RekamMedis::create([
             'id_pasien' => $reservasi->id_pasien,
             'id_user' => auth()->id(),
             'id_reservasi' => $reservasi->id_reservasi,
@@ -142,6 +122,24 @@ class RekamMedisController extends Controller
             'terapi' => $validated['terapi'],
             'tarif' => $validated['tarif'],
         ]);
+
+        // Handle foto uploads
+        if ($request->hasFile('fotos')) {
+            foreach ($request->file('fotos') as $file) {
+                $filename = 'rekam-medis-' . $rekamMedis->id_rekam_medis . '-' . time() . rand(1, 999) . '.' . $file->getClientOriginalExtension();
+                
+                $path = $file->storeAs(
+                    'foto-rekam-medis',
+                    $filename,
+                    'local'
+                );
+
+                FotoRekamMedis::create([
+                    'id_rekam_medis' => $rekamMedis->id_rekam_medis,
+                    'foto_path' => $path,
+                ]);
+            }
+        }
 
         // Tandai reservasi selesai
         $reservasi->update(['status' => 'selesai']);
@@ -158,31 +156,129 @@ class RekamMedisController extends Controller
             ->with('success', 'Rekam medis berhasil disimpan dan reservasi ditandai selesai');
     }
 
-    public function show(RekamMedis $rekamMedis): View
-    {
-        $reservasi = $rekamMedis->reservasi;
-        $this->authorizeReservasi($reservasi);
-
-        $reservasi->load('pasien', 'jadwal');
-
-        return view('dokter.rekam-medis.show', compact('reservasi', 'rekamMedis'));
-    }
-
-    public function markComplete(RekamMedis $rekamMedis): RedirectResponse
-    {
-        $reservasi = $rekamMedis->reservasi;
-        $this->authorizeReservasi($reservasi);
-
-        $reservasi->update(['status' => 'selesai']);
-
-        return redirect()->route('dokter.reservasi.index')
-            ->with('success', 'Penanganan ditandai selesai.');
-    }
-
     protected function authorizeReservasi(Reservasi $reservasi): void
     {
         if ($reservasi->jadwal?->id_user !== auth()->id()) {
             abort(403);
         }
+    }
+
+    /**
+     * Upload foto untuk rekam medis (AJAX)
+     */
+    public function uploadFoto(Request $request, RekamMedis $rekamMedis): JsonResponse
+    {
+        // Admin dan dokter bisa upload foto ke rekam medis manapun
+
+        $request->validate([
+            'fotos' => ['required', 'array'],
+            'fotos.*' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'], // max 5MB each
+        ]);
+
+        // Cek jumlah foto yang sudah ada
+        $existingCount = $rekamMedis->fotoRekamMedis()->count();
+        $newCount = count($request->file('fotos'));
+        
+        if ($existingCount + $newCount > 5) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Total foto tidak boleh lebih dari 5. Saat ini ada ' . $existingCount . ' foto.'
+            ], 422);
+        }
+
+        try {
+            $uploadedFotos = [];
+            
+            foreach ($request->file('fotos') as $file) {
+                $filename = 'rekam-medis-' . $rekamMedis->id_rekam_medis . '-' . time() . rand(1, 999) . '.' . $file->getClientOriginalExtension();
+                
+                // Store in private storage
+                $path = $file->storeAs(
+                    'foto-rekam-medis',
+                    $filename,
+                    'local'
+                );
+
+                $foto = FotoRekamMedis::create([
+                    'id_rekam_medis' => $rekamMedis->id_rekam_medis,
+                    'foto_path' => $path,
+                ]);
+
+                $uploadedFotos[] = [
+                    'id_foto' => $foto->id_foto,
+                    'foto_path' => $path,
+                    'created_at' => $foto->created_at->format('d M Y H:i'),
+                ];
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => count($uploadedFotos) . ' foto berhasil diunggah',
+                'fotos' => $uploadedFotos
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengupload foto: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Delete foto dari rekam medis (AJAX)
+     */
+    public function deleteFoto(Request $request, RekamMedis $rekamMedis, FotoRekamMedis $foto): JsonResponse
+    {
+        // Admin dan dokter bisa delete foto dari rekam medis manapun
+
+        // Cek bahwa foto ini milik rekam medis yang sesuai
+        if ($foto->id_rekam_medis !== $rekamMedis->id_rekam_medis) {
+            abort(404);
+        }
+
+        try {
+            // Delete file dari storage
+            if ($foto->foto_path && Storage::disk('local')->exists($foto->foto_path)) {
+                Storage::disk('local')->delete($foto->foto_path);
+            }
+
+            // Delete record dari database
+            $foto->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Foto berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus foto: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get foto untuk rekam medis (AJAX)
+     */
+    public function getFoto(RekamMedis $rekamMedis): JsonResponse
+    {
+        // Admin dan dokter bisa melihat semua foto dari rekam medis manapun
+
+        $fotos = $rekamMedis->fotoRekamMedis()
+            ->get()
+            ->map(function ($foto) {
+                return [
+                    'id_foto' => $foto->id_foto,
+                    'foto_path' => $foto->foto_path,
+                    'keterangan' => $foto->keterangan,
+                    'created_at' => $foto->created_at->format('d M Y H:i'),
+                    'url' => route('storage.private', ['path' => $foto->foto_path]),
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'fotos' => $fotos
+        ]);
     }
 }
