@@ -37,7 +37,7 @@
                     <!-- Jenis Kelamin -->
                     <div>
                         <x-input-label for="jenis_kelamin" value="Jenis Kelamin" />
-                        <select id="jenis_kelamin" name="jenis_kelamin" class="block mt-2 w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        <select id="jenis_kelamin" name="jenis_kelamin" class="block mt-2 w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
                             <option value="">-- Pilih Jenis Kelamin --</option>
                             <option value="L" @selected(old('jenis_kelamin', $pasien->jenis_kelamin) === 'L')>Laki-laki</option>
                             <option value="P" @selected(old('jenis_kelamin', $pasien->jenis_kelamin) === 'P')>Perempuan</option>
@@ -55,7 +55,7 @@
                     <!-- Alamat -->
                     <div class="col-span-2">
                         <x-input-label for="alamat" value="Alamat" />
-                        <textarea id="alamat" name="alamat" rows="3" class="block mt-2 w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">{{ old('alamat', $pasien->alamat) }}</textarea>
+                        <textarea id="alamat" name="alamat" rows="3" class="block mt-2 w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">{{ old('alamat', $pasien->alamat) }}</textarea>
                         <x-input-error :messages="$errors->get('alamat')" class="mt-2" />
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                     <a href="{{ route('admin.pasien.index') }}" class="px-6 py-2 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors">
                         Batal
                     </a>
-                    <button type="submit" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-colors">
+                    <button type="submit" class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
                         Simpan Perubahan
                     </button>
                 </div>

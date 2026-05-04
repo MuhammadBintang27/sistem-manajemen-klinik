@@ -29,14 +29,14 @@
 
         {{-- Success Message --}}
         @if (session('success'))
-            <div class="rounded-xl bg-green-50 border border-green-200 p-4">
+            <div class="rounded-xl bg-secondary-50 border border-secondary-200 p-4">
                 <p class="text-sm font-semibold text-green-800">✓ {{ session('success') }}</p>
             </div>
         @endif
 
         {{-- Form Edit --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Data Rekam Medis - {{ \Carbon\Carbon::parse($rekamMedis->tanggal)->format('d M Y') }}</h3>
             </div>
 
@@ -54,7 +54,7 @@
                             id="keluhan" 
                             name="keluhan" 
                             rows="3" 
-                            class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-2"
+                            class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-4 py-2"
                             placeholder="Tuliskan keluhan pasien">{{ old('keluhan', $rekamMedis->keluhan) }}</textarea>
                         <x-input-error :messages="$errors->get('keluhan')" class="mt-2" />
                     </div>
@@ -90,7 +90,7 @@
                                 id="objective" 
                                 name="objective" 
                                 rows="4" 
-                                class="block w-full rounded-lg border border-green-300 bg-white shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-2"
+                                class="block w-full rounded-lg border border-primary-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500 px-4 py-2"
                                 placeholder="Tekanan darah, suhu tubuh, pemeriksaan fisik, hasil laboratorium..."
                                 required>{{ old('objective', $rekamMedis->objective) }}</textarea>
                             <p class="text-xs text-green-700 mt-2">Data yang diukur dan diamati melalui pemeriksaan</p>

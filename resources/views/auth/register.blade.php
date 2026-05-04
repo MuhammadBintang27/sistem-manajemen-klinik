@@ -33,7 +33,7 @@
 
         <div>
             <x-input-label for="role" value="Daftar Sebagai" />
-            <select id="role" name="role" class="block mt-2 w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" required>
+            <select id="role" name="role" class="block mt-2 w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500" required>
                 <option value="">-- Pilih Role --</option>
                 <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
                 <option value="dokter" {{ old('role') === 'dokter' ? 'selected' : '' }}>Dokter</option>
@@ -48,7 +48,7 @@
 
             <p class="text-sm text-center text-slate-600">
                 Sudah punya akun?
-                <a href="{{ route('login') }}" class="text-green-600 hover:text-green-700 font-semibold">
+                <a href="{{ route('login') }}" class="text-primary-600 hover:text-primary-700 font-semibold">
                     Masuk di sini
                 </a>
             </p>

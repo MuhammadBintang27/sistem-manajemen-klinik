@@ -28,15 +28,15 @@
         </div>
 
         {{-- Kalender Jadwal --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden mx-6">
-            <div class="bg-gradient-to-r from-green-600 to-green-700 px-8 py-6">
+        <div class="rounded-2xl bg-white border border-primary-100 shadow-md overflow-hidden mx-6">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-8 py-6">
                 <h3 class="text-lg font-bold text-white flex items-center gap-3">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/>
                     </svg>
                     Kalender Jadwal Praktik
                 </h3>
-                <p class="mt-1 text-sm text-green-100">Lihat jumlah booking per tanggal</p>
+                <p class="mt-1 text-sm text-primary-100">Lihat jumlah booking per tanggal</p>
             </div>
 
             {{-- Month Navigation --}}
@@ -52,7 +52,7 @@
                 $monthNames = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
             @endphp
 
-            <div class="flex items-center justify-between px-8 py-5 border-b border-green-100 bg-white">
+            <div class="flex items-center justify-between px-8 py-5 border-b border-secondary-100 bg-white">
                 <a href="{{ route('dokter.jadwal.index', ['month' => $prevMonth, 'year' => $prevYear]) }}"
                    class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-all">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -75,10 +75,10 @@
             </div>
 
             {{-- Legend --}}
-            <div class="flex flex-wrap items-center gap-6 px-8 py-4 border-b border-green-100 bg-slate-50/50">
+            <div class="flex flex-wrap items-center gap-6 px-8 py-4 border-b border-primary-100 bg-slate-50/50">
                 <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Keterangan:</span>
                 <div class="flex items-center gap-2">
-                    <div class="w-4 h-4 rounded bg-green-500"></div>
+                    <div class="w-4 h-4 rounded bg-primary-500"></div>
                     <span class="text-sm text-slate-600">Ada Booking</span>
                 </div>
                 <div class="flex items-center gap-2">
@@ -117,13 +117,12 @@
                             $isCurrentMonth = $startOfCalendar->month == $month;
                         @endphp
 
-                        <div class="min-h-28 p-3 rounded-lg border-2 transition-all {{ !$isCurrentMonth ? 'bg-slate-100 border-slate-200 text-slate-400' : ($jadwal ? 'bg-green-50 border-green-400 cursor-pointer hover:shadow-lg' : 'bg-white border-slate-300') }}"
-                             @if($isCurrentMonth && $jadwal) onclick="openJadwalModal('{{ $dateStr }}')" @endif>
+                        <div class="min-h-28 p-3 rounded-lg border-2 transition-all {{ !$isCurrentMonth ? 'bg-slate-100 border-slate-200 text-slate-400' : ($jadwal ? 'bg-secondary-50 border-primary-400 cursor-pointer hover:shadow-lg' : 'bg-white border-slate-300') }}" @if($isCurrentMonth && $jadwal) onclick="openJadwalModal('{{ $dateStr }}')" @endif>
                             <div class="font-bold text-lg mb-2">{{ $startOfCalendar->day }}</div>
                             @if ($isCurrentMonth && $jadwal)
-                                <div class="text-center pt-2 border-t border-green-200">
-                                    <div class="text-2xl font-bold text-green-600">{{ $bookingCount }}</div>
-                                    <div class="text-xs text-green-700 font-semibold">booking</div>
+                                <div class="text-center pt-2 border-t border-secondary-200">
+                                    <div class="text-2xl font-bold text-primary-600">{{ $bookingCount }}</div>
+                                    <div class="text-xs text-primary-700 font-semibold">booking</div>
                                 </div>
                             @elseif(!$isCurrentMonth)
                                 <div class="text-xs text-slate-400">-</div>
@@ -141,18 +140,18 @@
     <div id="jadwal-modal" class="fixed inset-0 z-50 hidden items-center justify-center" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);">
         <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 overflow-hidden transform transition-all max-h-[90vh] flex flex-col">
             {{-- Header --}}
-            <div class="bg-gradient-to-r from-green-600 to-green-700 px-6 py-5 flex-shrink-0">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-5 flex-shrink-0">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <svg class="w-6 h-6 text-green-100" fill="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-primary-100" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/>
                         </svg>
                         <div>
-                            <p class="text-sm text-green-100">Jadwal Praktik</p>
+                            <p class="text-sm text-primary-100">Jadwal Praktik</p>
                             <p id="modal-date-label" class="text-lg font-bold text-white"></p>
                         </div>
                     </div>
-                    <button onclick="closeJadwalModal()" class="text-green-100 hover:text-white transition">
+                    <button onclick="closeJadwalModal()" class="text-primary-100 hover:text-white transition">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
                         </svg>
@@ -164,7 +163,7 @@
             <div class="p-6 space-y-6 overflow-y-auto flex-1">
                 {{-- Status & Kuota Section --}}
                 <div id="jadwal-loading" class="hidden text-center py-8">
-                    <div class="inline-flex items-center gap-3 text-green-600">
+                    <div class="inline-flex items-center gap-3 text-primary-600">
                         <svg class="animate-spin w-6 h-6" viewBox="0 0 24 24" fill="none">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -227,7 +226,7 @@
             const messageEl = document.getElementById('toast-message');
 
             if (type === 'success') {
-                content.className = 'flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border bg-white border-green-200';
+                content.className = 'flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border bg-white border-secondary-200';
                 icon.className = 'w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-green-500';
                 titleEl.className = 'text-sm font-bold text-green-800';
                 messageEl.className = 'text-sm text-green-600';
@@ -342,7 +341,7 @@
                         <div class="flex items-start justify-between">
                             <div class="flex-1">
                                 <div class="flex items-center gap-3">
-                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-600 text-white text-xs font-bold">${reservasi.indexOf(r) + 1}</span>
+                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary-600 text-white text-xs font-bold">${reservasi.indexOf(r) + 1}</span>
                                     <div>
                                         <p class="font-semibold text-slate-900">${r.nama_pasien}</p>
                                         <p class="text-xs text-slate-500 mt-0.5">${r.created_at}</p>
@@ -351,8 +350,8 @@
                                 ${r.keluhan ? `<p class="text-sm text-slate-600 mt-2">Keluhan: ${r.keluhan}</p>` : ''}
                             </div>
                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold 
-                                ${r.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : r.status === 'confirmed' ? 'bg-blue-100 text-blue-800' : r.status === 'selesai' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-                                ${r.status === 'pending' ? 'Pending' : r.status === 'confirmed' ? 'Confirmed' : r.status === 'selesai' ? 'Selesai' : 'Batal'}
+                                ${r.status === 'menunggu_konfirmasi' ? 'bg-yellow-100 text-yellow-800' : r.status === 'sudah_dikonfirmasi' ? 'bg-blue-100 text-blue-800' : r.status === 'selesai' ? 'bg-secondary-100 text-primary-800' : 'bg-red-100 text-red-800'}">
+                                ${r.status === 'menunggu_konfirmasi' ? 'Menunggu Konfirmasi' : r.status === 'sudah_dikonfirmasi' ? 'Sudah Dikonfirmasi' : r.status === 'selesai' ? 'Selesai' : 'Dibatalkan'}
                             </span>
                         </div>
                     `;

@@ -21,10 +21,8 @@ class RekamMedisController extends Controller
         $page = $request->get('page', 1);
         $perPage = 10;
 
-        // Query pasien yang memiliki rekam medis dari dokter saat ini
-        $query = Pasien::whereHas('rekamMedis', function ($q) {
-            $q->where('id_user', auth()->id());
-        });
+        // Query pasien yang memiliki rekam medis (bisa dilihat semua dokter)
+        $query = Pasien::whereHas('rekamMedis');
 
         // Search by nama atau NIK
         if ($search) {
@@ -46,16 +44,11 @@ class RekamMedisController extends Controller
      */
     public function showPasien(Pasien $pasien): View
     {
-        // Ambil rekam medis milik dokter saat ini dengan eager loading
+        // Ambil rekam medis pasien (bisa dilihat semua dokter)
         $rekamMedis = $pasien->rekamMedis()
-            ->where('id_user', auth()->id())
             ->with('dokter', 'reservasi')
             ->orderByDesc('tanggal')
             ->get();
-
-        if ($rekamMedis->isEmpty()) {
-            abort(403, 'Anda tidak memiliki akses ke rekam medis pasien ini.');
-        }
 
         return view('dokter.rekam-medis.pasien-detail', compact('pasien', 'rekamMedis'));
     }

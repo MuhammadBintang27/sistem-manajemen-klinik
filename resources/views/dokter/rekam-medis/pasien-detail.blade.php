@@ -17,8 +17,8 @@
     <div class="space-y-6">
         {{-- Info Pasien --}}
         <div class="grid grid-cols-2 gap-6">
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Data Pasien</h3>
                 </div>
                 <div class="px-6 py-4 space-y-4">
@@ -37,8 +37,8 @@
                 </div>
             </div>
 
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Informasi Tambahan</h3>
                 </div>
                 <div class="px-6 py-4 space-y-4">
@@ -61,8 +61,8 @@
         </div>
 
         {{-- Riwayat Rekam Medis --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Riwayat Rekam Medis</h3>
             </div>
 
@@ -72,7 +72,7 @@
                         <div class="px-6 py-4 hover:bg-slate-50 transition-colors">
                             <div class="flex items-center justify-between mb-3">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center text-green-700 font-bold">
+                                    <div class="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center text-primary-700 font-bold">
                                         📋
                                     </div>
                                     <div>

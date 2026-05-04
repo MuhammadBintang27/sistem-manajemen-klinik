@@ -32,8 +32,8 @@
 
         <div class="grid grid-cols-3 gap-6">
             <!-- Info Pasien -->
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden col-span-1">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden col-span-1">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Data Pasien</h3>
                 </div>
                 <div class="px-6 py-4 space-y-3">
@@ -57,8 +57,8 @@
             </div>
 
             <!-- Info Jadwal & Dokter -->
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden col-span-1">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden col-span-1">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Data Jadwal & Dokter</h3>
                 </div>
                 <div class="px-6 py-4 space-y-3">
@@ -77,7 +77,7 @@
                     <div>
                         <p class="text-xs text-slate-600 uppercase font-semibold">Status Jadwal</p>
                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
-                            @if($reservasi->jadwal->status === 'aktif') bg-green-100 text-green-800
+                            @if($reservasi->jadwal->status === 'aktif') bg-secondary-100 text-primary-800
                             @else bg-red-100 text-red-800 @endif">
                             {{ ucfirst($reservasi->jadwal->status) }}
                         </span>
@@ -86,18 +86,29 @@
             </div>
 
             <!-- Status -->
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden col-span-1">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden col-span-1">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Status Reservasi</h3>
                 </div>
                 <div class="px-6 py-4">
                     <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold
-                        @if($reservasi->status === 'confirmed') bg-green-100 text-green-800
-                        @elseif($reservasi->status === 'pending') bg-orange-100 text-orange-800
-                        @elseif($reservasi->status === 'selesai') bg-blue-100 text-blue-800
-                        @elseif($reservasi->status === 'batal') bg-red-100 text-red-800
+                        @if($reservasi->status === 'sudah_dikonfirmasi') bg-blue-100 text-blue-800
+                        @elseif($reservasi->status === 'menunggu_konfirmasi') bg-yellow-100 text-yellow-800
+                        @elseif($reservasi->status === 'selesai') bg-green-100 text-green-800
+                        @elseif($reservasi->status === 'dibatalkan') bg-red-100 text-red-800
                         @else bg-slate-100 text-slate-800 @endif">
-                        {{ ucfirst($reservasi->status) }}
+                        @if($reservasi->status === 'sudah_dikonfirmasi')
+                            Sudah Dikonfirmasi
+                        @elseif($reservasi->status === 'menunggu_konfirmasi')
+                            Menunggu Konfirmasi
+                        @elseif($reservasi->status === 'selesai')
+                            Selesai
+                        @elseif($reservasi->status === 'dibatalkan')
+                            Dibatalkan
+                        @else
+                            {{ ucfirst($reservasi->status) }}
+                        @endif
+                    </span>
                     </span>
                     <p class="mt-3 text-xs text-slate-600">Dibuat: {{ $reservasi->created_at->format('d M Y H:i') }}</p>
                     <p class="text-xs text-slate-600">Diperbarui: {{ $reservasi->updated_at->format('d M Y H:i') }}</p>
@@ -106,8 +117,8 @@
         </div>
 
         <!-- Riwayat Rekam Medis -->
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Riwayat Rekam Medis</h3>
             </div>
             <div class="px-6 py-4">
@@ -137,8 +148,8 @@
                                     <p class="text-slate-700 text-xs">{{ $rm->subjective ?? '-' }}</p>
                                 </div>
                                 
-                                <div class="ml-3 space-y-2 bg-green-50 border-l-4 border-green-500 p-3 rounded mb-2">
-                                    <p class="text-xs font-semibold text-green-900">O - Objective:</p>
+                                <div class="ml-3 space-y-2 bg-secondary-50 border-l-4 border-primary-500 p-3 rounded mb-2">
+                                    <p class="text-xs font-semibold text-slate-900">O - Objective:</p>
                                     <p class="text-slate-700 text-xs">{{ $rm->objective ?? '-' }}</p>
                                 </div>
                                 
@@ -160,7 +171,7 @@
 
                             <div class="border-t border-slate-200 pt-3">
                                 <p class="text-xs text-slate-600 uppercase font-semibold">Tarif Penanganan</p>
-                                <p class="text-sm font-semibold text-green-700">Rp {{ number_format($rm->tarif ?? 0, 0, ',', '.') }}</p>
+                                <p class="text-sm font-semibold text-primary-700">Rp {{ number_format($rm->tarif ?? 0, 0, ',', '.') }}</p>
                             </div>
                         </div>
                     </div>
@@ -171,8 +182,8 @@
         </div>
 
         <!-- Form Edit -->
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Edit Reservasi</h3>
             </div>
             <form method="POST" action="{{ route('admin.reservasi.update', $reservasi) }}" class="p-6 space-y-6">
@@ -183,7 +194,7 @@
                     <!-- Keluhan -->
                     <div class="col-span-2">
                         <x-input-label for="keluhan" value="Keluhan" />
-                        <textarea id="keluhan" name="keluhan" rows="4" class="block mt-2 w-full rounded-lg border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">{{ $reservasi->keluhan }}</textarea>
+                        <textarea id="keluhan" name="keluhan" rows="4" class="block mt-2 w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">{{ $reservasi->keluhan }}</textarea>
                         <x-input-error :messages="$errors->get('keluhan')" class="mt-2" />
                     </div>
 
@@ -195,7 +206,7 @@
                             <input 
                                 type="date" 
                                 id="jadwalTanggalAdmin"
-                                class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+                                class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
                                 value="{{ old('jadwal_tanggal', $reservasi->jadwal->tanggal) }}"
                             >
                         </div>
@@ -215,7 +226,7 @@
                     <!-- Status -->
                     <div>
                         <x-input-label for="status" value="Status" />
-                        <select id="status" name="status" class="block mt-2 w-full rounded-lg border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" required>
+                        <select id="status" name="status" class="block mt-2 w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500" required>
                             @foreach ($statusOptions as $option)
                                 <option value="{{ $option }}" @selected($reservasi->status === $option)>
                                     {{ ucfirst($option) }}
@@ -223,14 +234,14 @@
                             @endforeach
                         </select>
                         <p class="mt-2 text-xs text-slate-600">
-                            @if($reservasi->status === 'pending')
-                                <strong>Pending:</strong> Dapat diubah ke Confirmed atau Batal
-                            @elseif($reservasi->status === 'confirmed')
-                                <strong>Confirmed:</strong> Dapat diubah ke Selesai atau Batal
+                            @if($reservasi->status === 'menunggu_konfirmasi')
+                                <strong>Menunggu Konfirmasi:</strong> Dapat diubah ke Sudah Dikonfirmasi atau Dibatalkan
+                            @elseif($reservasi->status === 'sudah_dikonfirmasi')
+                                <strong>Sudah Dikonfirmasi:</strong> Dapat diubah ke Selesai atau Dibatalkan
                             @elseif($reservasi->status === 'selesai')
                                 <strong>Selesai:</strong> Status sudah final
-                            @elseif($reservasi->status === 'batal')
-                                <strong>Batal:</strong> Status sudah final
+                            @elseif($reservasi->status === 'dibatalkan')
+                                <strong>Dibatalkan:</strong> Status sudah final
                             @endif
                         </p>
                         <x-input-error :messages="$errors->get('status')" class="mt-2" />
@@ -241,7 +252,7 @@
                     <a href="{{ route('admin.reservasi.index') }}" class="px-6 py-2 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors">
                         Batal
                     </a>
-                    <button type="submit" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-colors">
+                    <button type="submit" class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
                         Simpan Perubahan
                     </button>
                 </div>
@@ -249,9 +260,9 @@
         </div>
 
         <!-- Form Isi Rekam Medis -->
-        @if ($reservasi->status === 'pending' || $reservasi->status === 'confirmed')
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        @if ($reservasi->status === 'menunggu_konfirmasi' || $reservasi->status === 'sudah_dikonfirmasi')
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Isi Rekam Medis Baru & Selesaikan Penanganan</h3>
                 </div>
                 <form method="POST" action="{{ route('admin.rekam-medis.store', $reservasi) }}" class="p-6 space-y-6">
@@ -267,7 +278,7 @@
                                 id="keluhan_rm" 
                                 name="keluhan" 
                                 rows="3" 
-                                class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+                                class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                                 placeholder="Tuliskan keluhan pasien"
                                 required></textarea>
                             <x-input-error :messages="$errors->get('keluhan')" class="mt-2" />
@@ -296,18 +307,18 @@
                             </div>
 
                             <!-- O - Objective -->
-                            <div class="mb-4 bg-green-50 border border-green-200 rounded-lg p-4">
-                                <label for="objective" class="block text-sm font-semibold text-green-900 mb-2">
+                            <div class="mb-4 bg-secondary-50 border border-secondary-200 rounded-lg p-4">
+                                <label for="objective" class="block text-sm font-semibold text-slate-900 mb-2">
                                     O - Objective (Pemeriksaan Fisik & Tanda Vital)
                                 </label>
                                 <textarea 
                                     id="objective" 
                                     name="objective" 
                                     rows="3" 
-                                    class="block w-full rounded-lg border border-green-300 bg-white shadow-sm focus:border-green-500 focus:ring-green-500"
+                                    class="block w-full rounded-lg border border-primary-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
                                     placeholder="Tekanan darah, suhu tubuh, pemeriksaan fisik, hasil laboratorium..."
                                     required></textarea>
-                                <p class="text-xs text-green-700 mt-1">Data yang diukur dan diamati melalui pemeriksaan</p>
+                                <p class="text-xs text-primary-700 mt-1">Data yang diukur dan diamati melalui pemeriksaan</p>
                                 <x-input-error :messages="$errors->get('objective')" class="mt-2" />
                             </div>
 
@@ -353,7 +364,7 @@
                                 id="terapi" 
                                 name="terapi" 
                                 rows="3" 
-                                class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+                                class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                                 placeholder="Rencana terapi atau tindakan yang diberikan"
                                 required></textarea>
                             <x-input-error :messages="$errors->get('terapi')" class="mt-2" />
@@ -370,7 +381,7 @@
                                 name="tarif" 
                                 min="0" 
                                 step="1000"
-                                class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+                                class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                                 placeholder="Contoh: 150000"
                                 required>
                             <x-input-error :messages="$errors->get('tarif')" class="mt-2" />
@@ -381,7 +392,7 @@
                         <a href="{{ route('admin.reservasi.index') }}" class="px-6 py-2 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors">
                             ← Kembali
                         </a>
-                        <button type="submit" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-colors">
+                        <button type="submit" class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
                             ✓ Simpan & Selesaikan Penanganan
                         </button>
                     </div>
@@ -390,7 +401,7 @@
         @else
             <div class="rounded-2xl bg-amber-50 border border-amber-200 shadow-md overflow-hidden p-6">
                 <p class="text-amber-700 font-semibold text-center mb-4">
-                    @if ($reservasi->status === 'batal')
+                    @if ($reservasi->status === 'dibatalkan')
                         ✗ Reservasi ini telah dibatalkan
                     @else
                         ✓ Penanganan untuk reservasi ini sudah selesai
@@ -435,18 +446,18 @@
                 const selectedValue = document.getElementById('id_jadwal_admin').value;
                 const isSelected = selectedValue == jadwal.id_jadwal;
 
-                let badgeClass = 'bg-green-500';
+                let badgeClass = 'bg-primary-500';
                 if (isFull) badgeClass = 'bg-red-500';
                 else if (sisaKuota <= 2) badgeClass = 'bg-orange-500';
 
                 return `
                     <label class="flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all
-                        ${isSelected ? 'border-green-500 bg-green-50' : isFull ? 'border-red-200 bg-red-50 opacity-50 cursor-not-allowed' : 'border-slate-200 bg-white hover:border-green-400 hover:bg-green-50'}">
+                        ${isSelected ? 'border-primary-500 bg-secondary-50' : isFull ? 'border-red-200 bg-red-50 opacity-50 cursor-not-allowed' : 'border-slate-200 bg-white hover:border-primary-400 hover:bg-secondary-50'}">
                         <input 
                             type="radio" 
                             name="id_jadwal_radio" 
                             value="${jadwal.id_jadwal}"
-                            class="w-4 h-4 text-green-600 cursor-pointer"
+                            class="w-4 h-4 text-primary-600 cursor-pointer"
                             ${isSelected ? 'checked' : ''}
                             ${isFull ? 'disabled' : ''}
                             onchange="document.getElementById('id_jadwal_admin').value = this.value"

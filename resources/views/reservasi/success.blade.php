@@ -11,14 +11,23 @@
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-display { font-family: 'Playfair Display', serif; }
 
+        :root {
+            --pink-primary: #D94A8C;
+            --pink-dark: #C63F7F;
+            --pink-darker: #A3326A;
+            --pink-light: #F8D6E9;
+            --pink-lighter: #FDF0F6;
+            --pink-mid: #E77BAA;
+        }
+
         body {
-            background: linear-gradient(135deg, #f0fdf4 0%, #f8fafc 50%, #eff6ff 100%);
+            background: linear-gradient(135deg, #FDF0F6 0%, #faf5f7 50%, #fdf2f8 100%);
             min-height: 100vh;
         }
 
         /* Navbar */
         .navbar-glass {
-            background: rgba(20, 83, 45, 0.96);
+            background: rgba(198, 63, 127, 0.96);
             backdrop-filter: blur(12px);
         }
 
@@ -61,7 +70,7 @@
 
         /* Hero section */
         .success-hero {
-            background: linear-gradient(135deg, #14532d 0%, #16a34a 100%);
+            background: linear-gradient(135deg, #C63F7F 0%, #D94A8C 60%, #E77BAA 100%);
             position: relative;
             overflow: hidden;
         }
@@ -71,7 +80,7 @@
             top: -30%;
             right: -10%;
             width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(134,239,172,0.2) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
             border-radius: 50%;
         }
         .success-hero::after {
@@ -88,17 +97,17 @@
             border-radius: 16px;
             padding: 1.25rem 1.5rem;
         }
-        .info-card-blue {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
+        .info-card-pink {
+            background: var(--pink-lighter);
+            border: 1px solid #f5c0db;
         }
         .info-card-amber {
             background: #fffbeb;
             border: 1px solid #fde68a;
         }
-        .info-card-green {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
+        .info-card-rose {
+            background: #fff1f6;
+            border: 1px solid #fecdd9;
         }
 
         /* Step item */
@@ -110,7 +119,7 @@
         }
         .step-num {
             width: 26px; height: 26px;
-            background: linear-gradient(135deg, #16a34a, #15803d);
+            background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
             color: white;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
@@ -149,10 +158,10 @@
             <div class="success-hero py-12 px-8 text-center relative">
                 <!-- Confetti (decorative) -->
                 <div class="confetti-dot bg-yellow-300" style="top:20%;left:15%;animation-delay:0.1s;animation-duration:1.8s;"></div>
-                <div class="confetti-dot bg-blue-300 rounded-full" style="top:30%;left:30%;animation-delay:0.3s;animation-duration:2.1s;"></div>
-                <div class="confetti-dot bg-pink-300" style="top:15%;right:20%;animation-delay:0.2s;animation-duration:1.9s;"></div>
-                <div class="confetti-dot bg-green-300 rounded-full" style="top:25%;right:35%;animation-delay:0.5s;animation-duration:2.2s;"></div>
-                <div class="confetti-dot bg-amber-300" style="top:40%;left:10%;animation-delay:0.4s;animation-duration:1.7s;"></div>
+                <div class="confetti-dot bg-white/60 rounded-full" style="top:30%;left:30%;animation-delay:0.3s;animation-duration:2.1s;"></div>
+                <div class="confetti-dot" style="background:#fde68a;top:15%;right:20%;animation-delay:0.2s;animation-duration:1.9s;"></div>
+                <div class="confetti-dot rounded-full" style="background:rgba(255,255,255,0.5);top:25%;right:35%;animation-delay:0.5s;animation-duration:2.2s;"></div>
+                <div class="confetti-dot" style="background:#fca5a5;top:40%;left:10%;animation-delay:0.4s;animation-duration:1.7s;"></div>
 
                 <!-- Success Icon -->
                 <div class="success-icon w-20 h-20 mx-auto mb-5 relative z-10">
@@ -166,31 +175,31 @@
                 </div>
 
                 <h1 class="font-display text-3xl sm:text-4xl text-white mb-2 relative z-10">Reservasi Berhasil!</h1>
-                <p class="text-green-100 text-sm sm:text-base relative z-10">Terima kasih telah memilih Klinik Gigi Sejahtera</p>
+                <p class="text-sm sm:text-base relative z-10" style="color:rgba(255,255,255,0.85)">Terima kasih telah memilih Klinik Gigi Sejahtera</p>
             </div>
 
             <!-- Content -->
             <div class="p-6 sm:p-8 space-y-5">
 
                 <!-- Confirmation badge -->
-                <div class="info-card info-card-green slide-up delay-1 flex items-start gap-3">
-                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                <div class="info-card info-card-rose slide-up delay-1 flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--pink-light)">
+                        <svg class="w-4 h-4" style="color:var(--pink-primary)" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
                         </svg>
                     </div>
                     <div>
-                        <p class="font-semibold text-green-800 text-sm">Janji temu berhasil dibuat</p>
-                        <p class="text-green-600 text-xs mt-0.5">Konfirmasi akan dikirim dalam 24 jam kerja. Pastikan nomor telepon Anda dapat dihubungi.</p>
+                        <p class="font-semibold text-sm" style="color:var(--pink-darker)">Janji temu berhasil dibuat</p>
+                        <p class="text-xs mt-0.5" style="color:var(--pink-dark)">Konfirmasi akan dikirim dalam 24 jam kerja. Pastikan nomor telepon Anda dapat dihubungi.</p>
                     </div>
                 </div>
 
                 <!-- Important info -->
-                <div class="info-card info-card-blue slide-up delay-2">
+                <div class="info-card info-card-pink slide-up delay-2">
                     <h3 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
                         <span>📋</span> Informasi Penting
                     </h3>
-                    <div class="space-y-0.5 divide-y divide-blue-100">
+                    <div class="space-y-0.5 divide-y" style="--tw-divide-opacity:1;border-color:#f5c0db">
                         <div class="step-item">
                             <div class="step-num">1</div>
                             <p class="text-slate-600 text-sm">Tim klinik akan menghubungi Anda untuk konfirmasi dalam <strong class="text-slate-800">24 jam kerja</strong></p>
@@ -247,24 +256,24 @@
 
                 <!-- Contact info -->
                 <div class="grid grid-cols-2 gap-3 slide-up delay-4">
-                    <div class="bg-slate-50 rounded-2xl p-4 text-center border border-slate-100">
+                    <div class="rounded-2xl p-4 text-center border" style="background:var(--pink-lighter);border-color:#f5c0db">
                         <p class="text-xs text-slate-400 mb-0.5">Hubungi Kami</p>
-                        <p class="font-bold text-green-600 text-base sm:text-lg leading-tight">+62 123 456 789</p>
+                        <p class="font-bold text-base sm:text-lg leading-tight" style="color:var(--pink-primary)">+62 123 456 789</p>
                         <p class="text-xs text-slate-400 mt-0.5">Senin–Sabtu, 08–20</p>
                     </div>
-                    <div class="bg-slate-50 rounded-2xl p-4 text-center border border-slate-100">
+                    <div class="rounded-2xl p-4 text-center border" style="background:var(--pink-lighter);border-color:#f5c0db">
                         <p class="text-xs text-slate-400 mb-0.5">Email Klinik</p>
-                        <p class="font-bold text-green-600 text-sm leading-tight break-all">info@klinikklinik.com</p>
+                        <p class="font-bold text-sm leading-tight break-all" style="color:var(--pink-primary)">info@klinikklinik.com</p>
                         <p class="text-xs text-slate-400 mt-0.5">Respon 24 jam</p>
                     </div>
                 </div>
 
                 <!-- Action buttons -->
                 <div class="space-y-3 slide-up delay-4 no-print">
-                    <a href="{{ route('reservasi.index') }}" class="block w-full text-center bg-green-600 text-white py-3.5 rounded-2xl font-bold hover:bg-green-700 transition hover:shadow-lg hover:-translate-y-0.5 transform">
+                    <a href="{{ route('reservasi.index') }}" class="block w-full text-center text-white py-3.5 rounded-2xl font-bold transition hover:shadow-lg hover:-translate-y-0.5 transform" style="background:linear-gradient(135deg,var(--pink-primary),var(--pink-dark))">
                         Kembali ke Beranda
                     </a>
-                    <button onclick="window.print()" class="w-full border-2 border-slate-200 text-slate-600 py-3 rounded-2xl font-semibold hover:bg-slate-50 hover:border-slate-300 transition flex items-center justify-center gap-2">
+                    <button onclick="window.print()" class="w-full border-2 py-3 rounded-2xl font-semibold transition flex items-center justify-center gap-2" style="border-color:#f0d0e3;color:#7c3d63;background:white">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
                         </svg>

@@ -3,7 +3,6 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: false,
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
@@ -17,25 +16,30 @@ module.exports = {
             },
             colors: {
                 primary: {
-                    DEFAULT: '#10b981',
-                    '50': '#f0fdf4',
-                    '100': '#dcfce7',
-                    '200': '#bbf7d0',
-                    '300': '#86efac',
-                    '400': '#4ade80',
-                    '500': '#22c55e',
-                    '600': '#16a34a',
-                    '700': '#15803d',
-                    '800': '#166534',
-                    '900': '#145231',
+                    DEFAULT: '#D94A8C',
+                    '50': '#F8D6E3',
+                    '100': '#F0B5CE',
+                    '200': '#E899B8',
+                    '300': '#F3A6C6',
+                    '400': '#E77BAA',
+                    '500': '#D94A8C',
+                    '600': '#C63F7F',
+                    '700': '#B93876',
+                    '800': '#A8316D',
+                    '900': '#972664',
                 },
                 secondary: {
-                    DEFAULT: '#f8fafc',
-                    '50': '#f8fafc',
-                    '100': '#f1f5f9',
-                    '200': '#e2e8f0',
-                    '300': '#cbd5e1',
-                    '400': '#94a3b8',
+                    DEFAULT: '#F8D6E3',
+                    '50': '#FEF8FB',
+                    '100': '#F8D6E3',
+                    '200': '#F0B5CE',
+                    '300': '#E8A0C5',
+                    '400': '#D85595',
+                },
+                accent: {
+                    DEFAULT: '#D4AF37',
+                    'gold': '#D4AF37',
+                    'soft': '#E6C768',
                 },
             },
             boxShadow: {

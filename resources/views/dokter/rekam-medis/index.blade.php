@@ -17,8 +17,8 @@
     <div class="space-y-6">
         {{-- Info Pasien --}}
         <div class="grid grid-cols-3 gap-6">
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-sm font-bold text-slate-900">Data Pasien</h3>
                 </div>
                 <div class="px-6 py-4 space-y-3">
@@ -33,8 +33,8 @@
                 </div>
             </div>
 
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-sm font-bold text-slate-900">Jadwal</h3>
                 </div>
                 <div class="px-6 py-4">
@@ -42,30 +42,38 @@
                 </div>
             </div>
 
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-sm font-bold text-slate-900">Status</h3>
                 </div>
                 <div class="px-6 py-4">
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
                         @if($reservasi->status === 'selesai') bg-green-100 text-green-800
-                        @elseif($reservasi->status === 'pending') bg-yellow-100 text-yellow-800
+                        @elseif($reservasi->status === 'menunggu_konfirmasi') bg-yellow-100 text-yellow-800
+                        @elseif($reservasi->status === 'sudah_dikonfirmasi') bg-blue-100 text-blue-800
+                        @elseif($reservasi->status === 'dibatalkan') bg-red-100 text-red-800
                         @else bg-slate-100 text-slate-800 @endif
-                    ">{{ ucfirst($reservasi->status) }}</span>
+                    ">
+                        @if($reservasi->status === 'selesai') Selesai
+                        @elseif($reservasi->status === 'menunggu_konfirmasi') Menunggu Konfirmasi
+                        @elseif($reservasi->status === 'sudah_dikonfirmasi') Sudah Dikonfirmasi
+                        @elseif($reservasi->status === 'dibatalkan') Dibatalkan
+                        @else {{ ucfirst($reservasi->status) }} @endif
+                    </span>
                 </div>
             </div>
         </div>
 
         {{-- Success Message --}}
         @if (session('success'))
-            <div class="rounded-xl bg-green-50 border border-green-200 p-4">
-                <p class="text-sm font-semibold text-green-800">✓ {{ session('success') }}</p>
+            <div class="rounded-xl bg-secondary-50 border border-secondary-200 p-4">
+                <p class="text-sm font-semibold text-primary-800">✓ {{ session('success') }}</p>
             </div>
         @endif
 
         {{-- List Rekam Medis --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Daftar Rekam Medis</h3>
             </div>
 
@@ -75,7 +83,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                     <p class="text-slate-600 font-medium">Belum ada rekam medis</p>
-                    <a href="{{ route('dokter.rekam-medis.create', $reservasi) }}" class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">
+                    <a href="{{ route('dokter.rekam-medis.create', $reservasi) }}" class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>
@@ -103,7 +111,7 @@
                                     <p class="text-xs text-slate-600 uppercase font-semibold mb-1">Diagnosa (SOAP)</p>
                                     <div class="space-y-1 ml-2">
                                         <div class="text-xs"><span class="font-semibold text-blue-700">S:</span> {{ substr($item->subjective ?? '-', 0, 60) }}...</div>
-                                        <div class="text-xs"><span class="font-semibold text-green-700">O:</span> {{ substr($item->objective ?? '-', 0, 60) }}...</div>
+                                        <div class="text-xs"><span class="font-semibold text-primary-700">O:</span> {{ substr($item->objective ?? '-', 0, 60) }}...</div>
                                         <div class="text-xs"><span class="font-semibold text-yellow-700">A:</span> {{ substr($item->assessment ?? '-', 0, 60) }}...</div>
                                         <div class="text-xs"><span class="font-semibold text-purple-700">P:</span> {{ substr($item->plan ?? '-', 0, 60) }}...</div>
                                     </div>
@@ -111,7 +119,7 @@
 
                                 <div class="border-t border-slate-200 pt-2">
                                     <p class="text-xs text-slate-600 uppercase font-semibold">Tarif Penanganan</p>
-                                    <p class="text-sm font-semibold text-green-700">Rp {{ number_format($item->tarif ?? 0, 0, ',', '.') }}</p>
+                                    <p class="text-sm font-semibold text-primary-700">Rp {{ number_format($item->tarif ?? 0, 0, ',', '.') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +128,7 @@
 
                 @if ($reservasi->status !== 'selesai')
                     <div class="px-6 py-4 bg-slate-50 border-t border-slate-200">
-                        <a href="{{ route('dokter.rekam-medis.create', $reservasi) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">
+                        <a href="{{ route('dokter.rekam-medis.create', $reservasi) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>

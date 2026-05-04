@@ -14,40 +14,49 @@
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-display { font-family: 'Playfair Display', serif; }
 
+        :root {
+            --pink-primary: #D94A8C;
+            --pink-dark: #C63F7F;
+            --pink-darker: #A3326A;
+            --pink-light: #F8D6E9;
+            --pink-lighter: #FDF0F6;
+            --pink-mid: #E77BAA;
+        }
+
         body {
-            background: linear-gradient(135deg, #f0fdf4 0%, #f8fafc 50%, #eff6ff 100%);
+            background: linear-gradient(135deg, #FDF0F6 0%, #faf5f7 50%, #fdf2f8 100%);
             min-height: 100vh;
         }
 
         /* Stepper */
         .step-line {
             height: 2px;
-            background: #e2e8f0;
+            background: #f0d0e3;
             flex: 1;
             transition: background 0.4s ease;
         }
-        .step-line.active { background: #16a34a; }
+        .step-line.active { background: var(--pink-primary); }
 
         .step-circle {
             width: 36px; height: 36px;
             border-radius: 50%;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #f0d0e3;
             background: white;
             display: flex; align-items: center; justify-content: center;
             font-size: 13px; font-weight: 700;
-            color: #94a3b8;
+            color: #c9a0b8;
             transition: all 0.4s ease;
             flex-shrink: 0;
         }
         .step-circle.active {
-            border-color: #16a34a;
-            background: #16a34a;
+            border-color: var(--pink-primary);
+            background: var(--pink-primary);
             color: white;
-            box-shadow: 0 0 0 4px rgba(22,163,74,0.15);
+            box-shadow: 0 0 0 4px rgba(217,74,140,0.15);
         }
         .step-circle.done {
-            border-color: #16a34a;
-            background: #16a34a;
+            border-color: var(--pink-primary);
+            background: var(--pink-primary);
             color: white;
         }
 
@@ -55,43 +64,43 @@
         .form-input {
             width: 100%;
             padding: 0.75rem 1rem;
-            border: 1.5px solid #e2e8f0;
+            border: 1.5px solid #f0d0e3;
             border-radius: 12px;
             font-size: 0.925rem;
             color: #1e293b;
-            background: #fafafa;
+            background: #fdf8fb;
             transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
             outline: none;
         }
         .form-input:focus {
-            border-color: #16a34a;
-            box-shadow: 0 0 0 3px rgba(22,163,74,0.1);
+            border-color: var(--pink-primary);
+            box-shadow: 0 0 0 3px rgba(217,74,140,0.1);
             background: white;
         }
-        .form-input::placeholder { color: #94a3b8; }
+        .form-input::placeholder { color: #c9a0b8; }
         .form-input.error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
-        .form-input[readonly] { background: #f1f5f9; color: #64748b; cursor: default; }
+        .form-input[readonly] { background: #f9f0f5; color: #a06080; cursor: default; }
 
         /* Section cards */
         .form-card {
             background: white;
             border-radius: 20px;
             padding: 1.75rem;
-            border: 1px solid #f1f5f9;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+            border: 1px solid #f8e8f2;
+            box-shadow: 0 2px 16px rgba(217,74,140,0.06);
         }
 
         /* Jadwal card */
         .jadwal-card {
-            border: 1.5px solid #e2e8f0;
+            border: 1.5px solid #f0d0e3;
             border-radius: 14px;
             padding: 1rem;
             cursor: pointer;
             transition: all 0.2s ease;
             background: white;
         }
-        .jadwal-card:hover { border-color: #16a34a; background: #f0fdf4; }
-        .jadwal-card.selected { border-color: #16a34a; background: #f0fdf4; box-shadow: 0 0 0 3px rgba(22,163,74,0.15); }
+        .jadwal-card:hover { border-color: var(--pink-primary); background: var(--pink-lighter); }
+        .jadwal-card.selected { border-color: var(--pink-primary); background: var(--pink-lighter); box-shadow: 0 0 0 3px rgba(217,74,140,0.15); }
         .jadwal-card.full { opacity: 0.5; cursor: not-allowed; border-color: #fca5a5; background: #fef2f2; }
 
         /* Quota badge */
@@ -118,12 +127,12 @@
 
         /* Flatpickr overrides */
         .flatpickr-calendar { border-radius: 12px !important; box-shadow: 0 10px 40px rgba(0,0,0,0.12) !important; }
-        .flatpickr-day.selected { background: #16a34a !important; border-color: #16a34a !important; }
-        .flatpickr-day:hover { background: #dcfce7 !important; }
+        .flatpickr-day.selected { background: var(--pink-primary) !important; border-color: var(--pink-primary) !important; }
+        .flatpickr-day:hover { background: var(--pink-light) !important; }
 
         /* Primary button */
         .btn-primary {
-            background: linear-gradient(135deg, #16a34a, #15803d);
+            background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
             color: white;
             font-weight: 700;
             padding: 0.875rem 2rem;
@@ -134,29 +143,29 @@
             width: 100%;
             font-size: 0.975rem;
         }
-        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(22,163,74,0.35); }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(217,74,140,0.35); }
         .btn-primary:disabled { opacity: 0.6; cursor: default; transform: none; box-shadow: none; }
 
         .btn-secondary {
             background: white;
-            color: #475569;
+            color: #7c3d63;
             font-weight: 600;
             padding: 0.875rem 2rem;
             border-radius: 12px;
-            border: 1.5px solid #e2e8f0;
+            border: 1.5px solid #f0d0e3;
             cursor: pointer;
             transition: all 0.2s ease;
             width: 100%;
             font-size: 0.975rem;
         }
-        .btn-secondary:hover { background: #f8fafc; border-color: #cbd5e1; }
+        .btn-secondary:hover { background: var(--pink-lighter); border-color: var(--pink-mid); }
 
         /* Label */
         .form-label {
             display: block;
             font-size: 0.825rem;
             font-weight: 600;
-            color: #475569;
+            color: #7c3d63;
             margin-bottom: 0.375rem;
             letter-spacing: 0.01em;
         }
@@ -165,12 +174,52 @@
         .alert-info { background: #eff6ff; border: 1px solid #bfdbfe; border-left: 3px solid #3b82f6; border-radius: 12px; }
         .alert-amber { background: #fffbeb; border: 1px solid #fde68a; border-left: 3px solid #f59e0b; border-radius: 12px; }
         .alert-red { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; }
-        .alert-green { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; }
+        .alert-pink { background: var(--pink-lighter); border: 1px solid #f5c0db; border-left: 3px solid var(--pink-primary); border-radius: 12px; }
 
         /* Sticky nav */
         .navbar-glass {
-            background: rgba(20, 83, 45, 0.96);
+            background: rgba(198, 63, 127, 0.96);
             backdrop-filter: blur(12px);
+        }
+
+        /* Pink icon bg */
+        .icon-bg-pink {
+            background: var(--pink-lighter);
+        }
+        .icon-pink {
+            color: var(--pink-primary);
+        }
+
+        /* Check NIK button */
+        .btn-check-nik {
+            background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
+            color: white;
+            font-weight: 700;
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        .btn-check-nik:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(217,74,140,0.35); }
+        .btn-check-nik:disabled { opacity: 0.6; cursor: default; transform: none; box-shadow: none; }
+
+        /* Loading spinner color */
+        .text-primary-600 { color: var(--pink-primary); }
+        .text-primary-800 { color: var(--pink-darker); }
+        .text-primary-200 { color: #f5c0db; }
+
+        /* Heading icon row */
+        .step-icon-wrap {
+            width: 2rem; height: 2rem;
+            background: var(--pink-lighter);
+            border-radius: 0.5rem;
+            display: flex; align-items: center; justify-content: center;
         }
     </style>
 </head>
@@ -186,7 +235,7 @@
                 </div>
                 <span class="font-bold text-base">Klinik Gigi Sejahtera</span>
             </div>
-            <a href="{{ route('reservasi.index') }}" class="flex items-center gap-1.5 text-green-200 hover:text-white text-sm font-medium transition">
+            <a href="{{ route('reservasi.index') }}" class="flex items-center gap-1.5 text-pink-200 hover:text-white text-sm font-medium transition" style="color:#f5c0db">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
@@ -198,15 +247,15 @@
     <div class="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <!-- Header -->
         <div class="text-center mb-8">
-            <h1 class="font-display text-3xl sm:text-4xl text-slate-900 mb-2">Form Reservasi</h1>
-            <p class="text-slate-500 text-sm sm:text-base">Isi data Anda untuk membuat janji temu dengan dokter gigi kami</p>
+            <h1 class="font-display text-3xl sm:text-4xl mb-2" style="color:#7c3d63">Form Reservasi</h1>
+            <p class="text-sm sm:text-base" style="color:#c9a0b8">Isi data Anda untuk membuat janji temu dengan dokter gigi kami</p>
         </div>
 
         <!-- Stepper -->
         <div class="flex items-center mb-8 px-2">
             <div class="flex flex-col items-center">
                 <div id="stepCircle1" class="step-circle active">1</div>
-                <span class="text-xs font-semibold mt-1.5 text-green-600 whitespace-nowrap">Identitas</span>
+                <span class="text-xs font-semibold mt-1.5 whitespace-nowrap" style="color:var(--pink-primary)">Identitas</span>
             </div>
             <div id="stepLine1" class="step-line mx-2 mt-[-14px]"></div>
             <div class="flex flex-col items-center">
@@ -244,8 +293,8 @@
             <!-- STEP 1: NIK -->
             <div id="step1" class="form-card mb-5 step-content">
                 <div class="flex items-center gap-3 mb-5">
-                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                        <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                    <div class="step-icon-wrap">
+                        <svg class="w-4 h-4 icon-pink" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-9 4h2v2h-2V8zm0 3h2v6h-2v-6zm-4-3h2v8H7V8zm10 8h-2v-4h2v4zm0-5h-2V8h2v3z"/>
                         </svg>
                     </div>
@@ -268,7 +317,7 @@
                         inputmode="numeric"
                         required
                     >
-                    <button type="button" id="checkNikBtn" class="px-5 py-3 bg-green-600 text-white rounded-xl font-bold text-sm hover:bg-green-700 transition flex-shrink-0 flex items-center gap-2">
+                    <button type="button" id="checkNikBtn" class="btn-check-nik">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
@@ -283,7 +332,7 @@
                 @enderror
 
                 <!-- Loading -->
-                <div id="loadingSpinner" class="hidden mt-3 flex items-center gap-2 text-green-600">
+                <div id="loadingSpinner" class="hidden mt-3 flex items-center gap-2" style="color:var(--pink-primary)">
                     <svg class="spinner w-4 h-4" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
@@ -302,8 +351,8 @@
             <div id="step2" class="hidden mb-5 step-content">
                 <div class="form-card">
                     <div class="flex items-center gap-3 mb-5">
-                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                        <div class="step-icon-wrap">
+                            <svg class="w-4 h-4 icon-pink" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                             </svg>
                         </div>
@@ -315,9 +364,9 @@
 
                     <!-- Existing patient -->
                     <div id="existingPatientData" class="hidden">
-                        <div class="alert-info p-3 mb-4 flex items-start gap-2">
-                            <svg class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                            <p class="text-blue-700 text-xs font-medium">Anda sudah terdaftar. Data berikut diambil dari sistem kami.</p>
+                        <div class="alert-pink p-3 mb-4 flex items-start gap-2">
+                            <svg class="w-4 h-4 flex-shrink-0 mt-0.5 icon-pink" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                            <p class="text-sm font-medium" style="color:var(--pink-darker)">Anda sudah terdaftar. Data berikut diambil dari sistem kami.</p>
                         </div>
                         <div class="grid sm:grid-cols-2 gap-3">
                             <div>
@@ -341,7 +390,7 @@
                                 <textarea id="displayAlamat" class="form-input resize-none" readonly rows="2"></textarea>
                             </div>
                         </div>
-                        <button type="button" id="changeNikBtn" class="mt-4 text-green-600 hover:text-green-800 text-sm font-semibold flex items-center gap-1.5 transition">
+                        <button type="button" id="changeNikBtn" class="mt-4 text-sm font-semibold flex items-center gap-1.5 transition" style="color:var(--pink-primary)">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                             </svg>
@@ -387,7 +436,7 @@
                                 @error('alamat')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                             </div>
                         </div>
-                        <button type="button" id="changeNikBtn2" class="mt-4 text-green-600 hover:text-green-800 text-sm font-semibold flex items-center gap-1.5 transition">
+                        <button type="button" id="changeNikBtn2" class="mt-4 text-sm font-semibold flex items-center gap-1.5 transition" style="color:var(--pink-primary)">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                             </svg>
@@ -401,8 +450,8 @@
             <div id="step3" class="hidden mb-5 step-content">
                 <div class="form-card">
                     <div class="flex items-center gap-3 mb-5">
-                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                        <div class="step-icon-wrap">
+                            <svg class="w-4 h-4 icon-pink" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
                             </svg>
                         </div>
@@ -428,7 +477,7 @@
                     <div class="mb-5">
                         <label class="form-label mb-2">Jadwal Tersedia</label>
                         <div id="jadwalContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 min-h-[100px]">
-                            <div class="sm:col-span-2 flex flex-col items-center justify-center py-10 text-slate-400">
+                            <div class="sm:col-span-2 flex flex-col items-center justify-center py-10" style="color:#c9a0b8">
                                 <svg class="w-10 h-10 mb-2 opacity-40" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
                                 </svg>
@@ -461,7 +510,7 @@
                             @else
                                 <span></span>
                             @enderror
-                            <p class="text-xs text-slate-400 ml-auto" id="keluhanCount">0/255 karakter</p>
+                            <p class="text-xs ml-auto" style="color:#c9a0b8" id="keluhanCount">0/255 karakter</p>
                         </div>
                     </div>
                 </div>
@@ -479,7 +528,7 @@
                     <button type="button" id="backBtn" class="btn-secondary">← Kembali</button>
                     <button type="submit" class="btn-primary">Buat Reservasi →</button>
                 </div>
-                <p class="text-center text-xs text-slate-400">Data Anda aman dan terlindungi sesuai kebijakan privasi kami</p>
+                <p class="text-center text-xs" style="color:#c9a0b8">Data Anda aman dan terlindungi sesuai kebijakan privasi kami</p>
             </div>
         </form>
     </div>
@@ -524,10 +573,11 @@
                 else { c.className = 'step-circle'; c.innerHTML = i; }
                 if (l) l.className = 'step-line mx-2 mt-[-14px]' + (i < n ? ' active' : '');
             }
-            // Update label colors
             ['Identitas','Data Pasien','Jadwal'].forEach((label, idx) => {
                 const span = document.querySelectorAll('.flex.items-center.mb-8 span.text-xs')[idx];
-                if (span) span.className = 'text-xs font-' + (idx + 1 <= n ? 'semibold' : 'medium') + ' mt-1.5 ' + (idx + 1 === n ? 'text-green-600' : idx + 1 < n ? 'text-green-700' : 'text-slate-400') + ' whitespace-nowrap';
+                if (span) span.className = 'text-xs font-' + (idx + 1 <= n ? 'semibold' : 'medium') + ' mt-1.5 whitespace-nowrap ' + (idx + 1 === n ? '' : idx + 1 < n ? '' : 'text-slate-400');
+                if (span && idx + 1 <= n) span.style.color = 'var(--pink-primary)';
+                else if (span) span.style.color = '';
             });
         }
 
@@ -544,7 +594,7 @@
         function updateJadwalDisplay() {
             const selectedDate = jadwalTanggal.value;
             if (!selectedDate) {
-                jadwalContainer.innerHTML = `<div class="sm:col-span-2 flex flex-col items-center justify-center py-10 text-slate-400">
+                jadwalContainer.innerHTML = `<div class="sm:col-span-2 flex flex-col items-center justify-center py-10" style="color:#c9a0b8">
                     <svg class="w-10 h-10 mb-2 opacity-40" fill="currentColor" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
                     <p class="text-sm">Pilih tanggal untuk melihat jadwal</p></div>`;
                 return;
@@ -552,7 +602,7 @@
 
             const filteredJadwals = jadwalsData.filter(j => j.tanggal === selectedDate);
             if (filteredJadwals.length === 0) {
-                jadwalContainer.innerHTML = `<div class="sm:col-span-2 flex flex-col items-center justify-center py-10 text-slate-400">
+                jadwalContainer.innerHTML = `<div class="sm:col-span-2 flex flex-col items-center justify-center py-10" style="color:#c9a0b8">
                     <svg class="w-10 h-10 mb-2 opacity-40" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
                     <p class="text-sm font-medium">Tidak ada jadwal untuk tanggal ini</p>
                     <p class="text-xs mt-1">Coba pilih tanggal lain</p></div>`;
@@ -566,7 +616,7 @@
                 const jadwalValue = jadwal.id_jadwal || (jadwal.id_user + '_' + jadwal.tanggal);
                 const isSelected = document.getElementById('id_jadwal').value === String(jadwalValue);
 
-                let badgeColor = '#16a34a';
+                let badgeColor = '#D94A8C';
                 let badgeText = sisa + ' slot';
                 if (isFull) { badgeColor = '#ef4444'; badgeText = 'Penuh'; }
                 else if (sisa <= 2) { badgeColor = '#f59e0b'; badgeText = sisa + ' tersisa'; }
@@ -578,8 +628,8 @@
                             onchange="document.getElementById('id_jadwal').value = this.value; document.querySelectorAll('.jadwal-card').forEach(c => c.classList.remove('selected')); this.closest('.jadwal-card').classList.add('selected');">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                                <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background:var(--pink-lighter)">
+                                    <svg class="w-5 h-5" style="color:var(--pink-primary)" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                                     </svg>
                                 </div>
@@ -590,7 +640,7 @@
                             </div>
                             <span class="quota-badge text-white" style="background:${badgeColor}">${badgeText}</span>
                         </div>
-                        ${isSelected ? `<div class="mt-2 pt-2 border-t border-green-200 text-xs text-green-600 font-semibold flex items-center gap-1">
+                        ${isSelected ? `<div class="mt-2 pt-2 border-t text-xs font-semibold flex items-center gap-1" style="border-color:#f5c0db;color:var(--pink-primary)">
                             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
                             Dipilih
                         </div>` : ''}

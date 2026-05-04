@@ -28,8 +28,8 @@
         @endif
 
         {{-- Form --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Isi Data Rekam Medis</h3>
             </div>
 
@@ -45,7 +45,7 @@
                         id="keluhan" 
                         name="keluhan" 
                         rows="3" 
-                        class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-2"
+                        class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-4 py-2"
                         placeholder="Tuliskan keluhan pasien"
                         required>{{ old('keluhan') }}</textarea>
                     <x-input-error :messages="$errors->get('keluhan')" class="mt-2" />
@@ -82,7 +82,7 @@
                             id="objective" 
                             name="objective" 
                             rows="4" 
-                            class="block w-full rounded-lg border border-green-300 bg-white shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-2"
+                            class="block w-full rounded-lg border border-primary-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500 px-4 py-2"
                             placeholder="Tekanan darah, suhu tubuh, pemeriksaan fisik, hasil laboratorium..."
                             required>{{ old('objective') }}</textarea>
                         <p class="text-xs text-green-700 mt-2">Data yang diukur dan diamati melalui pemeriksaan</p>
@@ -131,7 +131,7 @@
                         id="terapi" 
                         name="terapi" 
                         rows="3" 
-                        class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-2"
+                        class="block w-full rounded-lg border border-gray-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500 px-4 py-2"
                         placeholder="Rencana terapi atau tindakan yang diberikan"
                         required>{{ old('terapi') }}</textarea>
                     <x-input-error :messages="$errors->get('terapi')" class="mt-2" />
@@ -148,7 +148,7 @@
                         name="tarif" 
                         min="0" 
                         step="1000"
-                        class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-2"
+                        class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-4 py-2"
                         placeholder="Contoh: 150000"
                         value="{{ old('tarif') }}"
                         required>
@@ -160,7 +160,7 @@
                     <a href="{{ route('dokter.reservasi.show', $reservasi) }}" class="px-6 py-2 bg-slate-300 hover:bg-slate-400 text-slate-900 font-medium rounded-lg transition-colors">
                         Batal
                     </a>
-                    <button type="submit" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors flex items-center gap-2">
+                    <button type="submit" class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>

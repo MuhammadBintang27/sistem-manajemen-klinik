@@ -17,15 +17,15 @@
     <div class="space-y-6">
         {{-- Success Message --}}
         @if (session('success'))
-            <div class="rounded-xl bg-green-50 border border-green-200 p-4">
-                <p class="text-sm font-semibold text-green-800">✓ {{ session('success') }}</p>
+            <div class="rounded-xl bg-secondary-50 border border-secondary-200 p-4">
+                <p class="text-sm font-semibold text-slate-700">✓ {{ session('success') }}</p>
             </div>
         @endif
 
         {{-- Info Pasien --}}
         <div class="grid grid-cols-3 gap-6">
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Data Pasien</h3>
                 </div>
                 <div class="px-6 py-4 space-y-3">
@@ -40,8 +40,8 @@
                 </div>
             </div>
 
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Jadwal</h3>
                 </div>
                 <div class="px-6 py-4">
@@ -49,13 +49,13 @@
                 </div>
             </div>
 
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Status</h3>
                 </div>
                 <div class="px-6 py-4">
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
-                        @if($reservasi->status === 'selesai') bg-green-100 text-green-800
+                        @if($reservasi->status === 'selesai') bg-secondary-100 text-primary-800
                         @else bg-yellow-100 text-yellow-800 @endif
                     ">{{ ucfirst($reservasi->status) }}</span>
                 </div>
@@ -63,8 +63,8 @@
         </div>
 
         {{-- Keluhan --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Keluhan Pasien</h3>
             </div>
             <div class="px-6 py-4">
@@ -73,8 +73,8 @@
         </div>
 
         {{-- DIAGNOSA (SOAP Format) --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Diagnosa (Format SOAP)</h3>
             </div>
             <div class="p-6 space-y-3">
@@ -83,7 +83,7 @@
                     <p class="text-slate-700 whitespace-pre-wrap text-sm">{{ $rekamMedis->subjective ?? '-' }}</p>
                 </div>
 
-                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                <div class="bg-secondary-50 border-l-4 border-primary-500 p-4 rounded">
                     <h4 class="font-semibold text-green-900 mb-2">O - Objective (Pemeriksaan Fisik & Tanda Vital)</h4>
                     <p class="text-slate-700 whitespace-pre-wrap text-sm">{{ $rekamMedis->objective ?? '-' }}</p>
                 </div>
@@ -101,8 +101,8 @@
         </div>
 
         {{-- Terapi --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Terapi / Tindakan Lanjutan</h3>
             </div>
             <div class="px-6 py-4">
@@ -111,8 +111,8 @@
         </div>
 
         {{-- Tarif --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Tarif Penanganan</h3>
             </div>
             <div class="px-6 py-4">

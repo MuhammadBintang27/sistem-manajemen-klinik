@@ -27,19 +27,19 @@
         @endif
 
         @if (session('success'))
-            <div class="rounded-xl bg-green-50 border border-green-200 p-4 flex items-center gap-3">
-                <svg class="h-5 w-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <div class="rounded-xl bg-secondary-50 border border-secondary-200 p-4 flex items-center gap-3">
+                <svg class="h-5 w-5 text-primary-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                 </svg>
-                <p class="text-sm font-semibold text-green-800">{{ session('success') }}</p>
+                <p class="text-sm font-semibold text-primary-800">{{ session('success') }}</p>
             </div>
         @endif
 
         <!-- Info Kartu -->
         <div class="grid grid-cols-2 gap-6">
             <!-- Info Dasar -->
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Informasi Dasar</h3>
                 </div>
                 <div class="px-6 py-4 space-y-3">
@@ -59,8 +59,8 @@
             </div>
 
             <!-- Info Kontak -->
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Informasi Kontak</h3>
                 </div>
                 <div class="px-6 py-4 space-y-3">
@@ -81,8 +81,8 @@
         </div>
 
         <!-- Form Edit -->
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Edit Data Pasien</h3>
                 <p class="mt-1 text-sm text-slate-600">NIK tidak dapat diubah</p>
             </div>
@@ -107,7 +107,7 @@
                     <!-- Jenis Kelamin -->
                     <div>
                         <x-input-label for="jenis_kelamin" value="Jenis Kelamin" />
-                        <select id="jenis_kelamin" name="jenis_kelamin" class="block mt-2 w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        <select id="jenis_kelamin" name="jenis_kelamin" class="block mt-2 w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
                             <option value="">-- Pilih Jenis Kelamin --</option>
                             <option value="L" @selected(old('jenis_kelamin', $pasien->jenis_kelamin) === 'L')>Laki-laki</option>
                             <option value="P" @selected(old('jenis_kelamin', $pasien->jenis_kelamin) === 'P')>Perempuan</option>
@@ -132,7 +132,7 @@
                     <!-- Alamat -->
                     <div class="col-span-2">
                         <x-input-label for="alamat" value="Alamat" />
-                        <textarea id="alamat" name="alamat" rows="3" class="block mt-2 w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">{{ old('alamat', $pasien->alamat) }}</textarea>
+                        <textarea id="alamat" name="alamat" rows="3" class="block mt-2 w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">{{ old('alamat', $pasien->alamat) }}</textarea>
                         <x-input-error :messages="$errors->get('alamat')" class="mt-2" />
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                     <a href="{{ route('admin.pasien.index') }}" class="px-6 py-2 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors">
                         Batal
                     </a>
-                    <button type="submit" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-colors">
+                    <button type="submit" class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-colors">
                         Simpan Perubahan
                     </button>
                 </div>
@@ -150,14 +150,14 @@
 
         <!-- Riwayat Reservasi -->
         @if($pasien->reservasi->count() > 0)
-            <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+            <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                     <h3 class="text-lg font-bold text-slate-900">Riwayat Reservasi</h3>
                     <p class="mt-1 text-sm text-slate-600">Total: {{ $pasien->reservasi->count() }} reservasi</p>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full divide-y divide-green-100">
-                        <thead class="bg-gradient-to-r from-green-50 to-white">
+                    <table class="w-full divide-y divide-secondary-100">
+                        <thead class="bg-gradient-to-r from-secondary-50 to-white">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-semibold uppercase text-slate-700">Tanggal</th>
                                 <th class="px-6 py-3 text-left text-xs font-semibold uppercase text-slate-700">Dokter</th>
@@ -165,20 +165,30 @@
                                 <th class="px-6 py-3 text-left text-xs font-semibold uppercase text-slate-700">Status</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-green-100">
+                        <tbody class="divide-y divide-secondary-100">
                             @foreach($pasien->reservasi->take(10) as $reservasi)
-                                <tr class="hover:bg-green-50">
+                                <tr class="hover:bg-secondary-50">
                                     <td class="px-6 py-3 text-sm text-slate-900">{{ \Carbon\Carbon::parse($reservasi->jadwal->tanggal)->format('d M Y') }}</td>
                                     <td class="px-6 py-3 text-sm text-slate-900">{{ $reservasi->jadwal->dokter->nama }}</td>
                                     <td class="px-6 py-3 text-sm text-slate-700">{{ substr($reservasi->keluhan, 0, 30) }}{{ strlen($reservasi->keluhan) > 30 ? '...' : '' }}</td>
                                     <td class="px-6 py-3 text-sm">
                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
-                                            @if($reservasi->status === 'confirmed') bg-green-100 text-green-800
-                                            @elseif($reservasi->status === 'pending') bg-orange-100 text-orange-800
-                                            @elseif($reservasi->status === 'selesai') bg-blue-100 text-blue-800
-                                            @elseif($reservasi->status === 'batal') bg-red-100 text-red-800
+                                            @if($reservasi->status === 'sudah_dikonfirmasi') bg-blue-100 text-blue-800
+                                            @elseif($reservasi->status === 'menunggu_konfirmasi') bg-yellow-100 text-yellow-800
+                                            @elseif($reservasi->status === 'selesai') bg-green-100 text-green-800
+                                            @elseif($reservasi->status === 'dibatalkan') bg-red-100 text-red-800
                                             @else bg-slate-100 text-slate-800 @endif">
-                                            {{ ucfirst($reservasi->status) }}
+                                            @if($reservasi->status === 'sudah_dikonfirmasi')
+                                                Sudah Dikonfirmasi
+                                            @elseif($reservasi->status === 'menunggu_konfirmasi')
+                                                Menunggu Konfirmasi
+                                            @elseif($reservasi->status === 'selesai')
+                                                Selesai
+                                            @elseif($reservasi->status === 'dibatalkan')
+                                                Dibatalkan
+                                            @else
+                                                {{ ucfirst($reservasi->status) }}
+                                            @endif
                                         </span>
                                     </td>
                                 </tr>

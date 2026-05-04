@@ -28,11 +28,11 @@
         </div>
 
         @if (session('success'))
-            <div class="rounded-xl bg-green-50 border border-green-200 p-4 flex items-center gap-3 animate-fade-in">
-                <svg class="h-5 w-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <div class="rounded-xi bg-secondary-100 border border-secondary-200 p-4 flex items-center gap-3 animate-fade-in">
+                <svg class="h-5 w-5 text-primary-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                 </svg>
-                <p class="text-sm font-semibold text-green-800">{{ session('success') }}</p>
+                <p class="text-sm font-semibold text-primary-800">{{ session('success') }}</p>
             </div>
         @endif
 
@@ -46,28 +46,28 @@
         @endif
 
         {{-- Doctor Selection + Month Navigation --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-600 to-green-700 px-8 py-6">
+        <div class="rounded-2xl bg-white border border-primary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-8 py-6">
                 <h3 class="text-lg font-bold text-white flex items-center gap-3">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/>
                     </svg>
                     Kalender Jadwal Praktik per Tanggal
                 </h3>
-                <p class="mt-1 text-sm text-green-100">Kelola kuota dan status hari praktik dokter</p>
+                <p class="mt-1 text-sm text-primary-100">Kelola kuota dan status hari praktik dokter</p>
             </div>
 
-            <div class="p-6 border-b border-green-100 bg-gradient-to-r from-green-50/50 to-white">
+            <div class="p-6 border-b border-primary-100 bg-gradient-to-r from-primary-50/50 to-white">
                 <form method="GET" action="{{ route('admin.jadwal.index') }}" class="flex flex-wrap items-end gap-4">
                     <div class="flex-1 min-w-[250px]">
                         <label for="dokter" class="block text-sm font-semibold text-slate-700 mb-2">
-                            <svg class="w-4 h-4 inline mr-1 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 inline mr-1 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                             </svg>
                             Pilih Dokter
                         </label>
                         <select name="dokter" id="dokter"
-                            class="w-full rounded-xl border-green-200 bg-white shadow-sm focus:border-green-500 focus:ring-green-500 text-sm py-3 px-4 transition-all hover:border-green-300">
+                            class="w-full rounded-xl border-secondary-200 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm py-3 px-4 transition-all hover:border-secondary-300">
                             <option value="">-- Pilih Dokter --</option>
                             @foreach ($dokters as $dokter)
                                 <option value="{{ $dokter->id_user }}" @selected($selectedDokter == $dokter->id_user)>
@@ -78,7 +78,7 @@
                     </div>
                     <input type="hidden" name="month" value="{{ $month }}">
                     <input type="hidden" name="year" value="{{ $year }}">
-                    <button type="submit" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg">
+                    <button type="submit" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
                         </svg>
@@ -101,9 +101,9 @@
                     $monthNames = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
                 @endphp
 
-                <div class="flex items-center justify-between px-8 py-5 border-b border-green-100 bg-white">
+                <div class="flex items-center justify-between px-8 py-5 border-b border-secondary-100 bg-white">
                     <a href="{{ route('admin.jadwal.index', ['dokter' => $selectedDokter, 'month' => $prevMonth, 'year' => $prevYear]) }}"
-                       class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-green-50 hover:bg-green-100 text-green-700 font-medium transition-all border border-green-200 hover:border-green-300">
+                       class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium transition-all border border-gray-200 hover:border-gray-300">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
                         </svg>
@@ -116,7 +116,7 @@
                         </p>
                     </div>
                     <a href="{{ route('admin.jadwal.index', ['dokter' => $selectedDokter, 'month' => $nextMonth, 'year' => $nextYear]) }}"
-                       class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-green-50 hover:bg-green-100 text-green-700 font-medium transition-all border border-green-200 hover:border-green-300">
+                       class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium transition-all border border-gray-200 hover:border-gray-300">
                         Berikutnya
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
@@ -125,7 +125,7 @@
                 </div>
 
                 {{-- Legend --}}
-                <div class="flex flex-wrap items-center gap-6 px-8 py-4 border-b border-green-100 bg-slate-50/50">
+                <div class="flex flex-wrap items-center gap-6 px-8 py-4 border-b border-secondary-100 bg-slate-50/50">
                     <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Keterangan:</span>
                     <div class="flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
@@ -169,10 +169,10 @@
                             <button type="button"
                                 onclick="openJadwalModal('{{ $dateStr }}')"
                                 data-date="{{ $dateStr }}"
-                                class="calendar-day aspect-square rounded-xl border-2 p-2 flex flex-col items-center justify-center gap-1 transition-all duration-200 cursor-pointer hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500/50 relative group
-                                    {{ $isToday ? 'border-green-500 bg-green-50 ring-2 ring-green-200' : 'border-slate-100 bg-white hover:border-green-300 hover:bg-green-50/50' }}">
+                                class="calendar-day aspect-square rounded-xl border-2 p-2 flex flex-col items-center justify-center gap-1 transition-all duration-200 cursor-pointer hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-500/50 relative group
+                                    {{ $isToday ? 'border-primary-500 bg-secondary-50 ring-2 ring-secondary-200' : 'border-slate-100 bg-white hover:border-secondary-300 hover:bg-secondary-50/50' }}">
 
-                                <span class="text-sm font-bold {{ $isToday ? 'text-green-700' : 'text-slate-700 group-hover:text-green-700' }} transition-colors">{{ $day }}</span>
+                                <span class="text-sm font-bold {{ $isToday ? 'text-primary-700' : 'text-slate-700 group-hover:text-primary-700' }} transition-colors">{{ $day }}</span>
 
                                 @if ($jadwal)
                                     <div class="flex items-center gap-1 flex-wrap justify-center">
@@ -186,7 +186,7 @@
                                 @endif
 
                                 @if ($isToday)
-                                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
+                                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-primary-500 rounded-full animate-pulse"></span>
                                 @endif
                             </button>
                         @endfor
@@ -195,8 +195,8 @@
             @else
                 {{-- No Doctor Selected State --}}
                 <div class="p-16 text-center">
-                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-green-100 to-green-200 mb-6">
-                        <svg class="w-10 h-10 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-secondary-100 to-secondary-200 mb-6">
+                        <svg class="w-10 h-10 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/>
                         </svg>
                     </div>
@@ -211,18 +211,18 @@
     <div id="jadwal-modal" class="fixed inset-0 z-50 hidden items-center justify-center" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);">
         <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 overflow-hidden transform transition-all max-h-[90vh] flex flex-col">
             {{-- Header --}}
-            <div class="bg-gradient-to-r from-green-600 to-green-700 px-6 py-5 flex-shrink-0">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-5 flex-shrink-0">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <svg class="w-6 h-6 text-green-100" fill="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-primary-100" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/>
                         </svg>
                         <div>
                             <h3 class="text-lg font-bold text-white" id="modal-date-label"></h3>
-                            <p class="text-sm text-green-100 mt-0.5">Detail Jadwal Praktik</p>
+                            <p class="text-sm text-primary-100 mt-0.5">Detail Jadwal Praktik</p>
                         </div>
                     </div>
-                    <button onclick="closeJadwalModal()" class="text-green-100 hover:text-white transition">
+                    <button onclick="closeJadwalModal()" class="text-primary-100 hover:text-white transition">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                         </svg>
@@ -234,7 +234,7 @@
             <div class="p-6 space-y-6 overflow-y-auto flex-1">
                 {{-- Status & Kuota Section --}}
                 <div id="jadwal-loading" class="hidden text-center py-8">
-                    <div class="inline-flex items-center gap-3 text-green-600">
+                    <div class="inline-flex items-center gap-3 text-primary-600">
                         <svg class="animate-spin w-6 h-6" viewBox="0 0 24 24" fill="none">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/>
                             <path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor"/>
@@ -269,8 +269,8 @@
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 mb-2">Ubah Kuota</label>
                             <div class="flex items-center gap-2">
-                                <input type="number" id="new-kuota" min="1" max="100" class="flex-1 rounded-xl border-green-200 text-sm py-2 px-4 focus:border-green-500 focus:ring-green-500" value="5">
-                                <button onclick="updateKuota()" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-all">Perbarui</button>
+                                <input type="number" id="new-kuota" min="1" max="100" class="flex-1 rounded-xl border-secondary-200 text-sm py-2 px-4 focus:border-primary-500 focus:ring-primary-500" value="5">
+                                <button onclick="updateKuota()" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-all">Perbarui</button>
                             </div>
                         </div>
 
@@ -329,10 +329,10 @@
             const messageEl = document.getElementById('toast-message');
 
             if (type === 'success') {
-                content.className = 'flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border bg-white border-green-200';
-                icon.className = 'w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-green-500';
-                titleEl.className = 'text-sm font-bold text-green-800';
-                messageEl.className = 'text-sm text-green-600';
+                content.className = 'flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border bg-white border-secondary-200';
+                icon.className = 'w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-primary-500';
+                titleEl.className = 'text-sm font-bold text-primary-800';
+                messageEl.className = 'text-sm text-primary-600';
             } else {
                 content.className = 'flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border bg-white border-red-200';
                 icon.className = 'w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-red-500';
@@ -465,7 +465,7 @@
                         <div class="flex items-start justify-between">
                             <div class="flex-1">
                                 <div class="flex items-center gap-3">
-                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-600 text-white text-xs font-bold">${r.urutan}</span>
+                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary-600 text-white text-xs font-bold">${r.urutan}</span>
                                     <div>
                                         <p class="font-semibold text-slate-900">${r.nama_pasien}</p>
                                         <p class="text-xs text-slate-500 mt-0.5">${r.created_at}</p>
@@ -474,8 +474,8 @@
                                 ${r.keluhan ? `<p class="text-sm text-slate-600 mt-2">Keluhan: ${r.keluhan}</p>` : ''}
                             </div>
                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold 
-                                ${r.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : r.status === 'confirmed' ? 'bg-blue-100 text-blue-800' : r.status === 'selesai' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-                                ${r.status === 'pending' ? 'Pending' : r.status === 'confirmed' ? 'Confirmed' : r.status === 'selesai' ? 'Selesai' : 'Batal'}
+                                ${r.status === 'menunggu_konfirmasi' ? 'bg-yellow-100 text-yellow-800' : r.status === 'sudah_dikonfirmasi' ? 'bg-blue-100 text-blue-800' : r.status === 'selesai' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                ${r.status === 'menunggu_konfirmasi' ? 'Menunggu Konfirmasi' : r.status === 'sudah_dikonfirmasi' ? 'Sudah Dikonfirmasi' : r.status === 'selesai' ? 'Selesai' : 'Dibatalkan'}
                             </span>
                         </div>
                     `;

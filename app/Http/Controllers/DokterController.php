@@ -23,7 +23,7 @@ class DokterController extends Controller
 
         $pendingCount = Reservasi::whereHas('jadwal', function ($query) {
             $query->where('id_user', auth()->id());
-        })->where('status', 'pending')->count();
+        })->where('status', 'menunggu_konfirmasi')->count();
 
         return view('dokter.dashboard', compact('jadwals', 'reservasiCount', 'pendingCount'));
     }

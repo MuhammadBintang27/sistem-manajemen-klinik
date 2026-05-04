@@ -17,7 +17,7 @@ class ReservasiController extends Controller
             ->orderByDesc('created_at')
             ->paginate(10);
 
-        $statusOptions = ['pending', 'confirmed', 'selesai', 'batal'];
+        $statusOptions = ['menunggu_konfirmasi', 'sudah_dikonfirmasi', 'selesai', 'dibatalkan'];
 
         return view('admin.reservasi.index', compact('reservasis', 'statusOptions'));
     }
@@ -70,7 +70,7 @@ class ReservasiController extends Controller
     public function update(Request $request, Reservasi $reservasi): RedirectResponse
     {
         $validated = $request->validate([
-            'status' => ['required', 'in:pending,confirmed,selesai,batal'],
+            'status' => ['required', 'in:menunggu_konfirmasi,sudah_dikonfirmasi,selesai,dibatalkan'],
             'id_jadwal' => ['required', 'exists:jadwal,id_jadwal'],
             'keluhan' => ['required', 'string', 'max:500'],
         ]);
@@ -95,7 +95,7 @@ class ReservasiController extends Controller
     public function updateStatus(Request $request, Reservasi $reservasi): RedirectResponse
     {
         $validated = $request->validate([
-            'status' => ['required', 'in:pending,confirmed,selesai,batal'],
+            'status' => ['required', 'in:menunggu_konfirmasi,sudah_dikonfirmasi,selesai,dibatalkan'],
         ]);
 
         // Validasi transisi status
@@ -116,10 +116,10 @@ class ReservasiController extends Controller
     {
         // Definisikan transisi status yang diizinkan
         $transitions = [
-            'pending' => ['pending', 'confirmed', 'batal'],
-            'confirmed' => ['confirmed', 'selesai', 'batal'],
+            'menunggu_konfirmasi' => ['menunggu_konfirmasi', 'sudah_dikonfirmasi', 'dibatalkan'],
+            'sudah_dikonfirmasi' => ['sudah_dikonfirmasi', 'selesai', 'dibatalkan'],
             'selesai' => ['selesai'],
-            'batal' => ['batal'],
+            'dibatalkan' => ['dibatalkan'],
         ];
 
         return $transitions[$currentStatus] ?? [];

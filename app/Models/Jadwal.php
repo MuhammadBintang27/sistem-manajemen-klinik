@@ -38,7 +38,7 @@ class Jadwal extends Model
     public function isBooked(): bool
     {
         return $this->reservasi()
-            ->whereIn('status', ['pending', 'confirmed'])
+            ->whereIn('status', ['menunggu_konfirmasi', 'sudah_dikonfirmasi'])
             ->exists();
     }
 

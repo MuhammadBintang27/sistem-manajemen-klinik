@@ -26,7 +26,7 @@
 
         <!-- Remember Me -->
         <div class="flex items-center">
-            <input id="remember_me" type="checkbox" class="rounded border-green-300 text-green-600 shadow-sm focus:ring-green-500" name="remember">
+            <input id="remember_me" type="checkbox" class="rounded border-primary-300 text-primary-600 shadow-sm focus:ring-primary-500" name="remember">
             <label for="remember_me" class="ms-2 text-sm text-slate-600">{{ __('Remember me') }}</label>
         </div>
 
@@ -38,7 +38,7 @@
             @if (Route::has('register'))
                 <p class="text-sm text-center text-slate-600">
                     Belum punya akun?
-                    <a href="{{ route('register') }}" class="text-green-600 hover:text-green-700 font-semibold">
+                    <a href="{{ route('register') }}" class="text-primary-600 hover:text-primary-700 font-semibold">
                         Daftar di sini
                     </a>
                 </p>

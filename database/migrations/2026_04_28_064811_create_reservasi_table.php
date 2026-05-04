@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_pasien')->constrained('pasien', 'id_pasien');
             $table->foreignId('id_jadwal')->constrained('jadwal', 'id_jadwal');
             $table->string('keluhan')->nullable();
-            $table->enum('status', ['pending', 'confirmed', 'selesai', 'batal'])->default('pending');
+            $table->enum('status', ['menunggu_konfirmasi', 'sudah_dikonfirmasi', 'selesai', 'dibatalkan'])->default('menunggu_konfirmasi');
             $table->timestamps();
         });
     }

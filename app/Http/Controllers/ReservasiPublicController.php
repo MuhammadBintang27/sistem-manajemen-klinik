@@ -159,7 +159,7 @@ class ReservasiPublicController extends Controller
                 'nik.digits' => 'NIK harus 16 digit',
             ]);
 
-            // Hitung SEMUA reservasi di jadwal ini (pending, confirmed, selesai)
+            // Hitung SEMUA reservasi di jadwal ini (menunggu_konfirmasi, sudah_dikonfirmasi, selesai)
             $usedQuota = Reservasi::query()
                 ->where('id_jadwal', $jadwal->id_jadwal)
                 ->count();
@@ -193,7 +193,7 @@ class ReservasiPublicController extends Controller
                 'id_pasien' => $pasien->id_pasien,
                 'id_jadwal' => $jadwal->id_jadwal,
                 'keluhan' => $validated['keluhan'] ?? null,
-                'status' => 'pending',
+                'status' => 'menunggu_konfirmasi',
             ]);
 
             return redirect()->route('reservasi.success')->with('success', 'Reservasi berhasil dibuat!');

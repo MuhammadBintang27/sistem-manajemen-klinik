@@ -34,7 +34,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('dashboard', function () {
         $pasienCount = Pasien::count();
         $jadwalCount = Jadwal::count();
-        $reservasiPending = Reservasi::where('status', 'pending')->count();
+        $reservasiPending = Reservasi::where('status', 'menunggu_konfirmasi')->count();
 
         return view('admin.dashboard', compact('pasienCount', 'jadwalCount', 'reservasiPending'));
     })->name('dashboard');

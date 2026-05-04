@@ -15,11 +15,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-slate-50 text-slate-900">
-        <div class="min-h-screen bg-gradient-to-br from-white via-green-50 to-white">
+        <div class="min-h-screen bg-gradient-to-br from-white via-primary-50 to-white">
             <div class="flex min-h-screen">
                 @include('layouts.sidebar')
 
-                <div class="flex-1 flex flex-col bg-gradient-to-b from-green-700 to-green-800 p-4 h-screen">
+                <div class="flex-1 flex flex-col bg-gradient-to-b from-primary-700 to-primary-800 p-4 h-screen">
                     <main class="flex-1 flex flex-col overflow-hidden h-full">
                         <div class="bg-white rounded-2xl shadow-lg overflow-hidden h-full flex flex-col">
                             <div class="flex-1 overflow-y-auto p-8">

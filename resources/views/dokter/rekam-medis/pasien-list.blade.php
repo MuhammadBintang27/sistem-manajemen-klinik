@@ -10,8 +10,8 @@
 
     <div class="space-y-6">
         {{-- Search Bar --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">Cari Pasien</h3>
             </div>
             <div class="px-6 py-6">
@@ -22,9 +22,9 @@
                             name="search" 
                             value="{{ $search }}" 
                             placeholder="Cari berdasarkan nama atau NIK..."
-                            class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 px-4 py-2">
+                            class="block w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-4 py-2">
                     </div>
-                    <button type="submit" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">
+                    <button type="submit" class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
@@ -39,8 +39,8 @@
         </div>
 
         {{-- Daftar Pasien --}}
-        <div class="rounded-2xl bg-white border border-green-100 shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-green-50 to-white border-b border-green-100 px-6 py-4">
+        <div class="rounded-2xl bg-white border border-secondary-100 shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-50 to-white border-b border-secondary-100 px-6 py-4">
                 <h3 class="text-lg font-bold text-slate-900">
                     Pasien Saya
                     @if ($pasiens->total() > 0)
@@ -52,11 +52,11 @@
             @if ($pasiens->count() > 0)
                 <div class="divide-y divide-slate-200">
                     @foreach ($pasiens as $pasien)
-                        <a href="{{ route('dokter.rekam-medis.pasien.show', $pasien) }}" class="block px-6 py-4 hover:bg-green-50 transition-colors border-b border-slate-100 last:border-b-0">
+                        <a href="{{ route('dokter.rekam-medis.pasien.show', $pasien) }}" class="block px-6 py-4 hover:bg-secondary-50 transition-colors border-b border-slate-100 last:border-b-0">
                             <div class="flex items-center justify-between">
                                 <div class="flex-1">
                                     <div class="flex items-center gap-3 mb-1">
-                                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold">
+                                        <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold">
                                             {{ substr($pasien->nama, 0, 1) }}
                                         </div>
                                         <div>
@@ -66,7 +66,7 @@
                                     </div>
                                 </div>
                                 <div class="text-right">
-                                    <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">
+                                    <span class="inline-block bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-xs font-semibold">
                                         {{ $pasien->rekam_medis_count }} rekam medis
                                     </span>
                                 </div>
