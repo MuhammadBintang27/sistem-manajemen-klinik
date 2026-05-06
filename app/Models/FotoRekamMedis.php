@@ -15,6 +15,7 @@ class FotoRekamMedis extends Model
         'keterangan',
     ];
 
+
     public function rekamMedis()
     {
         return $this->belongsTo(RekamMedis::class, 'id_rekam_medis');

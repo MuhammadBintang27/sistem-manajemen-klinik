@@ -1,28 +1,9 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Reservasi - Miss Dentist Meulaboh</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+@extends('layouts.pasien')
+
+@section('title', 'Form Reservasi - Miss Dentist Meulaboh')
+
+@push('styles')
     <style>
-        * { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .font-display { font-family: 'Playfair Display', serif; }
-
-        :root {
-            --pink-primary: #D94A8C;
-            --pink-dark: #C63F7F;
-            --pink-darker: #A3326A;
-            --pink-light: #F8D6E9;
-            --pink-lighter: #FDF0F6;
-            --pink-mid: #E77BAA;
-        }
-
         body {
             background: linear-gradient(135deg, #FDF0F6 0%, #faf5f7 50%, #fdf2f8 100%);
             min-height: 100vh;
@@ -36,7 +17,6 @@
             transition: background 0.4s ease;
         }
         .step-line.active { background: var(--pink-primary); }
-
         .step-circle {
             width: 36px; height: 36px;
             border-radius: 50%;
@@ -71,15 +51,29 @@
             background: #fdf8fb;
             transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
             outline: none;
+            -webkit-appearance: none;
+            appearance: none;
         }
-        .form-input:focus {
-            border-color: var(--pink-primary);
-            box-shadow: 0 0 0 3px rgba(217,74,140,0.1);
-            background: white;
-        }
+        .form-input:focus { border-color: var(--pink-primary); box-shadow: 0 0 0 3px rgba(217,74,140,0.1); background: white; }
         .form-input::placeholder { color: #c9a0b8; }
         .form-input.error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
         .form-input[readonly] { background: #f9f0f5; color: #a06080; cursor: default; }
+
+        /* Native date input styling */
+        input[type="date"].form-input {
+            color: #1e293b;
+            cursor: pointer;
+        }
+        input[type="date"].form-input::-webkit-calendar-picker-indicator {
+            opacity: 0.5;
+            cursor: pointer;
+            filter: invert(30%) sepia(60%) saturate(500%) hue-rotate(290deg);
+        }
+        input[type="date"].form-input:invalid,
+        input[type="date"].form-input:not([value]),
+        input[type="date"].form-input[value=""] {
+            color: #c9a0b8;
+        }
 
         /* Section cards */
         .form-card {
@@ -104,145 +98,85 @@
         .jadwal-card.full { opacity: 0.5; cursor: not-allowed; border-color: #fca5a5; background: #fef2f2; }
 
         /* Quota badge */
-        .quota-badge {
-            display: inline-flex; align-items: center;
-            padding: 2px 8px;
-            border-radius: 999px;
-            font-size: 11px; font-weight: 700;
-            color: white;
-        }
+        .quota-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; color: white; }
 
-        /* Slide transition for steps */
-        .step-content { 
-            animation: slideIn 0.4s ease; 
-        }
+        /* Slide transition */
+        .step-content { animation: slideIn 0.4s ease; }
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
+            to   { opacity: 1; transform: translateX(0); }
         }
 
         /* Loading spinner */
         @keyframes spin { to { transform: rotate(360deg); } }
         .spinner { animation: spin 0.8s linear infinite; }
 
-        /* Flatpickr overrides */
-        .flatpickr-calendar { border-radius: 12px !important; box-shadow: 0 10px 40px rgba(0,0,0,0.12) !important; }
-        .flatpickr-day.selected { background: var(--pink-primary) !important; border-color: var(--pink-primary) !important; }
-        .flatpickr-day:hover { background: var(--pink-light) !important; }
-
-        /* Primary button */
+        /* Buttons */
         .btn-primary {
             background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
-            color: white;
-            font-weight: 700;
+            color: white; font-weight: 700;
             padding: 0.875rem 2rem;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-            font-size: 0.975rem;
+            border-radius: 12px; border: none;
+            cursor: pointer; transition: all 0.2s ease;
+            width: 100%; font-size: 0.975rem;
         }
         .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(217,74,140,0.35); }
         .btn-primary:disabled { opacity: 0.6; cursor: default; transform: none; box-shadow: none; }
-
         .btn-secondary {
-            background: white;
-            color: #7c3d63;
-            font-weight: 600;
+            background: white; color: #7c3d63; font-weight: 600;
             padding: 0.875rem 2rem;
-            border-radius: 12px;
-            border: 1.5px solid #f0d0e3;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-            font-size: 0.975rem;
+            border-radius: 12px; border: 1.5px solid #f0d0e3;
+            cursor: pointer; transition: all 0.2s ease;
+            width: 100%; font-size: 0.975rem;
         }
         .btn-secondary:hover { background: var(--pink-lighter); border-color: var(--pink-mid); }
-
-        /* Label */
-        .form-label {
-            display: block;
-            font-size: 0.825rem;
-            font-weight: 600;
-            color: #7c3d63;
-            margin-bottom: 0.375rem;
-            letter-spacing: 0.01em;
-        }
-
-        /* Alert boxes */
-        .alert-info { background: #eff6ff; border: 1px solid #bfdbfe; border-left: 3px solid #3b82f6; border-radius: 12px; }
-        .alert-amber { background: #fffbeb; border: 1px solid #fde68a; border-left: 3px solid #f59e0b; border-radius: 12px; }
-        .alert-red { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; }
-        .alert-pink { background: var(--pink-lighter); border: 1px solid #f5c0db; border-left: 3px solid var(--pink-primary); border-radius: 12px; }
-
-        /* Sticky nav */
-        .navbar-glass {
-            background: rgba(198, 63, 127, 0.96);
-            backdrop-filter: blur(12px);
-        }
-
-        /* Pink icon bg */
-        .icon-bg-pink {
-            background: var(--pink-lighter);
-        }
-        .icon-pink {
-            color: var(--pink-primary);
-        }
 
         /* Check NIK button */
         .btn-check-nik {
             background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
-            color: white;
-            font-weight: 700;
+            color: white; font-weight: 700;
             padding: 0.75rem 1.25rem;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            border-radius: 12px; border: none;
+            cursor: pointer; transition: all 0.2s ease;
             flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: flex; align-items: center; gap: 0.5rem;
             font-size: 0.875rem;
         }
         .btn-check-nik:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(217,74,140,0.35); }
         .btn-check-nik:disabled { opacity: 0.6; cursor: default; transform: none; box-shadow: none; }
 
-        /* Loading spinner color */
-        .text-primary-600 { color: var(--pink-primary); }
-        .text-primary-800 { color: var(--pink-darker); }
-        .text-primary-200 { color: #f5c0db; }
-
-        /* Heading icon row */
-        .step-icon-wrap {
-            width: 2rem; height: 2rem;
-            background: var(--pink-lighter);
-            border-radius: 0.5rem;
-            display: flex; align-items: center; justify-content: center;
+        /* Form label */
+        .form-label {
+            display: block;
+            font-size: 0.825rem; font-weight: 600;
+            color: #7c3d63; margin-bottom: 0.375rem;
+            letter-spacing: 0.01em;
         }
-    </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar-glass text-white shadow-md sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-5 sm:px-6 py-3.5 flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-xl flex items-center justify-center">
-                    <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-full h-full object-contain">
-                </div>
-                <span class="font-bold text-base">Miss Dentist Meulaboh</span>
-            </div>
-            <a href="{{ route('reservasi.index') }}" class="flex items-center gap-1.5 text-pink-200 hover:text-white text-sm font-medium transition" style="color:#f5c0db">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                </svg>
-                Kembali
-            </a>
-        </div>
-    </nav>
 
+        /* Alert boxes */
+        .alert-info  { background: #eff6ff; border: 1px solid #bfdbfe; border-left: 3px solid #3b82f6; border-radius: 12px; }
+        .alert-amber { background: #fffbeb; border: 1px solid #fde68a; border-left: 3px solid #f59e0b; border-radius: 12px; }
+        .alert-red   { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; }
+        .alert-pink  { background: var(--pink-lighter); border: 1px solid #f5c0db; border-left: 3px solid var(--pink-primary); border-radius: 12px; }
+
+        /* Utility */
+        .icon-pink { color: var(--pink-primary); }
+        .step-icon-wrap { width: 2rem; height: 2rem; background: var(--pink-lighter); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; }
+    </style>
+@endpush
+
+@section('navbar-right')
+    <a href="{{ route('reservasi.index') }}" class="flex items-center gap-1.5 text-sm font-medium transition" style="color:#f5c0db" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#f5c0db'">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Kembali
+    </a>
+@endsection
+
+@section('content')
     <div class="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="font-display text-3xl sm:text-4xl mb-2" style="color:#7c3d63">Form Reservasi</h1>
@@ -271,7 +205,7 @@
         <form id="reservasiForm" method="POST" action="{{ route('reservasi.store') }}">
             @csrf
 
-            <!-- Error Messages -->
+            <!-- Laravel validation errors -->
             @if ($errors->any())
                 <div class="alert-red p-4 mb-6">
                     <p class="font-semibold text-red-700 text-sm mb-2 flex items-center gap-2">
@@ -304,17 +238,11 @@
 
                 <label for="nik" class="form-label">Nomor Induk Kependudukan (NIK) <span class="text-red-500">*</span></label>
                 <div class="flex gap-2.5">
-                    <input 
-                        type="text" 
-                        id="nik" 
-                        name="nik" 
+                    <input type="text" id="nik" name="nik"
                         placeholder="Masukkan 16 digit NIK Anda"
                         class="form-input flex-1 @error('nik') error @enderror"
                         value="{{ old('nik') }}"
-                        maxlength="16"
-                        inputmode="numeric"
-                        required
-                    >
+                        maxlength="16" inputmode="numeric" required>
                     <button type="button" id="checkNikBtn" class="btn-check-nik">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -329,7 +257,6 @@
                     </p>
                 @enderror
 
-                <!-- Loading -->
                 <div id="loadingSpinner" class="hidden mt-3 flex items-center gap-2" style="color:var(--pink-primary)">
                     <svg class="spinner w-4 h-4" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
@@ -337,8 +264,6 @@
                     </svg>
                     <span class="text-sm font-medium">Memeriksa data...</span>
                 </div>
-
-                <!-- Error message -->
                 <div id="errorMessage" class="hidden mt-3 alert-red p-3 text-red-600 text-sm flex items-center gap-2">
                     <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
                     <span id="errorText"></span>
@@ -367,31 +292,14 @@
                             <p class="text-sm font-medium" style="color:var(--pink-darker)">Anda sudah terdaftar. Data berikut diambil dari sistem kami.</p>
                         </div>
                         <div class="grid sm:grid-cols-2 gap-3">
-                            <div>
-                                <label class="form-label">Nama Lengkap</label>
-                                <input type="text" id="displayNama" class="form-input" readonly>
-                            </div>
-                            <div>
-                                <label class="form-label">NIK</label>
-                                <input type="text" id="displayNik" class="form-input" readonly>
-                            </div>
-                            <div>
-                                <label class="form-label">Jenis Kelamin</label>
-                                <input type="text" id="displayJenisKelamin" class="form-input" readonly>
-                            </div>
-                            <div>
-                                <label class="form-label">Nomor HP</label>
-                                <input type="text" id="displayNoHp" class="form-input" readonly>
-                            </div>
-                            <div class="sm:col-span-2">
-                                <label class="form-label">Alamat</label>
-                                <textarea id="displayAlamat" class="form-input resize-none" readonly rows="2"></textarea>
-                            </div>
+                            <div><label class="form-label">Nama Lengkap</label><input type="text" id="displayNama" class="form-input" readonly></div>
+                            <div><label class="form-label">NIK</label><input type="text" id="displayNik" class="form-input" readonly></div>
+                            <div><label class="form-label">Jenis Kelamin</label><input type="text" id="displayJenisKelamin" class="form-input" readonly></div>
+                            <div><label class="form-label">Nomor HP</label><input type="text" id="displayNoHp" class="form-input" readonly></div>
+                            <div class="sm:col-span-2"><label class="form-label">Alamat</label><textarea id="displayAlamat" class="form-input resize-none" readonly rows="2"></textarea></div>
                         </div>
                         <button type="button" id="changeNikBtn" class="mt-4 text-sm font-semibold flex items-center gap-1.5 transition" style="color:var(--pink-primary)">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                            </svg>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                             Ubah NIK
                         </button>
                     </div>
@@ -435,9 +343,7 @@
                             </div>
                         </div>
                         <button type="button" id="changeNikBtn2" class="mt-4 text-sm font-semibold flex items-center gap-1.5 transition" style="color:var(--pink-primary)">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                            </svg>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                             Ubah NIK
                         </button>
                     </div>
@@ -459,26 +365,19 @@
                         </div>
                     </div>
 
-                    <!-- Date picker -->
                     <div class="mb-5">
-                        <label class="form-label">Pilih Tanggal Kunjungan <span class="text-red-500">*</span></label>
-                        <input 
-                            type="date" 
-                            id="jadwalTanggal"
-                            class="form-input"
+                        <label for="jadwalTanggal" class="form-label">Pilih Tanggal Kunjungan <span class="text-red-500">*</span></label>
+                        <input type="date" id="jadwalTanggal" class="form-input"
                             min="{{ \Carbon\Carbon::today()->toDateString() }}"
                             max="{{ \Carbon\Carbon::today()->addMonths(3)->toDateString() }}"
-                        >
+                            value="{{ old('tanggal') }}">
                     </div>
 
-                    <!-- Available schedules -->
                     <div class="mb-5">
                         <label class="form-label mb-2">Jadwal Tersedia</label>
                         <div id="jadwalContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 min-h-[100px]">
                             <div class="sm:col-span-2 flex flex-col items-center justify-center py-10" style="color:#c9a0b8">
-                                <svg class="w-10 h-10 mb-2 opacity-40" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
-                                </svg>
+                                <svg class="w-10 h-10 mb-2 opacity-40" fill="currentColor" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
                                 <p class="text-sm">Pilih tanggal untuk melihat jadwal</p>
                             </div>
                         </div>
@@ -491,17 +390,12 @@
                         @enderror
                     </div>
 
-                    <!-- Keluhan -->
                     <div>
                         <label for="keluhan" class="form-label">Keluhan / Catatan <span class="text-slate-400 font-normal">(opsional)</span></label>
-                        <textarea 
-                            id="keluhan" 
-                            name="keluhan" 
-                            placeholder="Ceritakan keluhan gigi Anda, misalnya: gigi berlubang bagian kanan atas, gusi bengkak, dll..." 
+                        <textarea id="keluhan" name="keluhan"
+                            placeholder="Ceritakan keluhan gigi Anda, misalnya: gigi berlubang bagian kanan atas, gusi bengkak, dll..."
                             class="form-input resize-none @error('keluhan') error @enderror"
-                            rows="4"
-                            maxlength="255"
-                        >{{ old('keluhan') }}</textarea>
+                            rows="4" maxlength="255">{{ old('keluhan') }}</textarea>
                         <div class="flex justify-between mt-1">
                             @error('keluhan')
                                 <p class="text-red-500 text-xs">{{ $message }}</p>
@@ -516,12 +410,10 @@
 
             <!-- Action Buttons -->
             <div id="actionButtons" class="hidden space-y-3">
-                <!-- Error message for submit -->
                 <div id="submitError" class="hidden alert-red p-3 text-red-600 text-sm flex items-center gap-2">
                     <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
                     <span id="submitErrorText"></span>
                 </div>
-
                 <div class="grid grid-cols-2 gap-3">
                     <button type="button" id="backBtn" class="btn-secondary">← Kembali</button>
                     <button type="submit" class="btn-primary">Buat Reservasi →</button>
@@ -530,67 +422,56 @@
             </div>
         </form>
     </div>
+@endsection
 
-    <!-- Footer -->
-    <footer class="py-5 px-5 text-center">
-        <p class="text-xs text-slate-400">&copy; 2026 Miss Dentist Meulaboh. Semua hak dilindungi.</p>
-    </footer>
-
+@push('scripts')
     <script>
         const jadwalsData = @json($jadwals);
 
-        const nikInput = document.getElementById('nik');
-        const checkNikBtn = document.getElementById('checkNikBtn');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const errorMessage = document.getElementById('errorMessage');
-        const errorText = document.getElementById('errorText');
-
-        const step1 = document.getElementById('step1');
-        const step2 = document.getElementById('step2');
-        const step3 = document.getElementById('step3');
-        const actionButtons = document.getElementById('actionButtons');
-
+        const nikInput            = document.getElementById('nik');
+        const checkNikBtn         = document.getElementById('checkNikBtn');
+        const loadingSpinner      = document.getElementById('loadingSpinner');
+        const errorMessage        = document.getElementById('errorMessage');
+        const errorText           = document.getElementById('errorText');
+        const step1               = document.getElementById('step1');
+        const step2               = document.getElementById('step2');
+        const step3               = document.getElementById('step3');
+        const actionButtons       = document.getElementById('actionButtons');
         const existingPatientData = document.getElementById('existingPatientData');
-        const newPatientForm = document.getElementById('newPatientForm');
-        const changeNikBtn = document.getElementById('changeNikBtn');
-        const changeNikBtn2 = document.getElementById('changeNikBtn2');
-        const backBtn = document.getElementById('backBtn');
-
-        const jadwalTanggal = document.getElementById('jadwalTanggal');
-        const jadwalContainer = document.getElementById('jadwalContainer');
+        const newPatientForm      = document.getElementById('newPatientForm');
+        const changeNikBtn        = document.getElementById('changeNikBtn');
+        const changeNikBtn2       = document.getElementById('changeNikBtn2');
+        const backBtn             = document.getElementById('backBtn');
+        const jadwalTanggal       = document.getElementById('jadwalTanggal');
+        const jadwalContainer     = document.getElementById('jadwalContainer');
 
         let patientFound = false;
 
-        // Stepper helpers
+        // Stepper
         function setStepActive(n) {
             for (let i = 1; i <= 3; i++) {
                 const c = document.getElementById('stepCircle' + i);
                 const l = document.getElementById('stepLine' + i);
-                if (i < n) { c.className = 'step-circle done'; c.innerHTML = '✓'; }
+                if (i < n)      { c.className = 'step-circle done'; c.innerHTML = '✓'; }
                 else if (i === n) { c.className = 'step-circle active'; c.innerHTML = i; }
-                else { c.className = 'step-circle'; c.innerHTML = i; }
+                else            { c.className = 'step-circle'; c.innerHTML = i; }
                 if (l) l.className = 'step-line mx-2 mt-[-14px]' + (i < n ? ' active' : '');
             }
-            ['Identitas','Data Pasien','Jadwal'].forEach((label, idx) => {
+            ['Identitas', 'Data Pasien', 'Jadwal'].forEach((label, idx) => {
                 const span = document.querySelectorAll('.flex.items-center.mb-8 span.text-xs')[idx];
-                if (span) span.className = 'text-xs font-' + (idx + 1 <= n ? 'semibold' : 'medium') + ' mt-1.5 whitespace-nowrap ' + (idx + 1 === n ? '' : idx + 1 < n ? '' : 'text-slate-400');
-                if (span && idx + 1 <= n) span.style.color = 'var(--pink-primary)';
-                else if (span) span.style.color = '';
+                if (span) {
+                    span.className = 'text-xs font-' + (idx + 1 <= n ? 'semibold' : 'medium') + ' mt-1.5 whitespace-nowrap ' + (idx + 1 > n ? 'text-slate-400' : '');
+                    span.style.color = idx + 1 <= n ? 'var(--pink-primary)' : '';
+                }
             });
         }
 
-        // Flatpickr
-        flatpickr(jadwalTanggal, {
-            minDate: new Date(),
-            maxDate: new Date(new Date().setMonth(new Date().getMonth() + 3)),
-            dateFormat: 'Y-m-d',
-            locale: 'id',
-            onChange: updateJadwalDisplay
-        });
+        // Date input change listener (replaces flatpickr onChange)
         jadwalTanggal.addEventListener('change', updateJadwalDisplay);
 
         function updateJadwalDisplay() {
             const selectedDate = jadwalTanggal.value;
+
             if (!selectedDate) {
                 jadwalContainer.innerHTML = `<div class="sm:col-span-2 flex flex-col items-center justify-center py-10" style="color:#c9a0b8">
                     <svg class="w-10 h-10 mb-2 opacity-40" fill="currentColor" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
@@ -608,15 +489,14 @@
             }
 
             jadwalContainer.innerHTML = filteredJadwals.map(jadwal => {
-                const terisi = jadwal.reservasi.length;
-                const sisa = jadwal.kuota - terisi;
-                const isFull = sisa <= 0;
+                const terisi     = jadwal.reservasi.length;
+                const sisa       = jadwal.kuota - terisi;
+                const isFull     = sisa <= 0;
                 const jadwalValue = jadwal.id_jadwal || (jadwal.id_user + '_' + jadwal.tanggal);
-                const isSelected = document.getElementById('id_jadwal').value === String(jadwalValue);
+                const isSelected  = document.getElementById('id_jadwal').value === String(jadwalValue);
 
-                let badgeColor = '#D94A8C';
-                let badgeText = sisa + ' slot';
-                if (isFull) { badgeColor = '#ef4444'; badgeText = 'Penuh'; }
+                let badgeColor = '#D94A8C', badgeText = sisa + ' slot';
+                if (isFull)         { badgeColor = '#ef4444'; badgeText = 'Penuh'; }
                 else if (sisa <= 2) { badgeColor = '#f59e0b'; badgeText = sisa + ' tersisa'; }
 
                 return `
@@ -636,18 +516,17 @@
                                     <div class="text-xs text-slate-400">Dokter Gigi</div>
                                 </div>
                             </div>
-                            <span class="quota-badge text-white" style="background:${badgeColor}">${badgeText}</span>
+                            <span class="quota-badge" style="background:${badgeColor}">${badgeText}</span>
                         </div>
                         ${isSelected ? `<div class="mt-2 pt-2 border-t text-xs font-semibold flex items-center gap-1" style="border-color:#f5c0db;color:var(--pink-primary)">
                             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
                             Dipilih
                         </div>` : ''}
-                    </label>
-                `;
+                    </label>`;
             }).join('');
         }
 
-        // Keluhan character counter
+        // Keluhan counter
         const keluhanField = document.getElementById('keluhan');
         const keluhanCount = document.getElementById('keluhanCount');
         keluhanField.addEventListener('input', () => {
@@ -657,10 +536,7 @@
         // Check NIK
         checkNikBtn.addEventListener('click', async () => {
             const nik = nikInput.value.trim();
-            if (!nik || nik.length !== 16) {
-                showError('NIK harus 16 digit angka');
-                return;
-            }
+            if (!nik || nik.length !== 16) { showError('NIK harus 16 digit angka'); return; }
             loadingSpinner.classList.remove('hidden');
             errorMessage.classList.add('hidden');
             checkNikBtn.disabled = true;
@@ -674,18 +550,10 @@
                     },
                     body: JSON.stringify({ nik })
                 });
-
                 const data = await response.json();
                 loadingSpinner.classList.add('hidden');
-
-                if (data.found) {
-                    patientFound = true;
-                    showExistingPatientData(data.pasien);
-                } else {
-                    patientFound = false;
-                    showNewPatientForm();
-                }
-
+                if (data.found) { patientFound = true; showExistingPatientData(data.pasien); }
+                else            { patientFound = false; showNewPatientForm(); }
                 step1.style.opacity = '0.65';
                 nikInput.readOnly = true;
                 step2.classList.remove('hidden');
@@ -693,7 +561,6 @@
                 actionButtons.classList.remove('hidden');
                 step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 setStepActive(3);
-
             } catch (error) {
                 loadingSpinner.classList.add('hidden');
                 checkNikBtn.disabled = false;
@@ -702,11 +569,11 @@
         });
 
         function showExistingPatientData(pasien) {
-            document.getElementById('displayNama').value = pasien.nama;
-            document.getElementById('displayNik').value = pasien.nik;
+            document.getElementById('displayNama').value         = pasien.nama;
+            document.getElementById('displayNik').value          = pasien.nik;
             document.getElementById('displayJenisKelamin').value = pasien.jenis_kelamin === 'L' ? 'Laki-laki' : pasien.jenis_kelamin === 'P' ? 'Perempuan' : '-';
-            document.getElementById('displayNoHp').value = pasien.no_hp || '-';
-            document.getElementById('displayAlamat').value = pasien.alamat || '-';
+            document.getElementById('displayNoHp').value         = pasien.no_hp   || '-';
+            document.getElementById('displayAlamat').value       = pasien.alamat  || '-';
             existingPatientData.classList.remove('hidden');
             newPatientForm.classList.add('hidden');
         }
@@ -718,7 +585,7 @@
 
         function resetToStep1() {
             step1.style.opacity = '1';
-            nikInput.readOnly = false;
+            nikInput.readOnly   = false;
             checkNikBtn.disabled = false;
             step2.classList.add('hidden');
             step3.classList.add('hidden');
@@ -740,9 +607,9 @@
 
         // Submit validation
         document.getElementById('reservasiForm').addEventListener('submit', e => {
-            const submitError = document.getElementById('submitError');
+            const submitError     = document.getElementById('submitError');
             const submitErrorText = document.getElementById('submitErrorText');
-            const selectedJadwal = document.querySelector('input[name="id_jadwal"]:checked');
+            const selectedJadwal  = document.querySelector('input[name="id_jadwal"]:checked');
 
             if (!selectedJadwal || !selectedJadwal.value) {
                 e.preventDefault();
@@ -751,7 +618,6 @@
                 step3.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 return;
             }
-
             if (!patientFound) {
                 const nama = document.getElementById('nama').value.trim();
                 if (!nama) {
@@ -762,9 +628,7 @@
                     return;
                 }
             }
-
             submitError.classList.add('hidden');
         });
     </script>
-</body>
-</html>
+@endpush
