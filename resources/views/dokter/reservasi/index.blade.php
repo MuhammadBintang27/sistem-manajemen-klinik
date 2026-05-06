@@ -35,6 +35,64 @@
                 <p class="mt-1 text-sm text-primary-100">Kelola semua reservasi pasien Anda</p>
             </div>
 
+            {{-- Filter Section --}}
+            <div class="p-6 border-b border-secondary-100 bg-gradient-to-r from-slate-50/50 to-white">
+                <form method="GET" action="{{ route('dokter.reservasi.index') }}" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        {{-- Search --}}
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                <svg class="w-4 h-4 inline mr-1 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                                </svg>
+                                Cari Pasien
+                            </label>
+                            <input type="text" name="search" placeholder="Nama atau NIK pasien..." 
+                                value="{{ $search ?? '' }}"
+                                class="w-full rounded-xl border-secondary-200 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm py-2 px-4 transition-all">
+                        </div>
+
+                        {{-- Status Filter --}}
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Status</label>
+                            <select name="status" class="w-full rounded-xl border-secondary-200 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm py-2 px-4 transition-all">
+                                <option value="">-- Semua Status --</option>
+                                <option value="menunggu_konfirmasi" @selected($status === 'menunggu_konfirmasi')>Menunggu Konfirmasi</option>
+                                <option value="sudah_dikonfirmasi" @selected($status === 'sudah_dikonfirmasi')>Sudah Dikonfirmasi</option>
+                                <option value="selesai" @selected($status === 'selesai')>Selesai</option>
+                                <option value="dibatalkan" @selected($status === 'dibatalkan')>Dibatalkan</option>
+                            </select>
+                        </div>
+
+                        {{-- Date Range Filter --}}
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Periode</label>
+                            <select name="date_range" class="w-full rounded-xl border-secondary-200 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm py-2 px-4 transition-all">
+                                <option value="today" @selected($dateRange === 'today')>Hari Ini</option>
+                                <option value="week" @selected($dateRange === 'week')>1 Minggu</option>
+                                <option value="month" @selected($dateRange === 'month')>1 Bulan</option>
+                                <option value="all" @selected($dateRange === 'all')>Semua</option>
+                            </select>
+                        </div>
+
+                        {{-- Button --}}
+                        <div class="flex items-end gap-2">
+                            <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg">
+                                <svg class="w-4 h-4 inline mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                                </svg>
+                                Filter
+                            </button>
+                            @if($search || $status || $dateRange !== 'today')
+                                <a href="{{ route('dokter.reservasi.index') }}" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl transition-all">
+                                    Reset
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </form>
+            </div>
+
             <div class="overflow-x-auto">
                 <table class="w-full divide-y divide-slate-200">
                     <thead class="bg-gradient-to-r from-slate-50 to-white">
@@ -93,9 +151,20 @@
                     </tbody>
                 </table>
             </div>
+
+            {{-- Pagination Info --}}
+            <div class="px-8 py-4 border-t border-secondary-100 bg-slate-50/50">
+                <div class="flex items-center justify-between">
+                    <p class="text-sm text-slate-600">
+                        Menampilkan <span class="font-semibold">{{ $reservasis->firstItem() ?? 0 }}</span> hingga 
+                        <span class="font-semibold">{{ $reservasis->lastItem() ?? 0 }}</span> dari 
+                        <span class="font-semibold">{{ $reservasis->total() }}</span> reservasi
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <!-- Pagination -->
+        {{-- Pagination Links --}}
         <div class="flex justify-center">
             {{ $reservasis->links() }}
         </div>

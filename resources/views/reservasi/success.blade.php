@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservasi Berhasil - Klinik Gigi Sejahtera</title>
+    <title>Reservasi Berhasil - Miss Dentist Meulaboh</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -145,7 +145,7 @@
                         <path d="M12 2C8.5 2 6 4.1 6 7c0 2.5 1.5 4.5 3 5.5V19c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-6.5c1.5-1 3-3 3-5.5 0-2.9-2.5-5-6-5z"/>
                     </svg>
                 </div>
-                <span class="font-bold text-base">Klinik Gigi Sejahtera</span>
+                <span class="font-bold text-base">Miss Dentist Meulaboh</span>
             </div>
         </div>
     </nav>
@@ -175,7 +175,7 @@
                 </div>
 
                 <h1 class="font-display text-3xl sm:text-4xl text-white mb-2 relative z-10">Reservasi Berhasil!</h1>
-                <p class="text-sm sm:text-base relative z-10" style="color:rgba(255,255,255,0.85)">Terima kasih telah memilih Klinik Gigi Sejahtera</p>
+                <p class="text-sm sm:text-base relative z-10" style="color:rgba(255,255,255,0.85)">Terima kasih telah memilih Miss Dentist Meulaboh</p>
             </div>
 
             <!-- Content -->
@@ -291,7 +291,7 @@
 
     <!-- Footer -->
     <footer class="py-5 px-5 text-center no-print">
-        <p class="text-xs text-slate-400">&copy; 2026 Klinik Gigi Sejahtera. Semua hak dilindungi.</p>
+        <p class="text-xs text-slate-400">&copy; 2026 Miss Dentist Meulaboh. Semua hak dilindungi.</p>
     </footer>
 </body>
 </html>

@@ -44,16 +44,16 @@
             </div>
 
             <!-- Card 2: Reservasi Pending -->
-            <div class="rounded-2xl bg-white border border-orange-100 shadow-md hover:shadow-lg transition-shadow p-8">
+            <div class="rounded-2xl bg-white border border-primary-100 shadow-md hover:shadow-lg transition-shadow p-8">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-semibold uppercase text-slate-600 tracking-wider">Reservasi Pending</p>
-                        <p class="mt-4 text-5xl font-bold text-orange-600">{{ $pendingCount }}</p>
+                        <p class="mt-4 text-5xl font-bold text-primary-600">{{ $pendingCount }}</p>
                         <p class="mt-2 text-sm text-slate-600">Masih menunggu tindakan Anda</p>
                     </div>
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-orange-100 to-orange-50">
-                            <svg class="h-8 w-8 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-primary-100 to-primary-50">
+                            <svg class="h-8 w-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
                             </svg>
                         </div>
@@ -62,16 +62,16 @@
             </div>
 
             <!-- Card 3: Jadwal Mendatang -->
-            <div class="rounded-2xl bg-white border border-blue-100 shadow-md hover:shadow-lg transition-shadow p-8">
+            <div class="rounded-2xl bg-white border border-primary-100 shadow-md hover:shadow-lg transition-shadow p-8">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-semibold uppercase text-slate-600 tracking-wider">Jadwal Mendatang</p>
-                        <p class="mt-4 text-5xl font-bold text-blue-600">{{ $jadwals->count() }}</p>
+                        <p class="mt-4 text-5xl font-bold text-primary-600">{{ $jadwals->count() }}</p>
                         <p class="mt-2 text-sm text-slate-600">Slot praktik yang terjadwal</p>
                     </div>
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50">
-                            <svg class="h-8 w-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-primary-100 to-primary-50">
+                            <svg class="h-8 w-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/>
                             </svg>
                         </div>
@@ -92,9 +92,9 @@
                 <p class="mt-1 text-sm text-slate-600">Lihat jadwal praktik</p>
             </a>
 
-            <a href="{{ route('dokter.reservasi.index') }}" class="rounded-2xl bg-white border border-orange-100 shadow-md hover:shadow-lg hover:border-orange-300 transition-all p-6 text-center">
-                <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-gradient-to-br from-orange-100 to-orange-50 mx-auto mb-4">
-                    <svg class="h-7 w-7 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('dokter.reservasi.index') }}" class="rounded-2xl bg-white border border-primary-100 shadow-md hover:shadow-lg hover:border-primary-300 transition-all p-6 text-center">
+                <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-gradient-to-br from-primary-100 to-primary-50 mx-auto mb-4">
+                    <svg class="h-7 w-7 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
                     </svg>
                 </div>
@@ -102,9 +102,9 @@
                 <p class="mt-1 text-sm text-slate-600">Kelola reservasi</p>
             </a>
 
-            <a href="{{ route('dokter.reservasi.index') }}" class="rounded-2xl bg-white border border-blue-100 shadow-md hover:shadow-lg hover:border-blue-300 transition-all p-6 text-center">
-                <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 mx-auto mb-4">
-                    <svg class="h-7 w-7 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('dokter.reservasi.index') }}" class="rounded-2xl bg-white border border-primary-100 shadow-md hover:shadow-lg hover:border-primary-300 transition-all p-6 text-center">
+                <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-gradient-to-br from-primary-100 to-primary-50 mx-auto mb-4">
+                    <svg class="h-7 w-7 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
                     </svg>
                 </div>

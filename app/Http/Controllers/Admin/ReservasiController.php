@@ -11,15 +11,62 @@ use Illuminate\View\View;
 
 class ReservasiController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $reservasis = Reservasi::with(['pasien', 'jadwal.dokter'])
-            ->orderByDesc('created_at')
-            ->paginate(10);
+        $status = $request->get('status', '');
+        $dateRange = $request->get('date_range', 'week');
+        $search = $request->get('search', '');
+        $dokter = $request->get('dokter', '');
 
+        // Determine date range
+        $startDate = now()->toDateString();
+        $endDate = now()->toDateString();
+
+        if ($dateRange === 'week') {
+            $endDate = now()->addDays(7)->toDateString();
+        } elseif ($dateRange === 'month') {
+            $endDate = now()->endOfMonth()->toDateString();
+        } elseif ($dateRange === 'all') {
+            $startDate = null;
+            $endDate = null;
+        }
+
+        $query = Reservasi::with(['pasien', 'jadwal.dokter']);
+
+        // Filter by date range
+        if ($startDate && $endDate) {
+            $query->whereHas('jadwal', function ($q) use ($startDate, $endDate) {
+                $q->whereBetween('tanggal', [$startDate, $endDate]);
+            });
+        }
+
+        // Filter by status
+        if ($status && $status !== '') {
+            $query->where('status', $status);
+        }
+
+        // Filter by dokter
+        if ($dokter && $dokter !== '') {
+            $query->whereHas('jadwal', function ($q) use ($dokter) {
+                $q->where('id_user', $dokter);
+            });
+        }
+
+        // Filter by search (pasien nama atau nik)
+        if ($search && $search !== '') {
+            $query->whereHas('pasien', function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('nik', 'like', "%{$search}%");
+            });
+        }
+
+        $reservasis = $query->orderByDesc('created_at')->paginate(15);
+
+        // Get all dokters for filter dropdown
+        $dokters = \App\Models\User::where('role', 'dokter')->orderBy('nama')->get();
         $statusOptions = ['menunggu_konfirmasi', 'sudah_dikonfirmasi', 'selesai', 'dibatalkan'];
 
-        return view('admin.reservasi.index', compact('reservasis', 'statusOptions'));
+        return view('admin.reservasi.index', compact('reservasis', 'statusOptions', 'dokters', 'status', 'dateRange', 'search', 'dokter'));
     }
 
     public function show(Reservasi $reservasi): View

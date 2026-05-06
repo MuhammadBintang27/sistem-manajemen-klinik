@@ -5,7 +5,7 @@
         </div>
     </x-slot>
 
-    <div class="space-y-6" id="jadwal-app">
+    <div  id="jadwal-app">
 
         {{-- Toast Notification --}}
         <div id="toast-notification" class="fixed top-6 right-6 z-50 transform translate-x-full transition-transform duration-500 ease-out">
@@ -128,7 +128,7 @@
                 <div class="flex flex-wrap items-center gap-6 px-8 py-4 border-b border-secondary-100 bg-slate-50/50">
                     <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Keterangan:</span>
                     <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        <span class="w-3 h-3 rounded-full bg-primary-500"></span>
                         <span class="text-sm text-slate-600">Aktif</span>
                     </div>
                     <div class="flex items-center gap-2">
@@ -177,7 +177,7 @@
                                 @if ($jadwal)
                                     <div class="flex items-center gap-1 flex-wrap justify-center">
                                         <span class="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-full 
-                                            {{ $jadwal->status === 'aktif' ? 'bg-emerald-500' : 'bg-slate-400' }} 
+                                            {{ $jadwal->status === 'aktif' ? 'bg-primary-500' : 'bg-slate-400' }} 
                                             text-white text-[10px] font-bold px-1">{{ $jadwal->reservasi->count() }}</span>
                                         <span class="text-[10px] text-slate-500">/{{ $jadwal->kuota }}</span>
                                     </div>
@@ -249,7 +249,7 @@
                         <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
                             <p class="text-xs text-blue-600 font-semibold uppercase mb-1">Status</p>
                             <div class="flex items-center gap-2">
-                                <span id="status-badge" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold text-white bg-emerald-500"></span>
+                                <!-- <span id="status-badge" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold text-white bg-emerald-500"></span> -->
                                 <span id="status-text" class="text-xl font-bold text-blue-700"></span>
                             </div>
                         </div>
@@ -420,10 +420,10 @@
 
         function renderJadwalDetail(jadwal) {
             // Status
-            const statusBg = jadwal.status === 'aktif' ? 'bg-emerald-500' : 'bg-slate-400';
+            const statusBg = jadwal.status === 'aktif' ? 'bg-primary-500' : 'bg-slate-400';
             const statusText = jadwal.status === 'aktif' ? 'Aktif' : 'Nonaktif';
-            document.getElementById('status-badge').className = `inline-flex items-center px-3 py-1 rounded-full text-sm font-bold text-white ${statusBg}`;
-            document.getElementById('status-badge').textContent = statusText;
+            // document.getElementById('status-badge').className = `inline-flex items-center px-3 py-1 rounded-full text-sm font-bold text-white ${statusBg}`;
+            // document.getElementById('status-badge').textContent = statusText;
             document.getElementById('status-text').textContent = statusText;
 
             // Kuota & Kapasitas
@@ -437,7 +437,7 @@
                 toggleBtn.className = 'w-full py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 bg-slate-200 hover:bg-slate-300 text-slate-700';
                 document.getElementById('toggle-status-text').textContent = 'Nonaktifkan Hari Ini';
             } else {
-                toggleBtn.className = 'w-full py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white';
+                toggleBtn.className = 'w-full py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white';
                 document.getElementById('toggle-status-text').textContent = 'Aktifkan Hari Ini';
             }
 

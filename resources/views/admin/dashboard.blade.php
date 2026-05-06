@@ -35,7 +35,7 @@
                     </div>
                     <div class="flex-shrink-0">
                         <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-primary-100 to-secondary-50">
-                            <svg class=\"h-8 w-8 text-primary-600\" fill=\"currentColor\" viewBox=\"0 0 24 24\">
+                            <svg class="h-8 w-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                             </svg>
                         </div>
@@ -53,7 +53,7 @@
                     </div>
                     <div class="flex-shrink-0">
                         <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-primary-100 to-secondary-50">
-                            <svg class=\"h-8 w-8 text-primary-600\" fill=\"currentColor\" viewBox=\"0 0 24 24\">
+                            <svg class="h-8 w-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/>
                             </svg>
                         </div>
@@ -62,16 +62,16 @@
             </div>
 
             <!-- Card 3: Reservasi Pending -->
-            <div class="rounded-2xl bg-white border border-orange-100 shadow-md hover:shadow-lg transition-shadow p-8">
+            <div class="rounded-2xl bg-white border border-primary-100 shadow-md hover:shadow-lg transition-shadow p-8">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-semibold uppercase text-slate-600 tracking-wider">Reservasi Pending</p>
-                        <p class="mt-4 text-5xl font-bold text-orange-600">{{ $reservasiPending }}</p>
+                        <p class="mt-4 text-5xl font-bold text-primary-600">{{ $reservasiPending }}</p>
                         <p class="mt-2 text-sm text-slate-600">Menunggu konfirmasi Anda</p>
                     </div>
                     <div class="flex-shrink-0">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-orange-100 to-orange-50">
-                            <svg class="h-8 w-8 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-primary-100 to-secondary-50">
+                            <svg class="h-8 w-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
                             </svg>
                         </div>
@@ -102,9 +102,9 @@
                 <p class="mt-1 text-sm text-slate-600">Atur jadwal</p>
             </a>
 
-            <a href="{{ route('admin.reservasi.index') }}" class="rounded-2xl bg-white border border-orange-100 shadow-md hover:shadow-lg hover:border-orange-300 transition-all p-6 text-center">
-                <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-gradient-to-br from-orange-100 to-orange-50 mx-auto mb-4">
-                    <svg class="h-7 w-7 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('admin.reservasi.index') }}" class="rounded-2xl bg-white border border-primary-100 shadow-md hover:shadow-lg hover:border-primary-300 transition-all p-6 text-center">
+                <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-gradient-to-br from-primary-100 to-secondary-50 mx-auto mb-4">
+                    <svg class="h-7 w-7 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
                     </svg>
                 </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Reservasi - Klinik Gigi Sejahtera</title>
+    <title>Form Reservasi - Miss Dentist Meulaboh</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -228,12 +228,10 @@
     <nav class="navbar-glass text-white shadow-md sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-5 sm:px-6 py-3.5 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center">
-                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C8.5 2 6 4.1 6 7c0 2.5 1.5 4.5 3 5.5V19c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-6.5c1.5-1 3-3 3-5.5 0-2.9-2.5-5-6-5z"/>
-                    </svg>
+                <div class="w-8 h-8 rounded-xl flex items-center justify-center">
+                    <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-full h-full object-contain">
                 </div>
-                <span class="font-bold text-base">Klinik Gigi Sejahtera</span>
+                <span class="font-bold text-base">Miss Dentist Meulaboh</span>
             </div>
             <a href="{{ route('reservasi.index') }}" class="flex items-center gap-1.5 text-pink-200 hover:text-white text-sm font-medium transition" style="color:#f5c0db">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -535,7 +533,7 @@
 
     <!-- Footer -->
     <footer class="py-5 px-5 text-center">
-        <p class="text-xs text-slate-400">&copy; 2026 Klinik Gigi Sejahtera. Semua hak dilindungi.</p>
+        <p class="text-xs text-slate-400">&copy; 2026 Miss Dentist Meulaboh. Semua hak dilindungi.</p>
     </footer>
 
     <script>

@@ -74,18 +74,55 @@ class DokterController extends Controller
         return response()->json(['jadwal' => null]);
     }
 
-    public function reservasi(): View
+    public function reservasi(Request $request): View
     {
-        $reservasis = Reservasi::with(['pasien', 'jadwal', 'rekamMedis' => function ($q) {
+        $status = $request->get('status', '');
+        $dateRange = $request->get('date_range', 'today');
+        $search = $request->get('search', '');
+
+        // Determine date range
+        $startDate = now()->toDateString();
+        $endDate = now()->toDateString();
+
+        if ($dateRange === 'week') {
+            $endDate = now()->addDays(7)->toDateString();
+        } elseif ($dateRange === 'month') {
+            $endDate = now()->endOfMonth()->toDateString();
+        } elseif ($dateRange === 'all') {
+            $startDate = null;
+            $endDate = null;
+        }
+
+        $query = Reservasi::with(['pasien', 'jadwal', 'rekamMedis' => function ($q) {
             $q->orderByDesc('tanggal');
         }])
             ->whereHas('jadwal', function ($query) {
                 $query->where('id_user', auth()->id());
-            })
-            ->orderByDesc('created_at')
-            ->paginate(10);
+            });
 
-        return view('dokter.reservasi.index', compact('reservasis'));
+        // Filter by date range
+        if ($startDate && $endDate) {
+            $query->whereHas('jadwal', function ($q) use ($startDate, $endDate) {
+                $q->whereBetween('tanggal', [$startDate, $endDate]);
+            });
+        }
+
+        // Filter by status
+        if ($status && $status !== '') {
+            $query->where('status', $status);
+        }
+
+        // Filter by search (pasien nama atau nik)
+        if ($search && $search !== '') {
+            $query->whereHas('pasien', function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('nik', 'like', "%{$search}%");
+            });
+        }
+
+        $reservasis = $query->orderByDesc('created_at')->paginate(15);
+
+        return view('dokter.reservasi.index', compact('reservasis', 'status', 'dateRange', 'search'));
     }
 
     public function reservasiShow(Reservasi $reservasi): View

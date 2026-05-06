@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Admin\PasienController;
 use App\Http\Controllers\Admin\ReservasiController as AdminReservasiController;
 use App\Http\Controllers\Admin\RekamMedisController as AdminRekamMedisController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\ReservasiPublicController;
 use App\Http\Controllers\StorageController;
 use App\Models\Jadwal;
@@ -66,6 +67,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
 
     // Rekam Medis - Create dari reservasi
     Route::post('rekam-medis/reservasi/{reservasi}', [AdminRekamMedisController::class, 'store'])->name('rekam-medis.store');
+
+    // Reports
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::post('reports/export-reservasi', [ReportController::class, 'exportReservasi'])->name('reports.export.reservasi');
+    Route::post('reports/export-keuangan', [ReportController::class, 'exportKeuangan'])->name('reports.export.keuangan');
 });
 
 Route::prefix('dokter')->name('dokter.')->middleware(['auth', 'role:dokter'])->group(function () {
@@ -88,6 +94,11 @@ Route::prefix('dokter')->name('dokter.')->middleware(['auth', 'role:dokter'])->g
 
     // Rekam Medis - Create dari reservasi
     Route::post('rekam-medis/reservasi/{reservasi}', [RekamMedisController::class, 'store'])->name('rekam-medis.store');
+
+    // Reports
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::post('reports/export-reservasi', [ReportController::class, 'exportReservasi'])->name('reports.export.reservasi');
+    Route::post('reports/export-keuangan', [ReportController::class, 'exportKeuangan'])->name('reports.export.keuangan');
 });
 
 // Private storage access (authenticated only)

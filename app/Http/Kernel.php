@@ -10,10 +10,10 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        'throttle:60,1',
-        'auth',
-        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'role' => CheckRole::class,
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \App\Http\Middleware\TrimStrings::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
     /**
@@ -26,8 +26,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\Authenticate::class,
-        'checkRole' => CheckRole::class,
+        'role' => CheckRole::class,
         'guest' => \Illuminate\Auth\Middleware\EnsureGuest::class,
-        'throttle:60,1' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 }

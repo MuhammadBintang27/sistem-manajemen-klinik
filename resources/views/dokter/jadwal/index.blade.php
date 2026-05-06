@@ -5,7 +5,7 @@
         </div>
     </x-slot>
 
-    <div class="space-y-6" id="jadwal-app">
+    <div  id="jadwal-app">
 
         {{-- Toast Notification --}}
         <div id="toast-notification" class="fixed top-6 right-6 z-50 transform translate-x-full transition-transform duration-500 ease-out">
@@ -28,7 +28,7 @@
         </div>
 
         {{-- Kalender Jadwal --}}
-        <div class="rounded-2xl bg-white border border-primary-100 shadow-md overflow-hidden mx-6">
+        <div class="rounded-2xl bg-white border border-primary-100 shadow-md overflow-hidden ">
             <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-8 py-6">
                 <h3 class="text-lg font-bold text-white flex items-center gap-3">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
