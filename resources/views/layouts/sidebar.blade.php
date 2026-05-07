@@ -3,10 +3,10 @@
     <div class="flex h-28 items-center px-8 text-white">
         <div class="w-full">
             <div class="flex items-center gap-3 mb-1">
-                <img src="{{ asset('image/logo.png') }}" alt="Logo Klinik Chantika" class="w-12 h-12 object-contain">
+                <img src="{{ asset('image/logo.webp') }}" alt="Logo Klinik Chantika" class="w-12 h-12 object-contain">
                 <div>
-                    <div class="text-xs font-semibold uppercase tracking-widest text-primary-100">Klinik</div>
-                    <div class="text-lg font-bold">Chantika</div>
+                    <div class="text-xs font-semibold uppercase tracking-widest text-primary-100">Miss Dentist</div>
+                    <div class="text-lg font-bold">Sultan Care</div>
                 </div>
             </div>
             <p class="text-xs text-primary-100 mt-2">Sistem Manajemen Klinik</p>

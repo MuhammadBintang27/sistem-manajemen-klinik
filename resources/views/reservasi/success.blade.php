@@ -1,6 +1,6 @@
 @extends('layouts.pasien')
 
-@section('title', 'Reservasi Berhasil - Miss Dentist Meulaboh')
+@section('title', 'Reservasi Berhasil - Miss Dentist Sultan Care')
 
 @push('styles')
     <style>
@@ -79,7 +79,7 @@
                     </div>
 
                     <h1 class="font-display text-3xl sm:text-4xl text-white mb-2 relative z-10">Reservasi Berhasil!</h1>
-                    <p class="text-sm sm:text-base text-white/85 relative z-10">Terima kasih telah memilih Miss Dentist Meulaboh</p>
+                    <p class="text-sm sm:text-base text-white/85 relative z-10">Terima kasih telah memilih Miss Dentist Sultan Care</p>
                 </div>
 
                 {{-- Content --}}

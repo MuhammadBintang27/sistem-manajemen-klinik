@@ -1,6 +1,6 @@
 @extends('layouts.pasien')
 
-@section('title', 'Form Reservasi - Miss Dentist Meulaboh')
+@section('title', 'Form Reservasi - Miss Dentist Sultan Care')
 
 @push('styles')
     <style>
