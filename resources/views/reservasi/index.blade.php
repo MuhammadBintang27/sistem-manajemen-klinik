@@ -3,701 +3,346 @@
 @section('title', 'Miss Dentist Meulaboh - Reservasi Online')
 
 @push('styles')
-    <style>
-        body {
-            background: var(--cream);
-            color: var(--ink);
-        }
+<style>
+    body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
 
-        /* ── Scroll reveal ── */
-        .reveal {
-            opacity: 0;
-            transform: translateY(32px);
-            transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
-        }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
+    .font-display {
+        font-family: 'Playfair Display', serif;
+    }
 
-        /* ── Navbar ── */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            background: rgba(200, 65, 110, 0.97);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255,255,255,0.12);
-        }
-        .navbar-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            height: 68px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-        .logo-icon {
-            width: 38px; height: 38px;
-            background: rgba(255,255,255,0.18);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .logo-text { color: #fff; }
-        .logo-text .name {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            line-height: 1;
-        }
-        .logo-text .sub {
-            font-size: 10px;
-            font-weight: 400;
-            color: rgba(255,255,255,0.65);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 36px;
-        }
-        .nav-links a {
-            color: rgba(255,255,255,0.78);
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-            letter-spacing: 0.2px;
-            transition: color 0.2s;
-        }
-        .nav-links a:hover { color: #fff; }
-        .btn-reservasi {
-            background: #fff;
-            color: var(--rose-deep) !important;
-            padding: 9px 22px;
-            border-radius: 100px;
-            font-weight: 600 !important;
-            font-size: 13.5px !important;
-            letter-spacing: 0.2px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
-            transition: box-shadow 0.2s, transform 0.2s !important;
-        }
-        .btn-reservasi:hover {
-            box-shadow: 0 4px 20px rgba(0,0,0,0.18) !important;
-            transform: translateY(-1px) !important;
-        }
-        .menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #fff;
-            padding: 4px;
-        }
-        #mobileMenu {
-            display: none;
-            flex-direction: column;
-            padding: 8px 24px 16px;
-            border-top: 1px solid rgba(255,255,255,0.12);
-            gap: 2px;
-        }
-        #mobileMenu.open { display: flex; }
-        #mobileMenu a {
-            display: block;
-            padding: 10px 12px;
-            color: rgba(255,255,255,0.82);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 8px;
-            transition: background 0.15s, color 0.15s;
-        }
-        #mobileMenu a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .reveal {
+        opacity: 0;
+        transform: translateY(32px);
+        transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* ── Hero ── */
-        .hero {
-            padding-top: 68px;
-            min-height: 100vh;
-            background: linear-gradient(150deg, #B83068 0%, #C8416E 35%, #D46690 65%, #C04070 100%);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-        }
-        .hero-texture {
-            position: absolute;
-            inset: 0;
-            background-image:
-                radial-gradient(ellipse 70% 50% at 75% 35%, rgba(255,200,220,0.15) 0%, transparent 65%),
-                radial-gradient(ellipse 40% 60% at 10% 70%, rgba(100,20,60,0.4) 0%, transparent 55%),
-                radial-gradient(ellipse 30% 30% at 85% 80%, rgba(180,50,100,0.3) 0%, transparent 50%);
-        }
-        .hero-circle {
-            position: absolute;
-            top: 50%;
-            right: -8%;
-            transform: translateY(-50%);
-            width: 560px;
-            height: 560px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.08);
-            pointer-events: none;
-        }
-        .hero-circle::before {
-            content: '';
-            position: absolute;
-            inset: 32px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .hero-circle::after {
-            content: '';
-            position: absolute;
-            inset: 64px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
-        }
-        .hero-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 24px 100px;
-            width: 100%;
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.22);
-            color: rgba(255,255,255,0.9);
-            font-size: 12.5px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-            padding: 7px 16px;
-            border-radius: 100px;
-            margin-bottom: 28px;
-        }
-        .hero-badge-dot {
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.8);
-            animation: pulse-dot 2.5s ease-in-out infinite;
-        }
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.4); }
-        }
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(44px, 5.5vw, 72px);
-            font-weight: 600;
-            color: #fff;
-            line-height: 1.08;
-            letter-spacing: -0.5px;
-            margin-bottom: 20px;
-        }
-        .hero-title em {
-            font-style: italic;
-            color: rgba(255,255,255,0.72);
-            font-weight: 400;
-        }
-        .hero-desc {
-            color: rgba(255,255,255,0.78);
-            font-size: 16px;
-            line-height: 1.7;
-            max-width: 420px;
-            margin-bottom: 36px;
-        }
-        .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
-        .btn-primary-hero {
-            background: #fff;
-            color: var(--rose-deep);
-            padding: 15px 32px;
-            border-radius: 100px;
-            font-weight: 600;
-            font-size: 15px;
-            text-decoration: none;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-            transition: transform 0.2s, box-shadow 0.2s;
-            white-space: nowrap;
-        }
-        .btn-primary-hero:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(0,0,0,0.22); }
-        .btn-outline-hero {
-            border: 1.5px solid rgba(255,255,255,0.45);
-            color: #fff;
-            padding: 15px 32px;
-            border-radius: 100px;
-            font-weight: 500;
-            font-size: 15px;
-            text-decoration: none;
-            transition: background 0.2s, border-color 0.2s;
-        }
-        .btn-outline-hero:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.7); }
+    .hero-bg {
+        background: linear-gradient(150deg, #A8316D 0%, #D94A8C 35%, #E899B8 65%, #B93876 100%);
+    }
 
-        .hero-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        .hero-stat-card {
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 28px 24px;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-stat-card::before {
-            content: '';
-            position: absolute;
-            top: -30%; right: -20%;
-            width: 100px; height: 100px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.05);
-        }
-        .hero-stat-card:nth-child(2) { margin-top: 28px; }
-        .hero-stat-card .num {
-            font-family: 'Playfair Display', serif;
-            font-size: 42px;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 6px;
-        }
-        .hero-stat-card .label { font-size: 12.5px; color: rgba(255,255,255,0.65); font-weight: 400; }
-        .hero-stat-card .divider {
-            width: 28px; height: 2px;
-            background: rgba(255,255,255,0.35);
-            border-radius: 1px;
-            margin-bottom: 10px;
-        }
-
-        /* ── Section shared ── */
-        .section-tag {
-            display: inline-block;
-            background: var(--rose-pale);
-            color: var(--rose);
-            font-size: 11.5px;
-            font-weight: 600;
-            letter-spacing: 1.8px;
-            text-transform: uppercase;
-            padding: 5px 14px;
-            border-radius: 100px;
-            border: 1px solid var(--rose-light);
-            margin-bottom: 16px;
-        }
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(32px, 4vw, 50px);
-            font-weight: 600;
-            color: var(--ink);
-            line-height: 1.1;
-            letter-spacing: -0.3px;
-        }
-        .section-sub {
-            font-size: 15.5px;
-            color: var(--slate);
-            line-height: 1.65;
-            max-width: 520px;
-            margin: 0 auto;
-        }
-
-        /* ── Services ── */
-        .services-section { padding: 96px 24px; background: var(--cream); }
-        .services-inner { max-width: 1200px; margin: 0 auto; }
-        .services-header { text-align: center; margin-bottom: 56px; }
-        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .service-card {
-            background: #fff;
-            border: 1px solid rgba(200,65,110,0.1);
-            border-radius: 20px;
-            padding: 32px 28px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s, border-color 0.3s;
-        }
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--rose), var(--rose-mid));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
-        }
-        .service-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(200,65,110,0.1); border-color: var(--rose-light); }
-        .service-card:hover::before { transform: scaleX(1); }
-        .service-card:hover .service-icon { background: var(--rose-light); }
-        .service-card h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; margin-bottom: 10px; color: var(--rose); }
-        .service-card p { font-size: 13.5px; color: var(--slate); line-height: 1.65; margin-bottom: 16px; }
-        .service-price { font-size: 13px; font-weight: 600; color: var(--rose); letter-spacing: 0.2px; }
-
-        /* ── About ── */
-        .about-section { padding: 96px 24px; background: #fff; }
-        .about-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
-        .about-img-wrap { position: relative; }
-        .about-img-frame { border-radius: 24px; overflow: hidden; box-shadow: 0 32px 80px rgba(200,65,110,0.12); position: relative; }
-        .about-img-frame img { width: 100%; height: 420px; object-fit: cover; display: block; }
-        .about-img-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(140,30,60,0.15) 100%); }
-        .about-img-bg { position: absolute; inset: -20px -20px 20px 20px; border-radius: 28px; background: var(--rose-pale); z-index: -1; }
-        .about-badge {
-            position: absolute;
-            bottom: -20px; right: -20px;
-            background: #fff;
-            border: 1px solid var(--rose-light);
-            border-radius: 18px;
-            padding: 16px 20px;
-            box-shadow: 0 8px 32px rgba(200,65,110,0.12);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 10;
-        }
-        .about-badge-icon { width: 40px; height: 40px; background: var(--rose-pale); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .about-badge-icon svg { color: var(--rose); width: 18px; height: 18px; }
-        .about-badge-text .title { font-weight: 600; font-size: 13px; color: var(--ink); line-height: 1; }
-        .about-badge-text .sub { font-size: 11px; color: var(--slate); margin-top: 3px; }
-        .about-text .section-title { text-align: left; margin-bottom: 18px; }
-        .about-desc { font-size: 15px; color: var(--slate); line-height: 1.75; margin-bottom: 32px; }
-        .about-checks { display: flex; flex-direction: column; gap: 18px; margin-bottom: 40px; }
-        .check-item { display: flex; align-items: flex-start; gap: 14px; }
-        .check-icon { width: 34px; height: 34px; background: var(--rose-pale); border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
-        .check-icon svg { color: var(--rose); width: 15px; height: 15px; }
-        .check-text .title { font-size: 14.5px; font-weight: 600; color: var(--ink-mid); margin-bottom: 3px; }
-        .check-text .sub { font-size: 13px; color: var(--slate); line-height: 1.55; }
-        .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .stat-box { background: var(--rose-faint); border: 1px solid var(--rose-light); border-radius: 16px; padding: 18px 12px; text-align: center; }
-        .stat-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px; font-weight: 700;
-            background: linear-gradient(135deg, var(--rose), var(--rose-mid));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            line-height: 1;
-        }
-        .stat-label { font-size: 11.5px; color: var(--slate); margin-top: 5px; }
-
-        /* ── CTA ── */
-        .cta-section { padding: 96px 24px; background: linear-gradient(145deg, var(--rose-dark) 0%, var(--rose) 55%, #D46690 100%); position: relative; overflow: hidden; }
-        .cta-bg-circle { position: absolute; border-radius: 50%; pointer-events: none; }
-        .cta-bg-circle-1 { width: 600px; height: 600px; top: -200px; right: -150px; background: radial-gradient(circle, rgba(255,200,220,0.1) 0%, transparent 65%); }
-        .cta-bg-circle-2 { width: 400px; height: 400px; bottom: -150px; left: -80px; background: radial-gradient(circle, rgba(80,10,40,0.3) 0%, transparent 60%); }
-        .cta-inner { max-width: 700px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
-        .cta-tag { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.9); font-size: 11.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; }
-        .cta-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 60px); font-weight: 600; color: #fff; line-height: 1.1; margin-bottom: 18px; }
-        .cta-desc { font-size: 16px; color: rgba(255,255,255,0.78); line-height: 1.65; margin-bottom: 40px; }
-        .btn-cta { display: inline-block; background: #fff; color: var(--rose-deep); padding: 17px 44px; border-radius: 100px; font-weight: 600; font-size: 15.5px; text-decoration: none; box-shadow: 0 12px 40px rgba(0,0,0,0.18); transition: transform 0.2s, box-shadow 0.2s; }
-        .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 18px 50px rgba(0,0,0,0.22); }
-        .cta-note { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 16px; }
-
-        /* ── Contact ── */
-        .contact-section { padding: 88px 24px; background: #14101A; }
-        .contact-inner { max-width: 1200px; margin: 0 auto; }
-        .contact-header { text-align: center; margin-bottom: 48px; }
-        .contact-header .section-title { color: #fff; }
-        .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-        .contact-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 32px 24px; text-align: center; transition: border-color 0.25s, background 0.25s; }
-        .contact-card:hover { border-color: rgba(200,65,110,0.4); background: rgba(200,65,110,0.05); }
-        .contact-icon-wrap { width: 52px; height: 52px; background: rgba(200,65,110,0.12); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; transition: background 0.25s; }
-        .contact-card:hover .contact-icon-wrap { background: rgba(200,65,110,0.22); }
-        .contact-icon-wrap svg { color: var(--rose-mid); width: 22px; height: 22px; }
-        .contact-card-label { font-size: 10.5px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
-        .contact-card-value { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; color: rgba(255,255,255,0.9); line-height: 1.2; }
-        .contact-card-sub { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 6px; }
-
-        /* ── Footer ── */
-        .footer { background: #0D0A12; padding: 24px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-        .footer-logo { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.55); font-size: 13px; }
-        .footer-logo svg { color: var(--rose-mid); width: 16px; height: 16px; }
-        .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
-        .footer-links { display: flex; gap: 20px; }
-        .footer-links a { font-size: 12px; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
-        .footer-links a:hover { color: rgba(255,255,255,0.65); }
-
-        /* ── Responsive ── */
-        @media (max-width: 1024px) {
-            .hero-inner { grid-template-columns: 1fr; gap: 48px; }
-            .hero-circle { display: none; }
-            .hero-stats { grid-template-columns: repeat(2, 1fr); max-width: 400px; }
-            .hero-stat-card:nth-child(2) { margin-top: 0; }
-            .about-inner { grid-template-columns: 1fr; gap: 56px; }
-            .about-img-bg { display: none; }
-            .services-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .menu-btn { display: block; }
-            .services-grid { grid-template-columns: 1fr; }
-            .contact-grid { grid-template-columns: 1fr; }
-            .footer-inner { flex-direction: column; text-align: center; }
-        }
-        @media (max-width: 500px) {
-            .hero-cta { flex-direction: column; }
-            .btn-primary-hero, .btn-outline-hero { text-align: center; }
-            .about-stats { grid-template-columns: repeat(3, 1fr); }
-            .about-badge { right: 0; bottom: -16px; }
-        }
-    </style>
+    .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #D94A8C, #E899B8);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    .service-card:hover::before { transform: scaleX(1); }
+</style>
 @endpush
 
-{{-- Navbar khusus index (full navigation) --}}
 @section('navbar')
-    <nav class="navbar">
-        <div class="navbar-inner">
-            <a href="#" class="logo">
-                <div class="logo-icon">
+    <nav class="fixed top-0 left-0 right-0 z-[100] bg-primary/95 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-[1200px] mx-auto px-6 h-[68px] flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 text-white no-underline">
+                <div class="w-[38px] h-[38px] bg-white/20 rounded-xl border border-white/25 flex items-center justify-center">
                     <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-full h-full object-contain">
                 </div>
-                <div class="logo-text">
-                    <div class="name">Miss Dentist</div>
-                    <div class="sub">Meulaboh</div>
+                <div>
+                    <div class="font-display text-[18px] font-semibold tracking-[0.3px] leading-none">Miss Dentist</div>
+                    <div class="text-[10px] font-normal text-white/65 tracking-[1.5px] uppercase">Meulaboh</div>
                 </div>
             </a>
-            <nav class="nav-links">
-                <a href="#layanan">Layanan</a>
-                <a href="#tentang">Tentang</a>
-                <a href="#kontak">Kontak</a>
-                <a href="{{ route('reservasi.create') }}" class="btn-reservasi">Buat Reservasi</a>
+
+            <nav class="hidden md:flex items-center gap-9">
+                <a href="#layanan" class="text-white/80 hover:text-white text-sm font-medium transition-colors">Layanan</a>
+                <a href="#tentang" class="text-white/80 hover:text-white text-sm font-medium transition-colors">Tentang</a>
+                <a href="#galeri" class="text-white/80 hover:text-white text-sm font-medium transition-colors">Galeri</a>
+                <a href="#kontak" class="text-white/80 hover:text-white text-sm font-medium transition-colors">Kontak</a>
+                <a href="{{ route('reservasi.create') }}" 
+                   class="bg-white text-primary-900 px-6 py-2.5 rounded-full font-semibold text-sm tracking-wider shadow-md hover:shadow-lg hover:-translate-y-px transition-all">
+                    Buat Reservasi
+                </a>
             </nav>
-            <button class="menu-btn" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
-                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+
+            <button onclick="document.getElementById('mobileMenu').classList.toggle('open')" 
+                    class="md:hidden text-white p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
         </div>
-        <div id="mobileMenu">
-            <a href="#layanan">Layanan</a>
-            <a href="#tentang">Tentang</a>
-            <a href="#kontak">Kontak</a>
-            <a href="{{ route('reservasi.create') }}" style="color:rgba(255,255,255,0.9);font-weight:600;">Buat Reservasi</a>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden flex-col px-6 py-4 border-t border-white/10 bg-primary/95 backdrop-blur-md">
+            <a href="#layanan" class="block py-3 text-white/80 hover:text-white">Layanan</a>
+            <a href="#tentang" class="block py-3 text-white/80 hover:text-white">Tentang</a>
+            <a href="#galeri" class="block py-3 text-white/80 hover:text-white">Galeri</a>
+            <a href="#kontak" class="block py-3 text-white/80 hover:text-white">Kontak</a>
+            <a href="{{ route('reservasi.create') }}" class="block py-3 text-white font-semibold">Buat Reservasi</a>
         </div>
     </nav>
 @endsection
 
 @section('content')
 
-    <!-- ─── Hero ─── -->
-    <section class="hero">
-        <div class="hero-texture"></div>
-        <div class="hero-circle"></div>
-        <div class="hero-inner">
-            <div>
-                <div class="hero-badge">
-                    <span class="hero-badge-dot"></span>
-                    Klinik Terpercaya Sejak 2010
-                </div>
-                <h1 class="hero-title">
-                    Senyum Sehat,<br>
-                    <em>Hidup Bahagia</em>
-                </h1>
-                <p class="hero-desc">
-                    Perawatan gigi profesional oleh dokter berpengalaman dengan teknologi modern. Kami hadir untuk memberikan yang terbaik bagi senyum Anda.
-                </p>
-                <div class="hero-cta">
-                    <a href="{{ route('reservasi.create') }}" class="btn-primary-hero">Buat Reservasi Sekarang</a>
-                    <a href="#layanan" class="btn-outline-hero">Lihat Layanan</a>
-                </div>
+    <!-- HERO -->
+    <section class="hero-bg min-h-screen relative overflow-hidden flex items-center">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_75%_35%,rgba(255,255,255,0.12)_0%,transparent_65%),radial-gradient(ellipse_40%_60%_at_10%_70%,rgba(151,38,100,0.4)_0%,transparent_55%)]"></div>
+
+    <div class="max-w-[1200px] mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center py-20 lg:py-16">
+        
+        <!-- TEXT -->
+        <div class="reveal text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white text-[10px] sm:text-xs font-medium tracking-widest px-4 py-2 rounded-full mb-5">
+                <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                Klinik Terpercaya Sejak 2010
             </div>
-            <div class="hero-stats">
-                <div class="hero-stat-card">
-                    <div class="divider"></div>
-                    <div class="num">5.000+</div>
-                    <div class="label">Pasien telah terlayani</div>
-                </div>
-                <div class="hero-stat-card">
-                    <div class="divider"></div>
-                    <div class="num">98%</div>
-                    <div class="label">Tingkat kepuasan pasien</div>
-                </div>
+
+            <h1 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-white leading-tight">
+                Senyum Sehat,<br>
+                <em class="text-white/75 font-normal">Hidup Bahagia</em>
+            </h1>
+
+            <p class="mt-5 text-white/80 text-sm sm:text-base md:text-lg max-w-md mx-auto lg:mx-0">
+                Perawatan gigi profesional oleh dokter berpengalaman dengan teknologi modern.
+            </p>
+
+            <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                <a href="{{ route('reservasi.create') }}" 
+                   class="bg-white text-primary-900 px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold hover:-translate-y-1 transition-all shadow-xl text-sm sm:text-base">
+                    Buat Reservasi
+                </a>
+
+                <a href="#layanan" 
+                   class="border border-white/50 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-medium hover:bg-white/10 transition-all text-sm sm:text-base">
+                    Lihat Layanan
+                </a>
             </div>
         </div>
-        <div style="position:absolute;bottom:-2px;left:0;right:0;height:80px;background:white;clip-path:ellipse(55% 100% at 50% 100%);"></div>
-    </section>
 
-    <!-- ─── Services ─── -->
-    <section id="layanan" class="services-section">
-        <div class="services-inner">
-            <div class="services-header reveal">
-                <span class="section-tag">Layanan Kami</span>
-                <h2 class="section-title" style="text-align:center;margin-top:4px;">Perawatan Gigi Terbaik</h2>
-                <p class="section-sub" style="margin-top:14px;">Kami menyediakan berbagai layanan perawatan gigi dengan standar klinis tertinggi</p>
+        <!-- IMAGE -->
+        <div class="reveal flex justify-center lg:justify-end">
+            <img src="{{ asset('image/hero.webp') }}" 
+                 alt="Hero" 
+                 class="w-[85%] sm:w-[70%] md:w-[60%] lg:w-full max-w-[520px] h-auto object-contain">
+        </div>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 h-16 sm:h-20 bg-white"
+         style="clip-path: ellipse(55% 100% at 50% 100%);"></div>
+</section>
+
+    <!-- LAYANAN -->
+    <section id="layanan" class="py-24 bg-secondary-50">
+        <div class="max-w-[1200px] mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <span class="inline-block bg-secondary-100 text-primary px-5 py-2 rounded-full text-xs font-semibold tracking-widest border border-secondary-200">LAYANAN KAMI</span>
+                <h2 class="font-display text-4xl lg:text-5xl font-semibold text-gray-900 mt-4">Perawatan Lengkap<br>untuk Senyum Sempurna</h2>
             </div>
-            <div class="services-grid">
-                @php
-                    $services = [
-                        [ 'title' => 'Perawatan Umum', 'desc' => 'Pemeriksaan rutin, pembersihan karang gigi, dan penanganan keluhan gigi sehari-hari oleh dokter berpengalaman.'],
-                        [ 'title' => 'Ortodonsi', 'desc' => 'Pemasangan kawat gigi dan aligner untuk memperbaiki susunan gigi agar lebih rapi dan estetik.'],
-                        [ 'title' => 'Pemutihan Gigi', 'desc' => 'Prosedur whitening profesional untuk mendapatkan senyum lebih cerah dan percaya diri dalam satu sesi.'],
-                        [ 'title' => 'Implan Gigi', 'desc' => 'Solusi permanen untuk gigi yang hilang dengan implan titanium berkualitas tinggi dan penampilan alami.'],
-                        [ 'title' => 'Bedah Mulut', 'desc' => 'Pencabutan gigi bungsu, operasi kista, dan prosedur bedah mulut lainnya oleh spesialis bedah mulut.'],
-                        [ 'title' => 'Gigi Palsu', 'desc' => 'Pembuatan gigi tiruan lepasan maupun cekat yang nyaman, estetik, dan menyerupai gigi asli.'],
-                    ];
-                @endphp
-                @foreach ($services as $i => $s)
-                    <div class="service-card reveal{{ $i % 3 === 1 ? ' reveal-delay-1' : ($i % 3 === 2 ? ' reveal-delay-2' : '') }}">
-                        
-                        <h3>{{ $s['title'] }}</h3>
-                        <p>{{ $s['desc'] }}</p>
-                    </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach (['Pembersihan Gigi','Penambalan Gigi','Whitening Gigi','Kawat Gigi','Pencabutan Gigi','Implan Gigi'] as $service)
+                <div class="service-card group bg-white border border-primary/10 rounded-3xl p-8 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 relative overflow-hidden reveal">
+                    <h3 class="font-display text-2xl font-semibold text-primary mb-3">{{ $service }}</h3>
+                    <p class="text-gray-600 text-[15px] leading-relaxed">
+                        Layanan profesional dengan standar medis tinggi dan teknologi terkini.
+                    </p>
+                </div>
                 @endforeach
             </div>
         </div>
     </section>
 
-    <!-- ─── About ─── -->
-    <section id="tentang" class="about-section">
-        <div class="about-inner">
-            <div class="about-img-wrap reveal">
-                <div class="about-img-bg"></div>
-                <div class="about-img-frame">
-                    <img src="{{ asset('image/klinik.jpg') }}" alt="Miss Dentist Meulaboh">
+    <!-- TENTANG -->
+    <section id="tentang" class="py-24 bg-white">
+        <div class="max-w-[1200px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="relative reveal">
+                <div class="absolute -inset-5 bg-secondary-100 rounded-3xl -z-10"></div>
+                <div class="rounded-3xl overflow-hidden shadow-2xl">
+                    <img src="{{ asset('image/klinik.jpg') }}" alt="Klinik" class="w-full h-[420px] object-cover">
                 </div>
-                <div class="about-badge">
-                    <div class="about-badge-icon">
-                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                <div class="absolute -bottom-6 -right-6 bg-white border border-secondary-200 rounded-2xl p-5 shadow-xl flex items-center gap-4">
+                    <div class="w-12 h-12 bg-secondary-100 rounded-xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 8.944 11.922.42.095.858.143 1.295.143a3 3 0 01.435-.008" />
+                        </svg>
                     </div>
-                    <div class="about-badge-text">
-                        <div class="title">Bersertifikat Resmi</div>
-                        <div class="sub">Kemenkes RI No. 445/xxx</div>
+                    <div>
+                        <div class="font-semibold">Terakreditasi</div>
+                        <div class="text-sm text-gray-500">Kemenkes RI</div>
                     </div>
                 </div>
             </div>
-            <div class="about-text reveal reveal-delay-1">
-                <span class="section-tag">Tentang Kami</span>
-                <h2 class="section-title">Klinik Gigi<br>Terpercaya di Meulaboh</h2>
-                <p class="about-desc">Miss Dentist Meulaboh hadir sejak 2010 dengan komitmen penuh untuk memberikan layanan kesehatan gigi yang profesional, nyaman, dan terjangkau bagi seluruh masyarakat Aceh Barat.</p>
-                <div class="about-checks">
-                    <div class="check-item">
-                        <div class="check-icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
-                        <div class="check-text"><div class="title">Dokter Berpengalaman</div><div class="sub">Tim dokter gigi spesialis dengan pengalaman lebih dari 10 tahun</div></div>
+
+            <div class="reveal">
+                <span class="inline-block bg-secondary-100 text-primary px-5 py-2 rounded-full text-xs font-semibold tracking-widest border border-secondary-200">TENTANG KAMI</span>
+                <h2 class="font-display text-4xl lg:text-5xl font-semibold text-gray-900 mt-4 leading-tight">Klinik Gigi Terpercaya di Meulaboh</h2>
+                <p class="mt-6 text-gray-600 leading-relaxed">Miss Dentist Meulaboh hadir sejak 2010 dengan komitmen penuh untuk memberikan layanan kesehatan gigi yang profesional, nyaman, dan terjangkau bagi seluruh masyarakat Aceh Barat.</p>
+
+                <!-- Check items -->
+                <div class="mt-10 space-y-5">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="flex items-center justify-center h-6 w-6 rounded-full bg-primary/20 text-primary mt-1">
+                                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Dokter Berpengalaman</h3>
+                            <p class="text-gray-600 text-sm mt-1">Tim dokter gigi spesialis dengan pengalaman lebih dari 10 tahun</p>
+                        </div>
                     </div>
-                    <div class="check-item">
-                        <div class="check-icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
-                        <div class="check-text"><div class="title">Peralatan Modern</div><div class="sub">Teknologi dental terkini untuk diagnosa dan perawatan yang akurat</div></div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="flex items-center justify-center h-6 w-6 rounded-full bg-primary/20 text-primary mt-1">
+                                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Peralatan Modern</h3>
+                            <p class="text-gray-600 text-sm mt-1">Teknologi dental terkini untuk diagnosa dan perawatan yang akurat</p>
+                        </div>
                     </div>
-                    <div class="check-item">
-                        <div class="check-icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
-                        <div class="check-text"><div class="title">Sterilisasi Standar RS</div><div class="sub">Protokol kebersihan dan sterilisasi mengikuti standar rumah sakit</div></div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="flex items-center justify-center h-6 w-6 rounded-full bg-primary/20 text-primary mt-1">
+                                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Sterilisasi Standar RS</h3>
+                            <p class="text-gray-600 text-sm mt-1">Protokol kebersihan dan sterilisasi mengikuti standar rumah sakit</p>
+                        </div>
                     </div>
                 </div>
-                <div class="about-stats">
-                    <div class="stat-box"><div class="stat-num">13+</div><div class="stat-label">Tahun Berpengalaman</div></div>
-                    <div class="stat-box"><div class="stat-num">5K+</div><div class="stat-label">Pasien Terlayani</div></div>
-                    <div class="stat-box"><div class="stat-num">8</div><div class="stat-label">Dokter Spesialis</div></div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-4 mt-12">
+                    <div class="bg-secondary-50 rounded-2xl p-6 text-center border border-secondary-200">
+                        <div class="text-4xl font-display font-bold text-primary">13+</div>
+                        <div class="text-sm text-gray-600 mt-2">Tahun Berpengalaman</div>
+                    </div>
+                    <div class="bg-secondary-50 rounded-2xl p-6 text-center border border-secondary-200">
+                        <div class="text-4xl font-display font-bold text-primary">5K+</div>
+                        <div class="text-sm text-gray-600 mt-2">Pasien Terlayani</div>
+                    </div>
+                    <div class="bg-secondary-50 rounded-2xl p-6 text-center border border-secondary-200">
+                        <div class="text-4xl font-display font-bold text-primary">8</div>
+                        <div class="text-sm text-gray-600 mt-2">Dokter Spesialis</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ─── CTA ─── -->
-    <section class="cta-section">
-        <div class="cta-bg-circle cta-bg-circle-1"></div>
-        <div class="cta-bg-circle cta-bg-circle-2"></div>
-        <div class="cta-inner reveal">
-            <span class="cta-tag">Reservasi Online 24/7</span>
-            <h2 class="cta-title">Jadwalkan Kunjungan<br>Anda Sekarang</h2>
-            <p class="cta-desc">Proses reservasi mudah dan cepat. Pilih jadwal yang sesuai dan dokter yang Anda inginkan.</p>
-            <a href="{{ route('reservasi.create') }}" class="btn-cta">Buat Reservasi Gratis</a>
-            <p class="cta-note">Tidak dipungut biaya pendaftaran. Konfirmasi via telepon dalam 24 jam.</p>
+    <!-- CTA -->
+    <section class="py-24 bg-gradient-to-br from-primary-800 via-primary-600 to-pink-600 relative overflow-hidden">
+        <div class="max-w-2xl mx-auto text-center px-6 relative z-10">
+            <span class="bg-white/20 text-white text-xs tracking-widest font-semibold px-6 py-2 rounded-full border border-white/30">Reservasi Online 24/7</span>
+            <h2 class="font-display text-4xl lg:text-5xl text-white font-semibold mt-6">Jadwalkan Kunjungan Anda Sekarang</h2>
+            <p class="text-white/80 mt-4 text-lg">Proses cepat, mudah, dan aman.</p>
+            <a href="{{ route('reservasi.create') }}" 
+               class="mt-10 inline-block bg-white text-primary-900 px-10 py-5 rounded-full font-semibold text-lg hover:-translate-y-1 transition-all shadow-2xl">
+                Buat Reservasi Gratis
+            </a>
         </div>
     </section>
 
-    <!-- ─── Contact ─── -->
-    <section id="kontak" class="contact-section">
-        <div class="contact-inner">
-            <div class="contact-header reveal">
-                <h2 class="section-title">Hubungi Kami</h2>
-                <p class="section-sub" style="color:rgba(255,255,255,0.45);margin-top:10px;">Kami siap melayani Anda Senin–Sabtu, 08.00–20.00 WIB</p>
+    <!-- KONTAK -->
+    <section id="kontak" class="py-24 bg-secondary-50">
+        <div class="max-w-[1200px] mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-5xl lg:text-6xl text-gray-900 font-semibold">Hubungi Kami</h2>
+                <p class="text-gray-600 mt-4 text-lg">Kami siap melayani Anda Senin-Sabtu, 08.00-20.00 WIB</p>
             </div>
-            <div class="contact-grid reveal">
-                <div class="contact-card">
-                    <div class="contact-icon-wrap"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
-                    <div class="contact-card-label">Telepon</div>
-                    <div class="contact-card-value">+62 123 456 789</div>
-                    <div class="contact-card-sub">Senin–Sabtu, 08–20 WIB</div>
+
+            <!-- Contact Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- Telepon -->
+                <div class="group bg-white border border-secondary-200 hover:border-primary/50 rounded-3xl p-8 transition-all duration-300 reveal shadow-sm hover:shadow-md">
+                    <div class="flex justify-center mb-6">
+                        <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-primary text-xs font-semibold tracking-widest mb-3">TELEPON</p>
+                        <p class="font-display text-gray-900 text-3xl font-semibold mb-2">+62 123 456 789</p>
+                        <p class="text-gray-600 text-sm">Senin-Sabtu, 08-20 WIB</p>
+                    </div>
                 </div>
-                <div class="contact-card">
-                    <div class="contact-icon-wrap"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
-                    <div class="contact-card-label">Email</div>
-                    <div class="contact-card-value" style="font-size:16px;">info@missdentist.com</div>
-                    <div class="contact-card-sub">Respon dalam 24 jam</div>
+
+                <!-- Email -->
+                <div class="group bg-white border border-secondary-200 hover:border-primary/50 rounded-3xl p-8 transition-all duration-300 reveal shadow-sm hover:shadow-md">
+                    <div class="flex justify-center mb-6">
+                        <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-primary text-xs font-semibold tracking-widest mb-3">EMAIL</p>
+                        <p class="font-display text-gray-900 text-3xl font-semibold mb-2">info@missdentist.com</p>
+                        <p class="text-gray-600 text-sm">Respon dalam 24 jam</p>
+                    </div>
                 </div>
-                <div class="contact-card">
-                    <div class="contact-icon-wrap"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
-                    <div class="contact-card-label">Alamat</div>
-                    <div class="contact-card-value" style="font-size:17px;">Jl. Kesehatan No. 123</div>
-                    <div class="contact-card-sub">Meulaboh, Aceh Barat</div>
+
+                <!-- Alamat -->
+                <div class="group bg-white border border-secondary-200 hover:border-primary/50 rounded-3xl p-8 transition-all duration-300 reveal shadow-sm hover:shadow-md">
+                    <div class="flex justify-center mb-6">
+                        <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-primary text-xs font-semibold tracking-widest mb-3">ALAMAT</p>
+                        <p class="font-display text-gray-900 text-3xl font-semibold mb-2">Jl. Kesehatan No. 123</p>
+                        <p class="text-gray-600 text-sm">Meulaboh, Aceh Barat</p>
+                    </div>
                 </div>
             </div>
+
+            
         </div>
     </section>
 
-@endsection
-
-{{-- Footer khusus index (dark) --}}
-@section('footer')
-    <footer class="footer">
-        <div class="footer-inner">
-            <div class="footer-logo">
-                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.5 2 6 4.1 6 7c0 2.5 1.5 4.5 3 5.5V19c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-6.5c1.5-1 3-3 3-5.5 0-2.9-2.5-5-6-5z"/></svg>
-                <span>Miss Dentist Meulaboh</span>
-            </div>
-            <p class="footer-copy">&copy; 2026 Miss Dentist Meulaboh. Semua hak dilindungi.</p>
-            <div class="footer-links">
-                <a href="#">Kebijakan Privasi</a>
-                <a href="#">Syarat &amp; Ketentuan</a>
-            </div>
-        </div>
-    </footer>
 @endsection
 
 @push('scripts')
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const delay = entry.target.classList.contains('reveal-delay-1') ? 100
-                                : entry.target.classList.contains('reveal-delay-2') ? 200
-                                : entry.target.classList.contains('reveal-delay-3') ? 300 : 0;
-                    setTimeout(() => entry.target.classList.add('visible'), delay);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.08 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', e => {
-                const id = a.getAttribute('href');
-                if (id === '#') return;
-                const el = document.querySelector(id);
-                if (el) {
-                    e.preventDefault();
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-                document.getElementById('mobileMenu').classList.remove('open');
-            });
+<script>
+    // Scroll Reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
         });
-    </script>
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Smooth scroll + mobile menu
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            if (this.getAttribute('href') === '#') return;
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+            document.getElementById('mobileMenu').classList.remove('open');
+        });
+    });
+</script>
 @endpush
